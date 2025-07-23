@@ -1,0 +1,45 @@
+{
+	"name": "@efobi/paystack",
+	"version": "0.0.1",
+	"description": "A TypeScript SDK for Paystack",
+	"keywords": [
+		"paystack",
+		"sdk",
+		"typescript",
+		"api",
+		"payment"
+	],
+	"homepage": "https://github.com/efobi-dev/paystack",
+	"bugs": {
+		"url": "https://github.com/efobi-dev/paystack/issues"
+	},
+	"author": {
+		"name": "Owen Efobi",
+		"email": "owen@efobi.dev",
+		"url": "https://github.com/efobi-dev"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/efobi-dev/paystack.git"
+	},
+	"module": "index.ts",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"license": "MIT",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "bun build ./src/index.ts",
+		"test": "bun test",
+		"format": "biome check --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.1.2",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
+}
