@@ -1,6 +1,6 @@
 {
 	"name": "@efobi/paystack",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A TypeScript SDK for Paystack",
 	"keywords": [
 		"paystack",
@@ -33,10 +33,14 @@
 	"scripts": {
 		"build": "bun build ./src/index.ts",
 		"test": "bun test",
-		"format": "biome check --write"
+		"format": "biome check --write",
+		"ci": "bun run build && bun run test && bun run format",
+		"local-release": "changeset version && changeset publish",
+		"prepublishOnly": "bun run ci"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.2",
+		"@changesets/cli": "^2.29.5",
 		"@types/bun": "latest"
 	},
 	"peerDependencies": {
