@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.2.0
+
+### Minor Changes
+
+- 0dc68a7: Add Transaction Split API
+
 ## 0.1.0
 
 ### Minor Changes
