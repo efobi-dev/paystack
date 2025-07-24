@@ -7,6 +7,7 @@ import {
 	genericResponse,
 	history,
 	log,
+	metadata,
 } from ".";
 
 export const txnInitializeInput = z.object({
@@ -71,7 +72,7 @@ const transactionShared = z.object({
 });
 
 const transaction = transactionShared.extend({
-	metadata: z.nullable(z.unknown()),
+	metadata: z.nullable(metadata),
 	customer,
 	plan: z.object({}),
 	split: z.object({}),

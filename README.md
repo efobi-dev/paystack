@@ -30,6 +30,45 @@ pnpm add @efobi/paystack
 bun add @efobi/paystack
 ```
 
+## ⚠️ Work in Progress
+
+This SDK is actively under development. Below is the current implementation status:
+
+### API Coverage
+
+- ✅ **Transactions** - Complete
+- ✅ **Transaction Split** - In Progress
+- ⏳ **Terminal** - Planned
+- ⏳ **Virtual Terminal** - Planned
+- ⏳ **Customers** - Planned
+- ⏳ **Direct Debit** - Planned
+- ⏳ **Dedicated Virtual Accounts** - Planned
+- ⏳ **Apple Pay** - Planned
+- ⏳ **Subaccounts** - Planned
+- ⏳ **Plans** - Planned
+- ⏳ **Subscriptions** - Planned
+- ⏳ **Products** - Planned
+- ⏳ **Payment Pages** - Planned
+- ⏳ **Payment Requests** - Planned
+- ⏳ **Settlements** - Planned
+- ⏳ **Transfers** - Planned
+- ⏳ **Transfer Control** - Planned
+- ⏳ **Bulk Charges** - Planned
+- ⏳ **Integration** - Planned
+- ⏳ **Charge** - Planned
+- ⏳ **Disputes** - Planned
+- ⏳ **Refunds** - Planned
+- ⏳ **Verification** - Planned
+- ⏳ **Miscellaneous** - Planned
+
+**Legend:**
+
+- ✅ Complete and tested
+- ⏳ Planned for future releases
+- 🚧 Currently in development
+
+> **Note:** While only Transactions are currently implemented, the foundation is designed to easily accommodate all Paystack API endpoints. New endpoints will be added in upcoming releases.
+
 ## Quick Start
 
 ```typescript
@@ -164,6 +203,8 @@ import type {
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+I need help writing the tests and documentation for new features. If you find a bug or have a feature request, please open an issue.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)

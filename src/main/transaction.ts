@@ -16,39 +16,9 @@ import {
 	txnTotalsSuccess,
 	txnVerifySuccess,
 } from "../zod/transaction";
+import { Fetcher } from "./fetcher";
 
-export class Transaction {
-	private secretKey: string;
-	private baseUrl: string;
-
-	constructor(secretKey: string, baseUrl: string) {
-		this.secretKey = secretKey;
-		this.baseUrl = baseUrl;
-	}
-
-	private async fetcher(
-		path: string,
-		method: "GET" | "POST" = "GET",
-		body?: object,
-		searchParams?: URLSearchParams,
-	) {
-		const url = searchParams
-			? `${this.baseUrl}${path}?${searchParams}`
-			: `${this.baseUrl}${path}`;
-
-		const response = await fetch(url, {
-			method,
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${this.secretKey}`,
-			},
-			...(body && { body: JSON.stringify(body) }),
-		});
-
-		const raw = await response.json();
-		return { response, raw };
-	}
-
+export class Transaction extends Fetcher {
 	async initialize(transaction: z.infer<typeof txnInitializeInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transaction/initialize",
