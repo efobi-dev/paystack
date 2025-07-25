@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.3.1
+
+### Patch Changes
+
+- ac1549b: Improved the tsconfig and build process
+
 ## 0.3.0
 
 ### Minor Changes
