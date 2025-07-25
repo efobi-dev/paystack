@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.5.2
+
+### Patch Changes
+
+- f8c8f27: Work in progress on finalizing the webhook class
+
 ## 0.5.1
 
 ### Patch Changes
