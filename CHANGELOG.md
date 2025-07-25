@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.4.1
+
+### Patch Changes
+
+- e3e2432: Fixed zod meta schema
+
 ## 0.4.0
 
 ### Minor Changes
