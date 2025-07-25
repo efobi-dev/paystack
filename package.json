@@ -1,6 +1,6 @@
 {
 	"name": "@efobi/paystack",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"description": "A TypeScript SDK for Paystack",
 	"keywords": [
 		"paystack",
@@ -31,7 +31,7 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "bun build ./src/index.ts --outdir ./dist",
+		"build": "tsc",
 		"test": "bun test",
 		"format": "biome check --write",
 		"ci": "bun run build && bun run test && bun run format",

@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.5.3
+
+### Patch Changes
+
+- 88c87a7: Fixed build script and modified tsconfig
+
 ## 0.5.2
 
 ### Patch Changes
