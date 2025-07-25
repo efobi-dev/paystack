@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const meta = z.object({
-	total: z.number(),
-	skipped: z.number(),
-	perPage: z.number(),
-	page: z.number(),
-	pageCount: z.number(),
+	total: z.number().optional(),
+	skipped: z.number().optional(),
+	perPage: z.number().optional(),
+	page: z.number().optional(),
+	pageCount: z.number().optional(),
 });
 
 export const genericResponse = z.object({
