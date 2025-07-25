@@ -1,18 +1,18 @@
 import { z } from "zod";
 
+export const meta = z.object({
+	total: z.number(),
+	skipped: z.number(),
+	perPage: z.number(),
+	page: z.number(),
+	pageCount: z.number(),
+});
+
 export const genericResponse = z.object({
 	status: z.boolean(),
 	message: z.string(),
 	data: z.object().optional(),
-	meta: z
-		.object({
-			total: z.number(),
-			skipped: z.number(),
-			perPage: z.number(),
-			page: z.number(),
-			pageCount: z.number(),
-		})
-		.optional(),
+	meta: z.optional(meta),
 });
 
 export const currency = z
@@ -77,13 +77,14 @@ export const metadata = z.object({
 				.optional(),
 		})
 		.optional(),
+	calling_code: z.string().optional(),
 });
 
 export const customer = z.object({
 	id: z.number(),
 	first_name: z.nullable(z.string()),
 	last_name: z.nullable(z.string()),
-	email: z.string(),
+	email: z.email(),
 	phone: z.nullable(z.string()),
 	metadata: z.nullable(metadata),
 	customer_code: z.string(),

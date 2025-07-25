@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { currency, genericInput, genericResponse, subaccount } from ".";
+import { currency, genericInput, genericResponse, meta, subaccount } from ".";
 
 export const type = z.enum(["percentage", "flat"]);
 export const bearer_type = z.enum([
@@ -20,27 +20,29 @@ export const splitCreateInput = z.object({
 	bearer_subaccount: z.string(),
 });
 
+export const baseSplitSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	type,
+	currency,
+	integration: z.number(),
+	domain: z.string(),
+	split_code: z.string(),
+	active: z.boolean(),
+	bearer_type,
+	createdAt: z.iso.datetime(),
+	updatedAt: z.iso.datetime(),
+	is_dynamic: z.boolean(),
+	subaccounts: z.array(
+		z.object({
+			subaccount,
+			share: z.number(),
+		}),
+	),
+});
+
 export const splitCreateSuccess = genericResponse.extend({
-	data: z.object({
-		id: z.number(),
-		name: z.string(),
-		type,
-		currency,
-		integration: z.number(),
-		domain: z.string(),
-		split_code: z.string(),
-		active: z.boolean(),
-		bearer_type,
-		createdAt: z.iso.datetime(),
-		updatedAt: z.iso.datetime(),
-		is_dynamic: z.boolean(),
-		subaccounts: z.array(
-			z.object({
-				subaccount,
-				share: z.number(),
-			}),
-		),
-	}),
+	data: baseSplitSchema,
 });
 
 export const splitListInput = genericInput.extend({
@@ -51,51 +53,16 @@ export const splitListInput = genericInput.extend({
 
 export const splitListSuccess = genericResponse.extend({
 	data: z.array(
-		z.object({
-			id: z.number(),
-			name: z.string(),
-			type,
-			currency,
-			integration: z.number(),
-			domain: z.string(),
-			split_code: z.string(),
-			active: z.boolean(),
-			bearer_type,
+		baseSplitSchema.extend({
 			bearer_subaccount: z.string().nullable(),
-			createdAt: z.iso.datetime(),
-			updatedAt: z.iso.datetime(),
-			is_dynamic: z.boolean(),
-			subaccounts: z.array(
-				z.object({
-					subaccount,
-					share: z.number(),
-				}),
-			),
 			total_subaccounts: z.number(),
 		}),
 	),
+	meta,
 });
 
 export const splitSingleSuccess = genericResponse.extend({
-	data: z.object({
-		id: z.number(),
-		name: z.string(),
-		type,
-		currency,
-		integration: z.number(),
-		domain: z.string(),
-		split_code: z.string(),
-		active: z.boolean(),
-		bearer_type,
-		createdAt: z.iso.datetime(),
-		updatedAt: z.iso.datetime(),
-		is_dynamic: z.boolean(),
-		subaccounts: z.array(
-			z.object({
-				subaccount,
-				share: z.number(),
-			}),
-		),
+	data: baseSplitSchema.extend({
 		total_subaccounts: z.number(),
 	}),
 });
@@ -115,26 +82,8 @@ export const splitSubaccountInput = z.object({
 });
 
 export const splitSubaccountUpdateSuccess = genericResponse.extend({
-	data: z.object({
-		id: z.number(),
-		name: z.string(),
-		type,
-		currency,
-		integration: z.number(),
-		domain: z.string(),
-		split_code: z.string(),
-		active: z.boolean(),
-		bearer_type,
+	data: baseSplitSchema.extend({
 		bearer_subaccount: z.string().nullable(),
-		createdAt: z.iso.datetime(),
-		updatedAt: z.iso.datetime(),
-		is_dynamic: z.boolean(),
-		subaccounts: z.array(
-			z.object({
-				subaccount,
-				share: z.number(),
-			}),
-		),
 		total_subaccounts: z.number(),
 	}),
 });

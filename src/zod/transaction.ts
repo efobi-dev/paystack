@@ -12,7 +12,7 @@ import {
 
 export const txnInitializeInput = z.object({
 	amount: z.string(),
-	email: z.string(),
+	email: z.email(),
 	currency: z.optional(currency),
 	reference: z.string().optional(),
 	callback_url: z.url().optional(),

@@ -9,8 +9,8 @@ import {
 	type splitSubaccountInput,
 	splitSubaccountRemoveError,
 	type splitSubaccountRemoveInput,
-	type splitUpdateInput,
 	splitSubaccountUpdateSuccess,
+	type splitUpdateInput,
 } from "../zod/split";
 import { Fetcher } from "./fetcher";
 

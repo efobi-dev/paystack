@@ -37,12 +37,12 @@ This SDK is actively under development. Below is the current implementation stat
 ### API Coverage
 
 - ✅ **Transactions** - Complete
-- ✅ **Transaction Split** - In Progress
+- ✅ **Transaction Split** - Complete
 - ⏳ **Terminal** - Planned
 - ⏳ **Virtual Terminal** - Planned
 - ⏳ **Customers** - Planned
 - ⏳ **Direct Debit** - Planned
-- ⏳ **Dedicated Virtual Accounts** - Planned
+- ✅ **Dedicated Virtual Accounts** - Complete
 - ⏳ **Apple Pay** - Planned
 - ⏳ **Subaccounts** - Planned
 - ⏳ **Plans** - Planned
