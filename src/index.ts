@@ -14,9 +14,14 @@ export class Paystack {
 	public webhook: Webhook;
 
 	constructor(secretKey: string) {
-		const secretKeySchema = z.string().startsWith('sk_live_').or(z.string().startsWith('sk_test_'));
+		const secretKeySchema = z
+			.string()
+			.startsWith("sk_live_")
+			.or(z.string().startsWith("sk_test_"));
 		if (!secretKeySchema.safeParse(secretKey).success) {
-			throw new Error("Invalid secret key. It must start with 'sk_live_' or 'sk_test_'.");
+			throw new Error(
+				"Invalid secret key. It must start with 'sk_live_' or 'sk_test_'.",
+			);
 		}
 		this.secretKey = secretKey;
 		this.transaction = new Transaction(this.secretKey, this.baseUrl);
