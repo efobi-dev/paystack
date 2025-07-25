@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.5.1
+
+### Patch Changes
+
+- bbd3142: Prefer validation over type assertion for secret key
+
 ## 0.5.0
 
 ### Minor Changes
