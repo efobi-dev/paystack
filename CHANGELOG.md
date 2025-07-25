@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.4.0
+
+### Minor Changes
+
+- 516892b: Updated config and peer dependencies
+
 ## 0.3.1
 
 ### Patch Changes
