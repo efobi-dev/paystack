@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.5.0
+
+### Minor Changes
+
+- a9993b1: Added webhook handler for Paystack events
+
 ## 0.4.1
 
 ### Patch Changes
