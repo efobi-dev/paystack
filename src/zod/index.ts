@@ -39,7 +39,7 @@ export const log = z.object({
 });
 
 export const authorization = z.object({
-	authorization_code: z.string(),
+	authorization_code: z.string().startsWith("AUTH_"),
 	bin: z.string(),
 	last4: z.string(),
 	exp_month: z.string(),
@@ -51,7 +51,7 @@ export const authorization = z.object({
 	brand: z.string(),
 	reusable: z.boolean(),
 	signature: z.string(),
-	account_name: z.nullable(z.string()),
+	account_name: z.string().nullable(),
 });
 
 export const metadata = z.object({
@@ -101,7 +101,7 @@ export const genericInput = z.object({
 
 export const subaccount = z.object({
 	id: z.number(),
-	subaccount_code: z.string().regex(/^ACCT_[a-zA-Z0-9]+$/),
+	subaccount_code: z.string().startsWith("ACCT_"),
 	business_name: z.string(),
 	description: z.string(),
 	primary_contact_name: z.string().nullable(),
@@ -111,4 +111,15 @@ export const subaccount = z.object({
 	settlement_bank: z.string(),
 	currency,
 	account_number: z.string(),
+});
+
+export const plan = z.object({
+	name: z.string(),
+	plan_code: z.string().startsWith("PLN_"),
+	description: z.string().nullable(),
+	amount: z.number(),
+	interval: z.string(),
+	send_invoices: z.boolean(),
+	send_sms: z.boolean(),
+	currency,
 });

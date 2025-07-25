@@ -1,5 +1,5 @@
 export class Fetcher {
-	private secretKey: string;
+	protected secretKey: string;
 	private baseUrl: string;
 
 	constructor(secretKey: string, baseUrl: string) {

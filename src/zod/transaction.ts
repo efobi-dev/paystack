@@ -8,6 +8,7 @@ import {
 	history,
 	log,
 	metadata,
+	plan,
 } from ".";
 
 export const txnInitializeInput = z.object({
@@ -47,7 +48,7 @@ export const txnInitializeSuccess = genericResponse.extend({
 	}),
 });
 
-const transactionShared = z.object({
+export const transactionShared = z.object({
 	id: z.number(),
 	domain: z.string(),
 	status: z.string(),
@@ -74,7 +75,7 @@ const transactionShared = z.object({
 const transaction = transactionShared.extend({
 	metadata: z.nullable(metadata),
 	customer,
-	plan: z.object({}),
+	plan,
 	split: z.object({}),
 	subaccount: z.object({}),
 	source: z.nullable(
@@ -93,7 +94,7 @@ const transactionVerify = transactionShared.extend({
 		metadata: z.nullable(z.string()),
 		international_format_phone: z.nullable(z.string()),
 	}),
-	plan: z.nullable(z.unknown()),
+	plan: z.nullable(plan),
 	split: z.record(z.string(), z.unknown()),
 	source: z.nullable(z.unknown()),
 	fees_breakdown: z.nullable(z.unknown()),

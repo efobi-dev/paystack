@@ -181,6 +181,116 @@ PAYSTACK_SECRET_KEY=sk_test_your_secret_key_here
 const paystack = new Paystack(process.env.PAYSTACK_SECRET_KEY!);
 ```
 
+## Webhook handler for Paystack
+
+To handle webhooks from Paystack, you can use the `Webhook` class:
+
+### In Express
+
+```typescript
+import express, { Request, Response } from 'express';
+import { Paystack } from '@efobi/paystack';
+
+const app = express();
+
+const paystack = new Paystack(process.env.PAYSTACK_SECRET_KEY!);
+paystack.webhook.on("charge.success", (data) => {
+ console.log("Charge successful:", data.reference);
+});
+
+// IMPORTANT: Use a custom middleware for the webhook route
+// to get the raw body before Express parses it.
+app.post(
+  '/api/webhooks/paystack',
+  express.raw({ type: 'application/json' }), // Read body as a Buffer
+  async (req: Request, res: Response) => {
+    try {
+      const signature = req.headers['x-paystack-signature'] as string;
+      const rawBody = req.body.toString('utf-8'); // Convert buffer to string
+
+      await paystack.webhook.process(rawBody, signature);
+
+      res.status(200).json({ message: 'Webhook processed' });
+    } catch (error: any) {
+      console.error(error.message);
+      res.status(400).json({ message: 'Error processing webhook' });
+    }
+  },
+);
+
+// Other routes can use the standard JSON parser
+app.use(express.json()); 
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+```
+
+### In Next.js
+
+```typescript
+// file: /app/api/webhooks/paystack/route.ts
+import { NextResponse } from "next/server";
+import { Paystack } from "@efobi/paystack";
+
+const paystack = new Paystack(process.env.PAYSTACK_SECRET_KEY!);
+
+// Define handlers for the events you care about
+paystack.webhook
+ .on("charge.success", (data) => {
+  // Logic to handle successful charge
+  console.log(`Charge successful for ${data.customer.email}`);
+  // E.g., update database, grant access to a course
+ })
+ .on("transfer.success", (data) => {
+  // Logic to handle successful transfer
+  console.log(`Transfer of ${data.amount} to ${data.recipient.recipient_code} was successful.`);
+ });
+
+export async function POST(req: Request) {
+ try {
+  const rawBody = await req.text();
+  const signature = req.headers.get("x-paystack-signature");
+  
+  await paystack.webhook.process(rawBody, signature);
+  
+  return NextResponse.json({ message: "Webhook received" }, { status: 200 });
+ } catch (error: any) {
+  console.error("Webhook processing error:", error.message);
+  return NextResponse.json({ message: "Error processing webhook" }, { status: 400 });
+ }
+}
+```
+
+### Hono, Bun, Cloudflare Workers, Deno, etc
+
+```typescript
+// file: index.ts (for Bun)
+import { Hono } from 'hono';
+import { Paystack } from '@efobi/paystack';
+
+const app = new Hono();
+const paystack = new Paystack(process.env.PAYSTACK_SECRET_KEY!);
+
+paystack.webhook.on("charge.success", (data) => {
+ console.log("Hono received successful charge:", data.reference);
+});
+
+app.post('/api/webhooks/paystack', async (c) => {
+ try {
+  const signature = c.req.header('x-paystack-signature');
+  const rawBody = await c.req.text();
+  
+  await paystack.webhook.process(rawBody, signature);
+  
+  return c.json({ message: 'Webhook received' }, 200);
+ } catch (error: any) {
+  console.error(error.message);
+  return c.json({ message: 'Error processing webhook' }, 400);
+ }
+});
+
+export default app;
+```
+
 ## TypeScript Support
 
 This package is built with TypeScript and provides full type definitions:
