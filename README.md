@@ -136,7 +136,7 @@ const result = await paystack.transaction.list({
 #### Get Single Transaction
 
 ```typescript
-const result = await paystack.transaction.fetch('transaction_id');
+const result = await paystack.transaction.getTransactionById(12345678); // ID is a number
 ```
 
 #### Charge Authorization
@@ -155,18 +155,16 @@ The SDK provides structured error handling:
 
 ```typescript
 try {
-  const transaction = await paystack.transaction.initialize({
-    email: 'customer@example.com',
-    amount: 50000
-  });
-} catch (error) {
-  if (error.response) {
-    // API error
-    console.error('API Error:', error.response.data);
-  } else {
-    // Network or other error
-    console.error('Error:', error.message);
+  const result = await paystack.transaction.verify('non_existent_ref');
+
+  if (result.error) {
+    console.error('Validation or API Error:', result.error.flatten());
+  } else if (result.data) {
+    console.log('Transaction Verified:', result.data);
   }
+
+} catch (e) {
+    console.error('Network or unexpected error:', e.message);
 }
 ```
 

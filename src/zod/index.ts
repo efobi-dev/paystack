@@ -101,7 +101,7 @@ export const genericInput = z.object({
 
 export const subaccount = z.object({
 	id: z.number(),
-	subbaccount_code: z.string().regex(/^ACCT_\d+$/),
+	subaccount_code: z.string().regex(/^ACCT_[a-zA-Z0-9]+$/),
 	business_name: z.string(),
 	description: z.string(),
 	primary_contact_name: z.string().nullable(),
@@ -110,5 +110,5 @@ export const subaccount = z.object({
 	metadata: z.nullable(metadata),
 	settlement_bank: z.string(),
 	currency,
-	account_number: z.number(),
+	account_number: z.string(),
 });

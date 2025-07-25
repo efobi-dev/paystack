@@ -2,6 +2,11 @@ import { Split } from "./main/split";
 import { Transaction } from "./main/transaction";
 import { VirtualAccount } from "./main/virtual";
 
+export * from "./zod";
+export * from "./zod/transaction";
+export * from "./zod/split";
+export * from "./zod/virtual";
+
 export class Paystack {
 	private baseUrl = "https://api.paystack.co";
 	private secretKey: `sk_live_${string}` | `sk_test_${string}`;

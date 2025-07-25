@@ -14,7 +14,10 @@ export const splitCreateInput = z.object({
 	type,
 	currency,
 	subaccounts: z.array(
-		z.object({ subaccount: z.string().regex(/^ACT_\d+$/), share: z.number() }),
+		z.object({
+			subaccount: z.string().regex(/^ACCT_[a-zA-Z0-9]+$/),
+			share: z.number(),
+		}),
 	),
 	bearer_type,
 	bearer_subaccount: z.string(),
@@ -77,7 +80,7 @@ export const splitUpdateInput = z.object({
 
 export const splitSubaccountInput = z.object({
 	id: z.string(),
-	subaccount: z.string().regex(/^ACCT_\d+$/),
+	subaccount: z.string().regex(/^ACCT_[a-zA-Z0-9]+$/),
 	share: z.number(),
 });
 

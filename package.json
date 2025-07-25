@@ -41,12 +41,11 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.1.2",
 		"@changesets/cli": "^2.29.5",
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"zod": "^4.0.10"
 	},
 	"peerDependencies": {
-		"typescript": "^5"
-	},
-	"dependencies": {
-		"zod": "^4.0.6"
+		"typescript": "^5.8.3",
+		"zod": "^4.0.0"
 	}
 }
