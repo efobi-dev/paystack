@@ -3,8 +3,8 @@ import { Transaction } from "./main/transaction";
 import { VirtualAccount } from "./main/virtual";
 
 export * from "./zod";
-export * from "./zod/transaction";
 export * from "./zod/split";
+export * from "./zod/transaction";
 export * from "./zod/virtual";
 
 export class Paystack {
