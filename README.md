@@ -58,8 +58,8 @@ This SDK is actively under development. Below is the current implementation stat
 - ⏳ **Charge** - Planned
 - ⏳ **Disputes** - Planned
 - ⏳ **Refunds** - Planned
-- ⏳ **Verification** - Planned
-- ⏳ **Miscellaneous** - Planned
+- ✅ **Verification** - Complete
+- ✅ **Miscellaneous** - Complete
 
 **Legend:**
 
