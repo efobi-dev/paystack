@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.6.0
+
+### Minor Changes
+
+- e2c8d66: Added Miscellaneous and Verification APIs
+
 ## 0.5.3
 
 ### Patch Changes
