@@ -31,15 +31,10 @@ export const miscellaneousListBanksSuccess = genericResponse.extend({
 			currency,
 			type: z.string(),
 			id: z.number(),
-			createdAt: z.iso.datetime(),
-			updatedAt: z.iso.datetime(),
+			createdAt: z.iso.datetime().nullable(),
+			updatedAt: z.iso.datetime().nullable(),
 		}),
 	),
-	meta: z.object({
-		next: z.string().nullable(),
-		previous: z.string().nullable(),
-		perPage: z.number(),
-	}),
 });
 
 export const miscellaneousListCountriesSuccess = genericResponse.extend({
