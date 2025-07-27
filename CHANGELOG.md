@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.6.1
+
+### Patch Changes
+
+- 7d5591c: Made some fields nullable and/or undefined in miscellaneous.listBanks
+
 ## 0.6.0
 
 ### Minor Changes
