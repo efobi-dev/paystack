@@ -467,6 +467,7 @@ export const transactionSuccessful = z.object({
 			fees: z.number().nullable(),
 			customer: customer.omit({
 				international_format_phone: true,
+				id: true,
 			}),
 			authorization: authorization.omit({
 				signature: true,
