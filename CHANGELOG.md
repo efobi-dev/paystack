@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.6.3
+
+### Patch Changes
+
+- f635956: Fixed some typos
+
 ## 0.6.2
 
 ### Patch Changes
