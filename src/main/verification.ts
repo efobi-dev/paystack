@@ -11,6 +11,11 @@ import {
 import { Fetcher } from "./fetcher";
 
 export class Verification extends Fetcher {
+	/**
+	 * Resolve an account number to a name
+	 * @param {z.infer<typeof verificationResolveAccountInput>} input - The account details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async resolveAccount(input: z.infer<typeof verificationResolveAccountInput>) {
 		const stringInput = Object.fromEntries(
 			Object.entries(input).map(([key, value]) => [key, String(value)]),
@@ -31,6 +36,12 @@ export class Verification extends Fetcher {
 			await verificationResolveAccountSuccess.safeParseAsync(raw);
 		return { data, error };
 	}
+
+	/**
+	 * Validate a customer's account number
+	 * @param {z.infer<typeof verificationValidateAccountInput>} input - The account details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async validateAccount(
 		input: z.infer<typeof verificationValidateAccountInput>,
 	) {
@@ -39,6 +50,12 @@ export class Verification extends Fetcher {
 			await verificationValidateAccountResponse.safeParseAsync(raw);
 		return { data, error };
 	}
+
+	/**
+	 * Resolve a card BIN to a bank
+	 * @param {z.infer<typeof verificationResolveCardBinInput>} input - The card BIN
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async resolveCardBin(input: z.infer<typeof verificationResolveCardBinInput>) {
 		const { response, raw } = await this.fetcher(`/card/bin/${input.card_bin}`);
 		if (!response.ok) {

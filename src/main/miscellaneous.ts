@@ -10,6 +10,11 @@ import {
 import { Fetcher } from "./fetcher";
 
 export class Miscellaneous extends Fetcher {
+	/**
+	 * Get a list of all supported banks
+	 * @param {z.infer<typeof miscellaneousListBanksInput>} input - The query parameters
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async listBanks(input: z.infer<typeof miscellaneousListBanksInput>) {
 		const stringInput = Object.fromEntries(
 			Object.entries(input).map(([key, value]) => [key, String(value)]),
@@ -30,6 +35,11 @@ export class Miscellaneous extends Fetcher {
 			await miscellaneousListBanksSuccess.safeParseAsync(raw);
 		return { data, error };
 	}
+
+	/**
+	 * Get a list of all supported countries
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async listCountries() {
 		const { response, raw } = await this.fetcher("/country");
 		if (!response.ok) {
@@ -40,6 +50,12 @@ export class Miscellaneous extends Fetcher {
 			await miscellaneousListCountriesSuccess.safeParseAsync(raw);
 		return { data, error };
 	}
+
+	/**
+	 * Get a list of all supported states in a country
+	 * @param {z.infer<typeof miscellaneousListStatesInput>} input - The query parameters
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async listStates(input: z.infer<typeof miscellaneousListStatesInput>) {
 		const stringInput = Object.fromEntries(
 			Object.entries(input).map(([key, value]) => [key, String(value)]),
