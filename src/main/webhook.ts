@@ -1,4 +1,3 @@
-import { createHmac } from "node:crypto";
 import {
 	type PaystackWebhookPayload,
 	paystackWebhookSchema,
@@ -19,16 +18,33 @@ export class Webhook extends Fetcher {
 	private handlers: HandlersMap = {};
 
 	/**
-	 * Verifies the signature of an incoming webhook request.
+	 * Verifies the signature of an incoming webhook request using the Web Crypto API.
 	 * @param rawBody - The raw, unparsed request body.
 	 * @param signature - The value of the 'x-paystack-signature' header.
-	 * @returns {boolean} - True if the signature is valid, false otherwise.
+	 * @returns {Promise<boolean>} - True if the signature is valid, false otherwise.
 	 */
-	private verifySignature(rawBody: string, signature: string): boolean {
-		const hash = createHmac("sha512", this.secretKey)
-			.update(rawBody)
-			.digest("hex");
-		return hash === signature;
+	private async verifySignature(
+		rawBody: string,
+		signature: string,
+	): Promise<boolean> {
+		const secretKeyData = new TextEncoder().encode(this.secretKey);
+		const key = await crypto.subtle.importKey(
+			"raw",
+			secretKeyData,
+			{ name: "HMAC", hash: "SHA-512" },
+			false,
+			["sign"],
+		);
+		const signatureData = new TextEncoder().encode(rawBody);
+		const hashBuffer = await crypto.subtle.sign("HMAC", key, signatureData);
+
+		// Convert ArrayBuffer to hex string
+		const hashArray = Array.from(new Uint8Array(hashBuffer));
+		const hashHex = hashArray
+			.map((b) => b.toString(16).padStart(2, "0"))
+			.join("");
+
+		return hashHex === signature;
 	}
 
 	/**
@@ -57,7 +73,7 @@ export class Webhook extends Fetcher {
 		if (!signature) {
 			throw new Error("Missing 'x-paystack-signature' header.");
 		}
-		if (!this.verifySignature(rawBody, signature)) {
+		if (!(await this.verifySignature(rawBody, signature))) {
 			throw new Error("Invalid webhook signature.");
 		}
 		const parseResult = await paystackWebhookSchema.safeParseAsync(
