@@ -461,7 +461,7 @@ export const transactionSuccessful = z.object({
 				.extend({
 					authentication: z.string(),
 				}),
-			metadata: z.number(),
+			metadata: metadata,
 			paid_at: z.iso.datetime(),
 			created_at: z.iso.datetime(),
 			fees: z.number().nullable(),

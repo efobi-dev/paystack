@@ -105,7 +105,7 @@ export const virtualAccountDeleteSuccess = genericResponse.extend({
 
 export const virtualAccountAddSplitInput = z.object({
 	customer: z.string(),
-	subaaccount: z.string().optional(),
+	subaccount: z.string().optional(),
 	split_code: z.string().optional(),
 	preferred_bank: z.string().optional(),
 });
