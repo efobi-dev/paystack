@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.6.2
+
+### Patch Changes
+
+- 5e4d47f: Removed node:crypto to use Web Crypto API for better compatibility across platforms
+
 ## 0.6.1
 
 ### Patch Changes
