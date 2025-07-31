@@ -6,7 +6,7 @@ import {
 	mockListStatesResponse,
 } from "./mocks";
 
-const mockFetch = (response: any, ok: boolean) => {
+const mockFetch = (response: unknown, ok: boolean) => {
 	return spyOn(global, "fetch").mockResolvedValue(
 		new Response(JSON.stringify(response), {
 			status: ok ? 200 : 400,

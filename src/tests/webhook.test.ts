@@ -23,7 +23,9 @@ describe("Webhook Module", () => {
 
 	afterEach(() => {
 		// Clear all handlers after each test
-		(paystack.webhook as any).handlers = {};
+		(
+			paystack.webhook as unknown as { handlers: Record<string, unknown> }
+		).handlers = {};
 	});
 
 	test("should register and call a webhook handler", async () => {
