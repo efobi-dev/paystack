@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.7.0
+
+### Minor Changes
+
+- 1a19012: All tests passed, and excluding tests from final bundle
+
 ## 0.6.4
 
 ### Patch Changes
