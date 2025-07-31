@@ -1,11 +1,12 @@
-import { test, expect, spyOn, afterEach, describe } from "bun:test";
-import { Paystack } from "../index";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import type { z } from "zod";
+import { Paystack } from "../index";
 import type { txnInitializeSuccess } from "../zod/transaction";
 import {
 	mockChargeAuthorizationResponse,
 	mockErrorResponse,
 	mockExportTransactionsResponse,
+	mockFetch,
 	mockListTransactionsResponse,
 	mockPartialDebitResponse,
 	mockSingleTransactionResponse,
@@ -13,21 +14,6 @@ import {
 	mockVerifySuccessResponse,
 	mockViewTimelineResponse,
 } from "./mocks";
-
-/**
- * Mock for the global fetch function
- * @param response - The response body to return
- * @param ok - Whether the response should be successful (status 200) or not (status 400)
- * @returns A spy on the global fetch function
- */
-const mockFetch = (response: any, ok: boolean) => {
-	return spyOn(global, "fetch").mockResolvedValue(
-		new Response(JSON.stringify(response), {
-			status: ok ? 200 : 400,
-			headers: { "Content-Type": "application/json" },
-		}),
-	);
-};
 
 // Restore all mocks after each test
 afterEach(() => {
@@ -63,7 +49,7 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.authorization_url).toBe(
+			expect(data?.data?.authorization_url).toBe(
 				"https://checkout.paystack.com/h63s32gdw",
 			);
 
@@ -118,8 +104,8 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.reference).toBe(reference);
-			expect(data?.data.status).toBe("success");
+			expect(data?.data?.reference).toBe(reference);
+			expect(data?.data?.status).toBe("success");
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -158,7 +144,7 @@ describe("Transaction Module", () => {
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
 			expect(data?.data).toBeInstanceOf(Array);
-			expect(data?.data.length).toBe(1);
+			expect(data?.data?.length).toBe(1);
 			expect(data?.meta?.perPage).toBe(50);
 
 			// Verify fetch was called correctly
@@ -187,7 +173,7 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.id).toBe(transactionId);
+			expect(data?.data?.id).toBe(transactionId);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -215,8 +201,8 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.status).toBe("success");
-			expect(data?.data.amount).toBe(50000);
+			expect(data?.data?.status).toBe("success");
+			expect(data?.data?.amount).toBe(50000);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -243,7 +229,7 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.history).toBeInstanceOf(Array);
+			expect(data?.data?.history).toBeInstanceOf(Array);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -266,7 +252,7 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.total_transactions).toBe(100);
+			expect(data?.data?.total_transactions).toBe(100);
 
 			// Verify fetch was called correctly
 			const expectedParams = new URLSearchParams({
@@ -293,7 +279,7 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.path).toBe("https://example.com/export.csv");
+			expect(data?.data?.path).toBe("https://example.com/export.csv");
 
 			// Verify fetch was called correctly
 			const expectedParams = new URLSearchParams({
@@ -313,7 +299,7 @@ describe("Transaction Module", () => {
 			const fetchSpy = mockFetch(mockPartialDebitResponse, true);
 			const input = {
 				authorization_code: "AUTH_123456789",
-				currency: "NGN",
+				currency: "NGN" as const,
 				amount: 50000,
 				email: "customer@email.com",
 			};
@@ -325,8 +311,8 @@ describe("Transaction Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.status).toBe("success");
-			expect(data?.data.amount).toBe(50000);
+			expect(data?.data?.status).toBe("success");
+			expect(data?.data?.amount).toBe(50000);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(

@@ -1,27 +1,12 @@
-import { test, expect, spyOn, afterEach, describe } from "bun:test";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import {
 	mockCreateSplitResponse,
-	mockErrorResponse,
+	mockFetch,
 	mockListSplitsResponse,
 	mockSingleSplitResponse,
 	mockUpdateSplitSubaccountResponse,
 } from "./mocks";
-
-/**
- * Mock for the global fetch function
- * @param response - The response body to return
- * @param ok - Whether the response should be successful (status 200) or not (status 400)
- * @returns A spy on the global fetch function
- */
-const mockFetch = (response: any, ok: boolean) => {
-	return spyOn(global, "fetch").mockResolvedValue(
-		new Response(JSON.stringify(response), {
-			status: ok ? 200 : 400,
-			headers: { "Content-Type": "application/json" },
-		}),
-	);
-};
 
 // Restore all mocks after each test
 afterEach(() => {
@@ -37,15 +22,15 @@ describe("Split Module", () => {
 			const fetchSpy = mockFetch(mockCreateSplitResponse, true);
 			const input = {
 				name: "Test Split",
-				type: "percentage",
-				currency: "NGN",
+				type: "percentage" as const,
+				currency: "NGN" as const,
 				subaccounts: [
 					{
 						subaccount: "ACCT_123456789",
 						share: 50,
 					},
 				],
-				bearer_type: "subaccount",
+				bearer_type: "subaccount" as const,
 				bearer_subaccount: "ACCT_123456789",
 			};
 
@@ -56,7 +41,7 @@ describe("Split Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.name).toBe("Test Split");
+			expect(data?.data?.name).toBe("Test Split");
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -73,7 +58,7 @@ describe("Split Module", () => {
 		test("should list all splits", async () => {
 			// Arrange
 			const fetchSpy = mockFetch(mockListSplitsResponse, true);
-			const params = { name: "Test", active: true };
+			const params = { name: "Test", active: true, page: 1, perPage: 10 };
 
 			// Act
 			const { data, error } = await paystack.split.list(params);
@@ -88,6 +73,8 @@ describe("Split Module", () => {
 			const expectedParams = new URLSearchParams({
 				name: "Test",
 				active: "true",
+				page: "1",
+				perPage: "10",
 			}).toString();
 			expect(fetchSpy).toHaveBeenCalledWith(
 				`https://api.paystack.co/split?${expectedParams}`,
@@ -109,7 +96,7 @@ describe("Split Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.split_code).toBe(splitId);
+			expect(data?.data?.split_code).toBe(splitId);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(

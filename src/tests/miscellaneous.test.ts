@@ -1,4 +1,4 @@
-import { test, expect, spyOn, afterEach, describe } from "bun:test";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import {
 	mockListBanksResponse,
@@ -25,7 +25,11 @@ describe("Miscellaneous Module", () => {
 	describe("listBanks", () => {
 		test("should list all banks", async () => {
 			const fetchSpy = mockFetch(mockListBanksResponse, true);
-			const params = { country: "nigeria", perPage: 50 };
+			const params = {
+				country: "nigeria" as const,
+				perPage: 50,
+				use_cursor: false,
+			};
 			const { data, error } = await paystack.miscellaneous.listBanks(params);
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
@@ -34,6 +38,7 @@ describe("Miscellaneous Module", () => {
 			const expectedParams = new URLSearchParams({
 				country: "nigeria",
 				perPage: "50",
+				use_cursor: "false",
 			}).toString();
 			expect(fetchSpy).toHaveBeenCalledWith(
 				`https://api.paystack.co/bank?${expectedParams}`,

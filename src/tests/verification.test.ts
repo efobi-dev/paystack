@@ -1,20 +1,11 @@
-import { test, expect, spyOn, afterEach, describe } from "bun:test";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import {
-	mockErrorResponse,
+	mockFetch,
 	mockResolveAccountResponse,
 	mockResolveCardBinResponse,
 	mockValidateAccountResponse,
 } from "./mocks";
-
-const mockFetch = (response: any, ok: boolean) => {
-	return spyOn(global, "fetch").mockResolvedValue(
-		new Response(JSON.stringify(response), {
-			status: ok ? 200 : 400,
-			headers: { "Content-Type": "application/json" },
-		}),
-	);
-};
 
 afterEach(() => {
 	spyOn(global, "fetch").mockRestore();
@@ -31,7 +22,7 @@ describe("Verification Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.account_name).toBe("John Doe");
+			expect(data?.data?.account_name).toBe("John Doe");
 			const expectedParams = new URLSearchParams(input).toString();
 			expect(fetchSpy).toHaveBeenCalledWith(
 				`https://api.paystack.co/bank/resolve?${expectedParams}`,
@@ -46,14 +37,13 @@ describe("Verification Module", () => {
 			const input = {
 				account_name: "John Doe",
 				account_number: "0123456789",
-				account_type: "personal",
+				account_type: "personal" as const,
 				bank_code: "058",
-				country_code: "NG",
-				document_type: "identityNumber",
+				country_code: "NG" as const,
+				document_type: "identityNumber" as const,
 			};
-			const { data, error } = await paystack.verification.validateAccount(
-				input,
-			);
+			const { data, error } =
+				await paystack.verification.validateAccount(input);
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
@@ -75,7 +65,7 @@ describe("Verification Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.bin).toBe(cardBin);
+			expect(data?.data?.bin).toBe(cardBin);
 			expect(fetchSpy).toHaveBeenCalledWith(
 				`https://api.paystack.co/card/bin/${cardBin}`,
 				expect.any(Object),

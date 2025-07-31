@@ -1,29 +1,17 @@
+import { spyOn } from "bun:test";
 import type { z } from "zod";
-import type {
-	splitCreateSuccess,
-	splitListSuccess,
-	splitSingleSuccess,
-	splitSubaccountUpdateSuccess,
-} from "../zod/split";
-import type {
-	fetchBanksSuccess,
-	virtualAccountAddSplitSuccess,
-	virtualAccountCreateSuccess,
-	virtualAccountFetchSuccess,
-	virtualAccountListSuccess,
-	virtualAccountRemoveSplitSuccess,
-} from "../zod/virtual";
+import type { genericResponse } from "../zod";
 import type {
 	miscellaneousListBanksSuccess,
 	miscellaneousListCountriesSuccess,
 	miscellaneousListStatesSuccess,
 } from "../zod/miscellaneous";
 import type {
-	verificationResolveAccountSuccess,
-	verificationResolveCardBinSuccess,
-	verificationValidateAccountResponse,
-} from "../zod/verification";
-import type { transactionSuccessful } from "../zod/webhook";
+	splitCreateSuccess,
+	splitListSuccess,
+	splitSingleSuccess,
+	splitSubaccountUpdateSuccess,
+} from "../zod/split";
 import type {
 	txnChargeSuccess,
 	txnExportSuccess,
@@ -34,7 +22,20 @@ import type {
 	txnTotalsSuccess,
 	txnVerifySuccess,
 } from "../zod/transaction";
-import type { genericResponse } from "../zod";
+import type {
+	verificationResolveAccountSuccess,
+	verificationResolveCardBinSuccess,
+	verificationValidateAccountResponse,
+} from "../zod/verification";
+import type {
+	fetchBanksSuccess,
+	virtualAccountAddSplitSuccess,
+	virtualAccountCreateSuccess,
+	virtualAccountFetchSuccess,
+	virtualAccountListSuccess,
+	virtualAccountRemoveSplitSuccess,
+} from "../zod/virtual";
+import type { transactionSuccessful } from "../zod/webhook";
 
 export const mockVerifySuccessResponse: z.infer<typeof txnVerifySuccess> = {
 	status: true,
@@ -127,7 +128,7 @@ const singleTransaction = {
 	message: null,
 	gateway_response: "Successful",
 	channel: "card",
-	currency: "NGN",
+	currency: "NGN" as const,
 	ip_address: "127.0.0.1",
 	log: {
 		start_time: 1620000000,
@@ -197,31 +198,30 @@ export const mockSingleTransactionResponse: z.infer<typeof txnSingleSuccess> = {
 	data: singleTransaction,
 };
 
-export const mockChargeAuthorizationResponse: z.infer<
-	typeof txnChargeSuccess
-> = {
-	status: true,
-	message: "Charge attempted",
-	data: {
-		amount: 50000,
-		currency: "NGN",
-		transaction_date: "2024-01-01T12:00:00.000Z",
-		status: "success",
-		reference: "test-charge-ref-123",
-		domain: "test",
-		metadata: "",
-		gateway_response: "Successful",
-		message: null,
-		channel: "card",
-		ip_address: null,
-		log: null,
-		fees: 750,
-		authorization: singleTransaction.authorization,
-		customer: singleTransaction.customer,
-		plan: null,
-		id: 98765,
-	},
-};
+export const mockChargeAuthorizationResponse: z.infer<typeof txnChargeSuccess> =
+	{
+		status: true,
+		message: "Charge attempted",
+		data: {
+			amount: 50000,
+			currency: "NGN",
+			transaction_date: "2024-01-01T12:00:00.000Z",
+			status: "success",
+			reference: "test-charge-ref-123",
+			domain: "test",
+			metadata: "",
+			gateway_response: "Successful",
+			message: null,
+			channel: "card",
+			ip_address: null,
+			log: null,
+			fees: 750,
+			authorization: singleTransaction.authorization,
+			customer: singleTransaction.customer,
+			plan: null,
+			id: 98765,
+		},
+	};
 
 export const mockViewTimelineResponse: z.infer<typeof txnTimelineSuccess> = {
 	status: true,
@@ -260,14 +260,15 @@ export const mockTransactionTotalsResponse: z.infer<typeof txnTotalsSuccess> = {
 	},
 };
 
-export const mockExportTransactionsResponse: z.infer<typeof txnExportSuccess> = {
-	status: true,
-	message: "Export successful",
-	data: {
-		path: "https://example.com/export.csv",
-		expiresAt: "2024-01-01T13:00:00.000Z",
-	},
-};
+export const mockExportTransactionsResponse: z.infer<typeof txnExportSuccess> =
+	{
+		status: true,
+		message: "Export successful",
+		data: {
+			path: "https://example.com/export.csv",
+			expiresAt: "2024-01-01T13:00:00.000Z",
+		},
+	};
 
 export const mockPartialDebitResponse: z.infer<typeof txnPartialDebitSuccess> =
 	{
@@ -281,13 +282,13 @@ export const mockPartialDebitResponse: z.infer<typeof txnPartialDebitSuccess> =
 const baseSplit = {
 	id: 12345,
 	name: "Test Split",
-	type: "percentage",
-	currency: "NGN",
+	type: "percentage" as const,
+	currency: "NGN" as const,
 	integration: 100073,
 	domain: "test",
 	split_code: "SPL_123456789",
 	active: true,
-	bearer_type: "subaccount",
+	bearer_type: "subaccount" as const,
 	createdAt: "2024-01-01T12:00:00.000Z",
 	updatedAt: "2024-01-01T12:00:00.000Z",
 	is_dynamic: false,
@@ -303,7 +304,7 @@ const baseSplit = {
 				primary_contact_phone: null,
 				metadata: null,
 				settlement_bank: "Test Bank",
-				currency: "NGN",
+				currency: "NGN" as const,
 				account_number: "0123456789",
 			},
 			share: 50,
@@ -363,13 +364,10 @@ export const mockChargeSuccessPayload: z.infer<typeof transactionSuccessful> = {
 			metadata: null,
 			risk_action: "default",
 		},
-		plan: null,
-		split: {},
 		order_id: null,
 		requested_amount: 50000,
 		pos_transaction_data: null,
-		subaccount: {},
-		source: null,
+		connect: undefined,
 	},
 };
 
@@ -528,7 +526,7 @@ const baseVirtualAccount = {
 	account_name: "Test Account",
 	account_number: "1234567890",
 	assigned: true,
-	currency: "NGN",
+	currency: "NGN" as const,
 	metadata: null,
 	active: true,
 	id: 123,
@@ -656,4 +654,19 @@ export const mockFetchProvidersResponse: z.infer<typeof fetchBanksSuccess> = {
 			id: 1,
 		},
 	],
+};
+
+/**
+ * Mock for the global fetch function
+ * @param response - The response body to return
+ * @param ok - Whether the response should be successful (status 200) or not (status 400)
+ * @returns A spy on the global fetch function
+ */
+export const mockFetch = (response: any, ok: boolean) => {
+	return spyOn(global, "fetch").mockResolvedValue(
+		new Response(JSON.stringify(response), {
+			status: ok ? 200 : 400,
+			headers: { "Content-Type": "application/json" },
+		}),
+	);
 };

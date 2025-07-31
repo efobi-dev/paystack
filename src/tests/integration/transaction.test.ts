@@ -1,7 +1,7 @@
-import { test, expect, describe } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { Paystack } from "../../index";
 
-const secretKey = process.env.PAYSTACK_SECRET_KEY;
+const secretKey = process.env.PAYSTACK_SECRET_KEY as string;
 const shouldRun = secretKey?.startsWith("sk_test_");
 
 // Conditionally skip the tests if the secret key is not available
@@ -28,9 +28,9 @@ describeIf(shouldRun)("Transaction Module (Integration)", () => {
 		expect(error).toBeUndefined();
 		expect(data).toBeDefined();
 		expect(data?.status).toBe(true);
-		expect(data?.data.authorization_url).toBeDefined();
-		expect(data?.data.reference).toBeDefined();
-		reference = data?.data.reference || "";
+		expect(data?.data?.authorization_url).toBeDefined();
+		expect(data?.data?.reference).toBeDefined();
+		reference = data?.data?.reference || "";
 	});
 
 	test("should verify a transaction", async () => {
@@ -40,6 +40,6 @@ describeIf(shouldRun)("Transaction Module (Integration)", () => {
 		expect(error).toBeUndefined();
 		expect(data).toBeDefined();
 		expect(data?.status).toBe(true);
-		expect(data?.data.reference).toBe(reference);
+		expect(data?.data?.reference).toBe(reference);
 	});
 });

@@ -1,4 +1,4 @@
-import { test, expect, describe, spyOn, afterEach } from "bun:test";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import { mockChargeSuccessPayload } from "./mocks";
 

@@ -1,24 +1,15 @@
-import { test, expect, spyOn, afterEach, describe } from "bun:test";
+import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import {
+	mockAddSplitToVirtualAccountResponse,
 	mockCreateVirtualAccountResponse,
 	mockDeactivateVirtualAccountResponse,
-	mockErrorResponse,
+	mockFetch,
 	mockFetchProvidersResponse,
 	mockFetchVirtualAccountResponse,
 	mockListVirtualAccountsResponse,
-	mockAddSplitToVirtualAccountResponse,
 	mockRemoveSplitFromVirtualAccountResponse,
 } from "./mocks";
-
-const mockFetch = (response: any, ok: boolean) => {
-	return spyOn(global, "fetch").mockResolvedValue(
-		new Response(JSON.stringify(response), {
-			status: ok ? 200 : 400,
-			headers: { "Content-Type": "application/json" },
-		}),
-	);
-};
 
 afterEach(() => {
 	spyOn(global, "fetch").mockRestore();
@@ -51,7 +42,7 @@ describe("Virtual Account Module", () => {
 				first_name: "Test",
 				last_name: "User",
 				phone: "08012345678",
-				country: "NG",
+				country: "NG" as const,
 			};
 			const { data, error } = await paystack.virtualAccount.assign(input);
 			expect(error).toBeUndefined();
@@ -67,7 +58,7 @@ describe("Virtual Account Module", () => {
 	describe("list", () => {
 		test("should list virtual accounts", async () => {
 			const fetchSpy = mockFetch(mockListVirtualAccountsResponse, true);
-			const params = { active: true, currency: "NGN" };
+			const params = { active: true, currency: "NGN" as const };
 			const { data, error } = await paystack.virtualAccount.list(params);
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
@@ -88,7 +79,7 @@ describe("Virtual Account Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data.id).toBe(123);
+			expect(data?.data?.id).toBe(123);
 			expect(fetchSpy).toHaveBeenCalledWith(
 				`https://api.paystack.co/dedicated_account/${accountId}`,
 				expect.any(Object),
@@ -148,7 +139,10 @@ describe("Virtual Account Module", () => {
 
 	describe("removeSplit", () => {
 		test("should remove a split from a virtual account", async () => {
-			const fetchSpy = mockFetch(mockRemoveSplitFromVirtualAccountResponse, true);
+			const fetchSpy = mockFetch(
+				mockRemoveSplitFromVirtualAccountResponse,
+				true,
+			);
 			const input = { account_number: "1234567890" };
 			const { data, error } = await paystack.virtualAccount.removeSplit(input);
 			expect(error).toBeUndefined();
