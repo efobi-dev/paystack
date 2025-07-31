@@ -8,6 +8,7 @@ const _shouldRun = secretKey?.startsWith("sk_test_");
 const describeIf = (condition: boolean) =>
 	condition ? describe : describe.skip;
 
+// Skipping these tests because the test account does not have the Dedicated NUBAN feature enabled.
 describeIf(false)("Virtual Account Module (Integration)", () => {
 	let paystack: Paystack;
 	let virtualAccountId: number | undefined;
@@ -18,7 +19,7 @@ describeIf(false)("Virtual Account Module (Integration)", () => {
 
 	test("should create a virtual account", async () => {
 		const { data, error } = await paystack.virtualAccount.create({
-			customer: "481193",
+			customer: "CUS_2v3s1y8xjv382s9",
 			preferred_bank: "wema-bank",
 		});
 

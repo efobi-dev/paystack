@@ -8,6 +8,8 @@ const _shouldRun = secretKey?.startsWith("sk_test_");
 const describeIf = (condition: boolean) =>
 	condition ? describe : describe.skip;
 
+// Skipping these tests because the test account does not have a subaccount.
+// The SDK does not have a method to create a subaccount, so this test cannot be run.
 describeIf(false)("Split Module (Integration)", () => {
 	let paystack: Paystack;
 	let splitId: number | undefined;
@@ -17,7 +19,7 @@ describeIf(false)("Split Module (Integration)", () => {
 	});
 
 	test("should create a transaction split", async () => {
-		const subaccount = "ACCT_6uujpqtzmnufzkw";
+		const subaccount = "ACCT_pwwualp2m35s3x4";
 		const { data, error } = await paystack.split.create({
 			name: "Test Split",
 			type: "percentage",

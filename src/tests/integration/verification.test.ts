@@ -15,10 +15,11 @@ describeIf(shouldRun)("Verification Module (Integration)", () => {
 		paystack = new Paystack(secretKey as string);
 	});
 
+	// Skipping this test because the bank code is not valid for the test environment.
 	test.skip("should resolve an account", async () => {
 		const { data, error } = await paystack.verification.resolveAccount({
-			account_number: "0022728151",
-			bank_code: "057",
+			account_number: "8097633252",
+			bank_code: "100004",
 		});
 
 		expect(error).toBeUndefined();
@@ -27,6 +28,7 @@ describeIf(shouldRun)("Verification Module (Integration)", () => {
 		expect(data?.data?.account_name).toBeDefined();
 	});
 
+	// Skipping this test because the resolveCardBin endpoint is not available for the test account.
 	test.skip("should resolve a card BIN", async () => {
 		// This is a test card BIN
 		const cardBin = "408408";

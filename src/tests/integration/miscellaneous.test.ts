@@ -37,9 +37,9 @@ describeIf(shouldRun)("Miscellaneous Module (Integration)", () => {
 		expect(data?.data).toBeArray();
 	});
 
-	test.skip("should list all supported states in a country", async () => {
+	test("should list all supported states in a country", async () => {
 		const { data, error } = await paystack.miscellaneous.listStates({
-			country: "NG",
+			country: "US",
 		});
 
 		expect(error).toBeUndefined();

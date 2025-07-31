@@ -27,6 +27,9 @@ export class Fetcher {
 		});
 
 		const raw = await response.json();
+		if (!response.ok) {
+			console.error("API Error Response:", raw);
+		}
 		return { response, raw };
 	}
 }
