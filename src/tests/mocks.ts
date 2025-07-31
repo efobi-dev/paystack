@@ -662,7 +662,7 @@ export const mockFetchProvidersResponse: z.infer<typeof fetchBanksSuccess> = {
  * @param ok - Whether the response should be successful (status 200) or not (status 400)
  * @returns A spy on the global fetch function
  */
-export const mockFetch = (response: any, ok: boolean) => {
+export const mockFetch = (response: unknown, ok: boolean) => {
 	return spyOn(global, "fetch").mockResolvedValue(
 		new Response(JSON.stringify(response), {
 			status: ok ? 200 : 400,

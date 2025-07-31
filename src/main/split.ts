@@ -36,10 +36,10 @@ export class Split extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async list(input: z.infer<typeof splitListInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
+		const searchParams = new URLSearchParams();
+		for (const [key, value] of Object.entries(input)) {
+			searchParams.append(key, String(value));
+		}
 		const { response, raw } = await this.fetcher(
 			"/split",
 			"GET",
