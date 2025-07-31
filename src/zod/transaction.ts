@@ -59,13 +59,13 @@ export const transactionShared = z.object({
 	gateway_response: z.string(),
 	channel: z.string(),
 	currency,
-	ip_address: z.ipv4(),
-	log,
-	fees: z.number(),
+	ip_address: z.string().nullable(),
+	log: z.nullable(log),
+	fees: z.number().nullable(),
 	fees_split: z.nullable(z.unknown()),
-	authorization,
+	authorization: z.nullable(authorization),
 	order_id: z.nullable(z.string()),
-	paidAt: z.iso.datetime(),
+	paidAt: z.iso.datetime().nullable(),
 	createdAt: z.iso.datetime(),
 	requested_amount: z.number(),
 	pos_transaction_data: z.nullable(z.unknown()),
@@ -75,7 +75,7 @@ export const transactionShared = z.object({
 const transaction = transactionShared.extend({
 	metadata: z.nullable(metadata),
 	customer,
-	plan,
+	plan: z.nullable(plan),
 	split: z.object({}),
 	subaccount: z.object({}),
 	source: z.nullable(
@@ -216,6 +216,8 @@ export const txnPartialDebitInput = z.object({
 	at_least: z.number().optional(),
 });
 
-export const txnPartialDebitSuccess = txnChargeSuccess.extend({
-	requested_amount: z.number(),
+export const txnPartialDebitSuccess = genericResponse.extend({
+	data: txnChargeSuccess.shape.data.extend({
+		requested_amount: z.number(),
+	}),
 });

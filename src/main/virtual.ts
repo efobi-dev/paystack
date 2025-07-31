@@ -18,6 +18,11 @@ import {
 import { Fetcher } from "./fetcher";
 
 export class VirtualAccount extends Fetcher {
+	/**
+	 * Create a dedicated virtual account
+	 * @param {z.infer<typeof virtualAccountCreateInput>} input - The virtual account details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async create(input: z.infer<typeof virtualAccountCreateInput>) {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account",
@@ -33,6 +38,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Assign a dedicated virtual account to a customer
+	 * @param {z.infer<typeof virtualAccountAssignInput>} input - The assignment details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async assign(input: z.infer<typeof virtualAccountAssignInput>) {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/assign",
@@ -47,6 +57,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * List dedicated virtual accounts available on your integration
+	 * @param {z.infer<typeof virtualAccountListInput>} input - The query parameters
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async list(input: z.infer<typeof virtualAccountListInput>) {
 		const stringInput = Object.fromEntries(
 			Object.entries(input).map(([key, value]) => [key, String(value)]),
@@ -67,6 +82,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Get details of a dedicated virtual account on your integration
+	 * @param {string} dedicated_account_id - The ID of the dedicated virtual account
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async fetch(dedicated_account_id: string) {
 		const { response, raw } = await this.fetcher(
 			`/dedicated_account/${dedicated_account_id}`,
@@ -80,6 +100,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Requery a dedicated virtual account for new transactions
+	 * @param {z.infer<typeof virtualAccountRequeryInput>} input - The requery details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async requery(input: z.infer<typeof virtualAccountRequeryInput>) {
 		const stringInput = Object.fromEntries(
 			Object.entries(input).map(([key, value]) => [key, String(value)]),
@@ -100,6 +125,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Deactivate a dedicated virtual account on your integration
+	 * @param {string} dedicated_account_id - The ID of the dedicated virtual account
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async deactivate(dedicated_account_id: string) {
 		const { response, raw } = await this.fetcher(
 			`/dedicated_account/${dedicated_account_id}`,
@@ -114,6 +144,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Add a split to a dedicated virtual account
+	 * @param {z.infer<typeof virtualAccountAddSplitInput>} input - The split details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async addSplit(input: z.infer<typeof virtualAccountAddSplitInput>) {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/split",
@@ -129,6 +164,11 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Remove a split from a dedicated virtual account
+	 * @param {z.infer<typeof virtualAccountRemoveSplitInput>} input - The split details
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async removeSplit(input: z.infer<typeof virtualAccountRemoveSplitInput>) {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/split",
@@ -144,6 +184,10 @@ export class VirtualAccount extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Get available bank providers for a dedicated virtual account
+	 * @returns {Promise<object>} The response from the API
+	 */
 	async fetchBanks() {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/available_providers",

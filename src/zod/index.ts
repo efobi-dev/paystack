@@ -39,19 +39,19 @@ export const log = z.object({
 });
 
 export const authorization = z.object({
-	authorization_code: z.string().startsWith("AUTH_"),
-	bin: z.string(),
-	last4: z.string(),
-	exp_month: z.string(),
-	exp_year: z.string(),
-	channel: z.string(),
-	card_type: z.string(),
-	bank: z.string(),
-	country_code: z.string(),
-	brand: z.string(),
-	reusable: z.boolean(),
-	signature: z.string(),
-	account_name: z.string().nullable(),
+	authorization_code: z.string().startsWith("AUTH_").optional(),
+	bin: z.string().optional(),
+	last4: z.string().optional(),
+	exp_month: z.string().optional(),
+	exp_year: z.string().optional(),
+	channel: z.string().optional(),
+	card_type: z.string().optional(),
+	bank: z.string().optional(),
+	country_code: z.string().optional(),
+	brand: z.string().optional(),
+	reusable: z.boolean().optional(),
+	signature: z.string().optional(),
+	account_name: z.string().nullable().optional(),
 });
 
 export const metadata = z.object({
