@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.6.4
+
+### Patch Changes
+
+- 6e542eb: Added test coverage for completed APIs, unit tests for all done, integration tests only done for Transactions API
+
 ## 0.6.3
 
 ### Patch Changes

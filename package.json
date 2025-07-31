@@ -1,6 +1,6 @@
 {
 	"name": "@efobi/paystack",
-	"version": "0.6.3",
+	"version": "0.6.4",
 	"description": "A TypeScript SDK for Paystack",
 	"keywords": [
 		"paystack",
