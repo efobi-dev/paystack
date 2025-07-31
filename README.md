@@ -67,8 +67,6 @@ This SDK is actively under development. Below is the current implementation stat
 - ⏳ Planned for future releases
 - 🚧 Currently in development
 
-> **Note:** While only Transactions are currently implemented, the foundation is designed to easily accommodate all Paystack API endpoints. New endpoints will be added in upcoming releases.
-
 ## Quick Start
 
 ```typescript
