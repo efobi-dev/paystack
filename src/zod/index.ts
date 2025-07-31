@@ -3,8 +3,8 @@ import { z } from "zod";
 export const meta = z.object({
 	total: z.number().optional(),
 	skipped: z.number().optional(),
-	perPage: z.number().optional(),
-	page: z.number().optional(),
+	perPage: z.coerce.number().optional(),
+	page: z.coerce.number().optional(),
 	pageCount: z.number().optional(),
 });
 
@@ -93,8 +93,8 @@ export const customer = z.object({
 });
 
 export const genericInput = z.object({
-	perPage: z.number().min(1).max(100).default(50),
-	page: z.number().min(1).default(1),
+	perPage: z.coerce.number().min(1).max(100).default(50),
+	page: z.coerce.number().min(1).default(1),
 	from: z.iso.datetime().optional(),
 	to: z.iso.datetime().optional(),
 });
