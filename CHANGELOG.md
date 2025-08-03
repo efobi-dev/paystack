@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.0
+
+### Minor Changes
+
+- bf4ebd0: Switched from tsc to tsuo for smaller size
+
 ## 0.7.0
 
 ### Minor Changes
