@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.1
+
+### Patch Changes
+
+- 569de63: Updates...
+
 ## 0.7.1
 
 ### Patch Changes

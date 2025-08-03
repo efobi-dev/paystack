@@ -1,5 +1,0 @@
----
-"@efobi/paystack": patch
----
-
-Updates...
