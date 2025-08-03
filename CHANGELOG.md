@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.7.1
+
+### Patch Changes
+
+- b5522e9: Minor patch to switch back to tsc
+
 ## 0.7.0
 
 ### Minor Changes
