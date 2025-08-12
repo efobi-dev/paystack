@@ -6,6 +6,18 @@
 
 - bf4ebd0: Switched from tsc to tsuo for smaller size
 
+## 0.8.1
+
+### Patch Changes
+
+- 569de63: Updates...
+
+## 0.7.1
+
+### Patch Changes
+
+- b5522e9: Minor patch to switch back to tsc
+
 ## 0.7.0
 
 ### Minor Changes
