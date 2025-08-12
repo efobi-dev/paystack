@@ -104,12 +104,12 @@ export const mockVerifySuccessResponse: z.infer<typeof txnVerifySuccess> = {
 		order_id: null,
 		metadata: "{}",
 		plan: null,
-		split: {},
+		split: null,
 		source: null,
 		fees_breakdown: null,
 		transaction_date: "2024-01-01T12:00:00.000Z",
 		plan_object: {},
-		subaccount: {},
+		subaccount: null,
 	},
 };
 
@@ -176,8 +176,8 @@ const singleTransaction = {
 	order_id: null,
 	metadata: null,
 	plan: null,
-	split: {},
-	subaccount: {},
+	split: null,
+	subaccount: null,
 	source: null,
 };
 
