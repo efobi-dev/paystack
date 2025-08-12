@@ -23,28 +23,26 @@ export const splitCreateInput = z.object({
 	bearer_subaccount: z.string(),
 });
 
-export const baseSplitSchema = z
-	.object({
-		id: z.number(),
-		name: z.string(),
-		type,
-		currency,
-		integration: z.number(),
-		domain: z.string(),
-		split_code: z.string(),
-		active: z.boolean(),
-		bearer_type,
-		createdAt: z.iso.datetime(),
-		updatedAt: z.iso.datetime(),
-		is_dynamic: z.boolean(),
-		subaccounts: z.array(
-			z.object({
-				subaccount,
-				share: z.number(),
-			}),
-		),
-	})
-	.passthrough();
+export const baseSplitSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	type,
+	currency,
+	integration: z.number(),
+	domain: z.string(),
+	split_code: z.string(),
+	active: z.boolean(),
+	bearer_type,
+	createdAt: z.iso.datetime(),
+	updatedAt: z.iso.datetime(),
+	is_dynamic: z.boolean(),
+	subaccounts: z.array(
+		z.object({
+			subaccount,
+			share: z.number(),
+		}),
+	),
+});
 
 export const splitCreateSuccess = genericResponse.extend({
 	data: baseSplitSchema,
@@ -58,22 +56,18 @@ export const splitListInput = genericInput.extend({
 
 export const splitListSuccess = genericResponse.extend({
 	data: z.array(
-		baseSplitSchema
-			.extend({
-				bearer_subaccount: z.string().nullable(),
-				total_subaccounts: z.number(),
-			})
-			.passthrough(),
+		baseSplitSchema.extend({
+			bearer_subaccount: z.string().nullable(),
+			total_subaccounts: z.number(),
+		}),
 	),
 	meta,
 });
 
 export const splitSingleSuccess = genericResponse.extend({
-	data: baseSplitSchema
-		.extend({
-			total_subaccounts: z.number(),
-		})
-		.passthrough(),
+	data: baseSplitSchema.extend({
+		total_subaccounts: z.number(),
+	}),
 });
 
 export const splitUpdateInput = z.object({
@@ -91,24 +85,20 @@ export const splitSubaccountInput = z.object({
 });
 
 export const splitSubaccountUpdateSuccess = genericResponse.extend({
-	data: baseSplitSchema
-		.extend({
-			bearer_subaccount: z.string().nullable(),
-			total_subaccounts: z.number(),
-		})
-		.passthrough(),
+	data: baseSplitSchema.extend({
+		bearer_subaccount: z.string().nullable(),
+		total_subaccounts: z.number(),
+	}),
 });
 
 export const splitSubaccountRemoveInput = splitSubaccountInput.omit({
 	share: true,
 });
 
-export const splitSubaccountRemoveError = genericResponse
-	.extend({
-		meta: z.object({
-			nextStep: z.string().optional(),
-		}),
-		type: z.string().optional(),
-		code: z.string().optional(),
-	})
-	.passthrough();
+export const splitSubaccountRemoveError = genericResponse.extend({
+	meta: z.object({
+		nextStep: z.string().optional(),
+	}),
+	type: z.string().optional(),
+	code: z.string().optional(),
+});

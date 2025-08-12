@@ -114,6 +114,7 @@ export const subaccount = z.object({
 });
 
 export const plan = z.object({
+	id: z.number(),
 	name: z.string(),
 	plan_code: z.string().startsWith("PLN_"),
 	description: z.string().nullable(),

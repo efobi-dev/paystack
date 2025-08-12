@@ -18,56 +18,52 @@ export const miscellaneousListBanksInput = z.object({
 
 export const miscellaneousListBanksSuccess = genericResponse.extend({
 	data: z.array(
-		z
-			.object({
-				name: z.string(),
-				slug: z.string(),
-				code: z.string(),
-				longcode: z.string(),
-				gateway: z.unknown().nullable(),
-				pay_with_bank: z.boolean(),
-				active: z.boolean(),
-				is_deleted: z.boolean(),
-				country: z.string(),
-				currency,
-				type: z.string(),
-				id: z.number(),
-				createdAt: z.iso.datetime().nullable(),
-				updatedAt: z.iso.datetime().nullable(),
-			})
-			.passthrough(),
+		z.object({
+			name: z.string(),
+			slug: z.string(),
+			code: z.string(),
+			longcode: z.string(),
+			gateway: z.unknown().nullable(),
+			pay_with_bank: z.boolean(),
+			active: z.boolean(),
+			is_deleted: z.boolean(),
+			country: z.string(),
+			currency,
+			type: z.string(),
+			id: z.number(),
+			createdAt: z.iso.datetime().nullable(),
+			updatedAt: z.iso.datetime().nullable(),
+		}),
 	),
 });
 
 export const miscellaneousListCountriesSuccess = genericResponse.extend({
 	data: z.array(
-		z
-			.object({
-				id: z.number(),
-				name: z.string(),
-				iso_code: z.string(),
-				default_currency_code: z.string(),
-				integration_defaults: z.object(),
-				relationships: z.object({
-					currency: z.object({
-						type: z.string(),
-						data: z.array(z.string()),
-					}),
-					integration_feature: z.object({
-						type: z.string(),
-						data: z.array(z.string()),
-					}),
-					integration_type: z.object({
-						type: z.string(),
-						data: z.array(z.string()),
-					}),
-					payment_method: z.object({
-						type: z.string(),
-						data: z.array(z.string()),
-					}),
+		z.object({
+			id: z.number(),
+			name: z.string(),
+			iso_code: z.string(),
+			default_currency_code: z.string(),
+			integration_defaults: z.object(),
+			relationships: z.object({
+				currency: z.object({
+					type: z.string(),
+					data: z.array(z.string()),
 				}),
-			})
-			.passthrough(),
+				integration_feature: z.object({
+					type: z.string(),
+					data: z.array(z.string()),
+				}),
+				integration_type: z.object({
+					type: z.string(),
+					data: z.array(z.string()),
+				}),
+				payment_method: z.object({
+					type: z.string(),
+					data: z.array(z.string()),
+				}),
+			}),
+		}),
 	),
 });
 
@@ -77,8 +73,6 @@ export const miscellaneousListStatesInput = z.object({
 
 export const miscellaneousListStatesSuccess = genericResponse.extend({
 	data: z.array(
-		z
-			.object({ name: z.string(), slug: z.string(), abbreviation: z.string() })
-			.passthrough(),
+		z.object({ name: z.string(), slug: z.string(), abbreviation: z.string() }),
 	),
 });

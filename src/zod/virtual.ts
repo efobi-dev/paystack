@@ -11,46 +11,40 @@ export const virtualAccountCreateInput = z.object({
 	phone: z.string().optional(),
 });
 
-export const virtualAccountAssignmentSchema = z
-	.object({
-		integration: z.number(),
-		assignee_id: z.number(),
-		assignee_type: z.string(),
-		expired: z.boolean(),
-		account_type: z.string(),
-		assigned_at: z.iso.datetime(),
-	})
-	.passthrough();
+export const virtualAccountAssignmentSchema = z.object({
+	integration: z.number(),
+	assignee_id: z.number(),
+	assignee_type: z.string(),
+	expired: z.boolean(),
+	account_type: z.string(),
+	assigned_at: z.iso.datetime(),
+});
 
-export const virtualAccountBaseSchema = z
-	.object({
-		bank: z.object({
-			name: z.string(),
-			id: z.number(),
-			slug: z.string(),
-		}),
-		account_name: z.string(),
-		account_number: z.string(),
-		assigned: z.boolean(),
-		currency,
-		metadata: z.nullable(metadata),
-		active: z.boolean(),
+export const virtualAccountBaseSchema = z.object({
+	bank: z.object({
+		name: z.string(),
 		id: z.number(),
-		created_at: z.iso.datetime(),
-		updated_at: z.iso.datetime(),
-	})
-	.passthrough();
+		slug: z.string(),
+	}),
+	account_name: z.string(),
+	account_number: z.string(),
+	assigned: z.boolean(),
+	currency,
+	metadata: z.nullable(metadata),
+	active: z.boolean(),
+	id: z.number(),
+	created_at: z.iso.datetime(),
+	updated_at: z.iso.datetime(),
+});
 
 export const virtualAccountCreateSuccess = genericResponse.extend({
-	data: virtualAccountBaseSchema
-		.extend({
-			assignment: virtualAccountAssignmentSchema,
-			customer: customer.omit({
-				metadata: true,
-				international_format_phone: true,
-			}),
-		})
-		.passthrough(),
+	data: virtualAccountBaseSchema.extend({
+		assignment: virtualAccountAssignmentSchema,
+		customer: customer.omit({
+			metadata: true,
+			international_format_phone: true,
+		}),
+	}),
 });
 
 export const virtualAccountAssignInput = z.object({
@@ -76,27 +70,23 @@ export const virtualAccountListInput = z.object({
 
 export const virtualAccountListSuccess = genericResponse.extend({
 	data: z.array(
-		virtualAccountBaseSchema
-			.extend({
-				assignment: virtualAccountAssignmentSchema,
-				customer: customer.omit({
-					metadata: true,
-					international_format_phone: true,
-				}),
-			})
-			.passthrough(),
+		virtualAccountBaseSchema.extend({
+			assignment: virtualAccountAssignmentSchema,
+			customer: customer.omit({
+				metadata: true,
+				international_format_phone: true,
+			}),
+		}),
 	),
 	meta,
 });
 
 export const virtualAccountFetchSuccess = genericResponse.extend({
-	data: virtualAccountBaseSchema
-		.extend({
-			assignment: virtualAccountAssignmentSchema,
-			customer,
-			split_config: z.string(),
-		})
-		.passthrough(),
+	data: virtualAccountBaseSchema.extend({
+		assignment: virtualAccountAssignmentSchema,
+		customer,
+		split_config: z.string(),
+	}),
 });
 
 export const virtualAccountRequeryInput = z.object({
@@ -106,13 +96,11 @@ export const virtualAccountRequeryInput = z.object({
 });
 
 export const virtualAccountDeleteSuccess = genericResponse.extend({
-	data: virtualAccountBaseSchema
-		.extend({
-			assignment: virtualAccountAssignmentSchema.omit({ expired: true }),
-			customer,
-			split_config: z.string(),
-		})
-		.passthrough(),
+	data: virtualAccountBaseSchema.extend({
+		assignment: virtualAccountAssignmentSchema.omit({ expired: true }),
+		customer,
+		split_config: z.string(),
+	}),
 });
 
 export const virtualAccountAddSplitInput = z.object({
@@ -123,19 +111,17 @@ export const virtualAccountAddSplitInput = z.object({
 });
 
 export const virtualAccountAddSplitSuccess = genericResponse.extend({
-	data: virtualAccountBaseSchema
-		.extend({
-			assignment: virtualAccountAssignmentSchema.extend({
-				expired_at: z.iso.datetime().nullable(),
-			}),
-			customer: customer.omit({
-				international_format_phone: true,
-			}),
-			split_config: z.object({
-				split_code: z.string(),
-			}),
-		})
-		.passthrough(),
+	data: virtualAccountBaseSchema.extend({
+		assignment: virtualAccountAssignmentSchema.extend({
+			expired_at: z.iso.datetime().nullable(),
+		}),
+		customer: customer.omit({
+			international_format_phone: true,
+		}),
+		split_config: z.object({
+			split_code: z.string(),
+		}),
+	}),
 });
 
 export const virtualAccountRemoveSplitInput = virtualAccountRequeryInput.omit({
@@ -144,30 +130,26 @@ export const virtualAccountRemoveSplitInput = virtualAccountRequeryInput.omit({
 });
 
 export const virtualAccountRemoveSplitSuccess = genericResponse.extend({
-	data: z
-		.object({
-			id: z.number(),
-			split_config: z.object(),
-			account_name: z.string(),
-			account_number: z.string(),
-			currency,
-			assigned: z.boolean(),
-			active: z.boolean(),
-			created_at: z.iso.datetime(),
-			updated_at: z.iso.datetime(),
-		})
-		.passthrough(),
+	data: z.object({
+		id: z.number(),
+		split_config: z.object(),
+		account_name: z.string(),
+		account_number: z.string(),
+		currency,
+		assigned: z.boolean(),
+		active: z.boolean(),
+		created_at: z.iso.datetime(),
+		updated_at: z.iso.datetime(),
+	}),
 });
 
 export const fetchBanksSuccess = genericResponse.extend({
 	data: z.array(
-		z
-			.object({
-				provider_slug: z.string(),
-				bank_id: z.number(),
-				bank_name: z.string(),
-				id: z.number(),
-			})
-			.passthrough(),
+		z.object({
+			provider_slug: z.string(),
+			bank_id: z.number(),
+			bank_name: z.string(),
+			id: z.number(),
+		}),
 	),
 });
