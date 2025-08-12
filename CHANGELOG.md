@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.3
+
+### Patch Changes
+
+- 24b238e: FIxed import path
+
 ## 0.8.2
 
 ### Patch Changes
