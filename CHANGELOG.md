@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.5
+
+### Patch Changes
+
+- 1bc6d63: Added passthrough across API responses
+
 ## 0.8.4
 
 ### Patch Changes
