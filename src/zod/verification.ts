@@ -7,10 +7,12 @@ export const verificationResolveAccountInput = z.object({
 });
 
 export const verificationResolveAccountSuccess = genericResponse.extend({
-	data: z.object({
-		account_number: z.string(),
-		account_name: z.string(),
-	}),
+	data: z
+		.object({
+			account_number: z.string(),
+			account_name: z.string(),
+		})
+		.passthrough(),
 });
 
 export const verificationValidateAccountInput = z.object({
@@ -28,10 +30,12 @@ export const verificationValidateAccountInput = z.object({
 });
 
 export const verificationValidateAccountResponse = genericResponse.extend({
-	data: z.object({
-		verified: z.boolean(),
-		verificationMessage: z.string(),
-	}),
+	data: z
+		.object({
+			verified: z.boolean(),
+			verificationMessage: z.string(),
+		})
+		.passthrough(),
 });
 
 export const verificationResolveCardBinInput = z.object({
@@ -39,14 +43,16 @@ export const verificationResolveCardBinInput = z.object({
 });
 
 export const verificationResolveCardBinSuccess = genericResponse.extend({
-	data: z.object({
-		bin: z.string(),
-		brand: z.string(),
-		sub_brand: z.string(),
-		country_code: z.string(),
-		country_name: z.string(),
-		card_type: z.string(),
-		bank: z.string(),
-		linked_bank_id: z.number(),
-	}),
+	data: z
+		.object({
+			bin: z.string(),
+			brand: z.string(),
+			sub_brand: z.string(),
+			country_code: z.string(),
+			country_name: z.string(),
+			card_type: z.string(),
+			bank: z.string(),
+			linked_bank_id: z.number(),
+		})
+		.passthrough(),
 });
