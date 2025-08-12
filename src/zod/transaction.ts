@@ -9,7 +9,9 @@ import {
 	log,
 	metadata,
 	plan,
+	subaccount,
 } from ".";
+import { baseSplitSchema } from "./split";
 
 export const txnInitializeInput = z.object({
 	amount: z.string(),
@@ -76,8 +78,8 @@ const transaction = transactionShared.extend({
 	metadata: z.nullable(metadata),
 	customer,
 	plan: z.nullable(plan),
-	split: z.object({}),
-	subaccount: z.object({}),
+	split: z.nullable(baseSplitSchema),
+	subaccount: z.nullable(subaccount),
 	source: z.nullable(
 		z.object({
 			source: z.string(),
@@ -95,12 +97,26 @@ const transactionVerify = transactionShared.extend({
 		international_format_phone: z.nullable(z.string()),
 	}),
 	plan: z.nullable(plan),
-	split: z.record(z.string(), z.unknown()),
+	split: z
+		.unknown()
+		.transform((val) =>
+			val && typeof val === "object" && Object.keys(val).length === 0
+				? null
+				: val,
+		)
+		.pipe(z.nullable(baseSplitSchema)),
 	source: z.nullable(z.unknown()),
 	fees_breakdown: z.nullable(z.unknown()),
 	transaction_date: z.string(),
 	plan_object: z.record(z.string(), z.unknown()),
-	subaccount: z.record(z.string(), z.unknown()),
+	subaccount: z
+		.unknown()
+		.transform((val) =>
+			val && typeof val === "object" && Object.keys(val).length === 0
+				? null
+				: val,
+		)
+		.pipe(z.nullable(subaccount)),
 });
 
 export const txnVerifySuccess = genericResponse.extend({
