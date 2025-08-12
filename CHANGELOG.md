@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.4
+
+### Patch Changes
+
+- 6d58990: Fixed import resolution wahala
+
 ## 0.8.3
 
 ### Patch Changes
