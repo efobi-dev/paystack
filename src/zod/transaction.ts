@@ -97,12 +97,26 @@ const transactionVerify = transactionShared.extend({
 		international_format_phone: z.nullable(z.string()),
 	}),
 	plan: z.nullable(plan),
-	split: z.nullable(baseSplitSchema),
+	split: z
+		.unknown()
+		.transform((val) =>
+			val && typeof val === "object" && Object.keys(val).length === 0
+				? null
+				: val,
+		)
+		.pipe(z.nullable(baseSplitSchema)),
 	source: z.nullable(z.unknown()),
 	fees_breakdown: z.nullable(z.unknown()),
 	transaction_date: z.string(),
 	plan_object: z.record(z.string(), z.unknown()),
-	subaccount: z.nullable(subaccount),
+	subaccount: z
+		.unknown()
+		.transform((val) =>
+			val && typeof val === "object" && Object.keys(val).length === 0
+				? null
+				: val,
+		)
+		.pipe(z.nullable(subaccount)),
 });
 
 export const txnVerifySuccess = genericResponse.extend({
