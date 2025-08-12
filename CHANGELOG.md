@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.2
+
+### Patch Changes
+
+- 2dcc694: Fixed the Transaction API tests failing due to zod validation error
+
 ## 0.8.1
 
 ### Patch Changes

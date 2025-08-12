@@ -1,6 +1,6 @@
 {
 	"name": "@efobi/paystack",
-	"version": "0.8.1",
+	"version": "0.8.2",
 	"description": "A TypeScript SDK for Paystack",
 	"keywords": [
 		"paystack",
@@ -23,7 +23,6 @@
 		"url": "git+https://github.com/efobi-dev/paystack.git"
 	},
 	"main": "dist/index.js",
-	
 	"types": "dist/index.d.ts",
 	"exports": {
 		".": {
@@ -32,8 +31,8 @@
 		}
 	},
 	"scripts": {
-		
-		"build": "tsup",
+		"build": "bun clean && tsc",
+		"clean": "rimraf dist",
 		"test": "bun test",
 		"format": "biome check --write",
 		"ci": "bun run build && bun run test && bun run format",
@@ -44,8 +43,7 @@
 		"@biomejs/biome": "2.1.2",
 		"@changesets/cli": "^2.29.5",
 		"@types/bun": "latest",
-		
-		"tsup": "^8.5.0",
+		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3",
 		"zod": "^4.0.10"
 	},
