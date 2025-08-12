@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.8.6
+
+### Patch Changes
+
+- 9700641: Added final fix for undefined key "id" and added two more tests to make sure the sdk is initialized
+
 ## 0.8.5
 
 ### Patch Changes
