@@ -670,3 +670,15 @@ export const mockFetch = (response: unknown, ok: boolean) => {
 		}),
 	);
 };
+
+export function mockFetcher<T>(data: T, ok: boolean) {
+	return async () => {
+		return {
+			response: {
+				ok,
+				status: ok ? 200 : 400,
+			},
+			raw: data,
+		};
+	};
+}

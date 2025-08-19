@@ -95,14 +95,14 @@ const recipient = z.object({
 		bank_code: z.string(),
 		bank_name: z.string(),
 	}),
-	description: z.string(),
+	description: z.string().nullable(),
 	metadata: metadata.nullable(),
 	recipient_code: z.string().startsWith("RCP_"),
 	active: z.boolean(),
 	id: z.number(),
 	integration: z.number(),
-	created_at: z.iso.datetime(),
-	updated_at: z.iso.datetime(),
+	created_at: z.iso.datetime().optional(),
+	updated_at: z.iso.datetime().optional(),
 });
 
 export const transferListSuccess = genericResponse.extend({
@@ -117,9 +117,9 @@ export const transferListSuccess = genericResponse.extend({
 });
 
 const transferRecipient = recipient.extend({
-	createdAt: z.iso.datetime(),
-	description: z.string().nullable(),
-	email: z.email().nullable(),
+	createdAt: z.iso.datetime().optional(),
+	description: z.string().nullable().optional(),
+	email: z.email().nullable().optional(),
 	metadata: metadata
 		.extend({
 			custom_fields: z.array(
@@ -130,12 +130,13 @@ const transferRecipient = recipient.extend({
 				}),
 			),
 		})
-		.nullable(),
-	updatedAt: z.iso.datetime(),
-	is_deleted: z.boolean(),
-	isDeleted: z.boolean(),
+		.nullable()
+		.optional(),
+	updatedAt: z.iso.datetime().optional(),
+	is_deleted: z.boolean().optional(),
+	isDeleted: z.boolean().optional(),
 	details: z.object({
-		authorization_code: z.string().nullable(),
+		authorization_code: z.string().nullable().optional(),
 		account_name: z.string().nullable(),
 		account_number: z.string(),
 		bank_code: z.string(),
@@ -160,4 +161,16 @@ const transferDetails = transfer.extend({
 
 export const transferSingleSuccess = genericResponse.extend({
 	data: transferDetails,
+});
+
+export const transferCreateRecipientInput = z.object({
+	type: z.enum(["nuban", "basic"]),
+	name: z.string(),
+	account_number: z.string(),
+	bank_code: z.string(),
+	currency: currency.optional().default("NGN"),
+});
+
+export const transferCreateRecipientSuccess = genericResponse.extend({
+	data: recipient,
 });
