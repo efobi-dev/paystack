@@ -2,6 +2,7 @@ import z from "zod";
 import { Miscellaneous } from "./main/miscellaneous";
 import { Split } from "./main/split";
 import { Transaction } from "./main/transaction";
+import { Transfer } from "./main/transfer";
 import { Verification } from "./main/verification";
 import { VirtualAccount } from "./main/virtual";
 import { Webhook } from "./main/webhook";
@@ -16,6 +17,7 @@ export class Paystack {
 	public webhook: Webhook;
 	public verification: Verification;
 	public miscellaneous: Miscellaneous;
+	public transfer: Transfer;
 
 	constructor(secretKey: string) {
 		const secretKeySchema = z
@@ -34,5 +36,6 @@ export class Paystack {
 		this.webhook = new Webhook(this.secretKey, this.baseUrl);
 		this.verification = new Verification(this.secretKey, this.baseUrl);
 		this.miscellaneous = new Miscellaneous(this.secretKey, this.baseUrl);
+		this.transfer = new Transfer(this.secretKey, this.baseUrl);
 	}
 }

@@ -3,6 +3,7 @@ import * as allSchemas from "../zod";
 import * as miscSchemas from "../zod/miscellaneous";
 import * as splitSchemas from "../zod/split";
 import * as txnSchemas from "../zod/transaction";
+import * as transferSchemas from "../zod/transfer";
 import * as verificationSchemas from "../zod/verification";
 import * as virtualSchemas from "../zod/virtual";
 import * as webhookSchemas from "../zod/webhook";
@@ -16,5 +17,6 @@ describe("Zod Schema Integrity", () => {
 		expect(verificationSchemas).toBeDefined();
 		expect(virtualSchemas).toBeDefined();
 		expect(webhookSchemas).toBeDefined();
+		expect(transferSchemas).toBeDefined();
 	});
 });
