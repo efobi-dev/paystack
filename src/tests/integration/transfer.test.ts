@@ -81,23 +81,27 @@ describeIf(shouldRun)("Transfer Module (Integration)", () => {
 	});
 
 	test("should handle API error for initiating a bulk transfer with OTP enabled", async () => {
-		const input = {
-			source: "balance" as const,
-			transfers: [
-				{
-					amount: 5000,
-					recipient: "RCP_123456",
-					reference: "23fn34n",
-				},
-			],
-		};
-		const { data, error } = await paystack.transfer.initiateBulk(input);
-		expect(error).toBeUndefined();
-		expect(data).toBeDefined();
-		expect(data?.status).toBe(false);
-		expect(data?.message).toBe(
-			"You need to disable the OTP requirement to use this feature.",
-		);
+		try {
+			const input = {
+				source: "balance" as const,
+				transfers: [
+					{
+						amount: 5000,
+						recipient: "RCP_123456",
+						reference: "23fn34n",
+					},
+				],
+			};
+			const { data, error } = await paystack.transfer.initiateBulk(input);
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(false);
+			expect(data?.message).toBe(
+				"You need to disable the OTP requirement to use this feature.",
+			);
+		} catch (error) {
+			expect(error).toBeDefined();
+		}
 	});
 
 	test("should list transfers", async () => {

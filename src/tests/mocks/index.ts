@@ -3,6 +3,7 @@ import type { z } from "zod";
 import type { genericResponse } from "../../zod";
 
 export * from "./miscellaneous";
+export * from "./recipient";
 export * from "./split";
 export * from "./transaction";
 export * from "./transfer";

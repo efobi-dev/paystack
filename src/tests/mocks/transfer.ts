@@ -85,6 +85,7 @@ export const mockInitiateBulkTransferResponse: z.infer<
 			reference: "ref_123",
 			currency: "NGN",
 			status: "pending",
+			transfer_code: "TRF_1ptvuv321ahaa7q",
 		},
 		{
 			amount: 30000,
@@ -92,6 +93,7 @@ export const mockInitiateBulkTransferResponse: z.infer<
 			reference: "ref_456",
 			currency: "NGN",
 			status: "pending",
+			transfer_code: "TRF_1ptvuv321ahaa7q",
 		},
 	],
 };

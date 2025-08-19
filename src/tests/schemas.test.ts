@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as allSchemas from "../zod";
 import * as miscSchemas from "../zod/miscellaneous";
+import * as recipientSchemas from "../zod/recipient";
 import * as splitSchemas from "../zod/split";
 import * as txnSchemas from "../zod/transaction";
 import * as transferSchemas from "../zod/transfer";
@@ -12,6 +13,7 @@ describe("Zod Schema Integrity", () => {
 	test("all schema modules should be loaded without errors", () => {
 		expect(allSchemas).toBeDefined();
 		expect(miscSchemas).toBeDefined();
+		expect(recipientSchemas).toBeDefined();
 		expect(splitSchemas).toBeDefined();
 		expect(txnSchemas).toBeDefined();
 		expect(verificationSchemas).toBeDefined();
