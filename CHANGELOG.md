@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.0
+
+### Minor Changes
+
+- 82ac232: Add Transfer Recipients API with comprehensive tests
+
 ## 0.9.0
 
 ### Minor Changes
