@@ -11,22 +11,38 @@ export class Fetcher {
 		path: string,
 		method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
 		body?: object,
-		searchParams?: URLSearchParams,
 	) {
-		const url = searchParams
-			? `${this.baseUrl}${path}?${searchParams}`
-			: `${this.baseUrl}${path}`;
-
-		const response = await fetch(url, {
+		let url = `${this.baseUrl}${path}`;
+		const init: RequestInit = {
 			method,
 			headers: {
-				"Content-Type": "application/json",
 				Authorization: `Bearer ${this.secretKey}`,
 			},
-			...(body && { body: JSON.stringify(body) }),
-		});
+		};
 
-		const raw = await response.json();
+		if (method === "GET" && body && Object.keys(body).length) {
+			const params = new URLSearchParams();
+			for (const [key, value] of Object.entries(body)) {
+				if (value == null) continue;
+				if (Array.isArray(value)) {
+					for (const v of value) params.append(key, String(v));
+				} else {
+					params.append(key, String(value));
+				}
+			}
+			const qs = params.toString();
+			if (qs) url += (url.includes("?") ? "&" : "?") + qs;
+		} else if (body !== undefined) {
+			init.headers = {
+				...init.headers,
+				"Content-Type": "application/json",
+			};
+			init.body = JSON.stringify(body);
+		}
+
+		const response = await fetch(url, init);
+		const raw = await response.json().catch(() => null as unknown);
+
 		if (!response.ok) {
 			console.error("API Error Response:", raw);
 		}

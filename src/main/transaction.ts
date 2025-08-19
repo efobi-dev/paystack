@@ -64,19 +64,7 @@ export class Transaction extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async list(input: z.infer<typeof txnListInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [
-				key,
-				value instanceof Date ? value.toISOString() : String(value),
-			]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
-		const { response, raw } = await this.fetcher(
-			"/transaction",
-			"GET",
-			undefined,
-			searchParams,
-		);
+		const { response, raw } = await this.fetcher("/transaction", "GET", input);
 
 		if (!response.ok) {
 			const { data, error } = await genericResponse.safeParseAsync(raw);
@@ -147,15 +135,10 @@ export class Transaction extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async getTxnTotals(input: z.infer<typeof genericInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
 		const { response, raw } = await this.fetcher(
 			"/transaction/totals",
 			"GET",
-			undefined,
-			searchParams,
+			input,
 		);
 
 		if (!response.ok) {
@@ -173,15 +156,10 @@ export class Transaction extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async exportTxns(input: z.infer<typeof txnExportInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
 		const { response, raw } = await this.fetcher(
 			"/transaction/export",
 			"GET",
-			undefined,
-			searchParams,
+			input,
 		);
 
 		if (!response.ok) {

@@ -17,16 +17,7 @@ export class Verification extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async resolveAccount(input: z.infer<typeof verificationResolveAccountInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
-		const { response, raw } = await this.fetcher(
-			"/bank/resolve",
-			"GET",
-			undefined,
-			searchParams,
-		);
+		const { response, raw } = await this.fetcher("/bank/resolve", "GET", input);
 
 		if (!response.ok) {
 			const { data, error } = await genericResponse.safeParseAsync(raw);

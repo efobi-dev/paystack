@@ -36,17 +36,7 @@ export class Split extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async list(input: z.infer<typeof splitListInput>) {
-		const searchParams = new URLSearchParams();
-		for (const [key, value] of Object.entries(input)) {
-			searchParams.append(key, String(value));
-		}
-		const { response, raw } = await this.fetcher(
-			"/split",
-			"GET",
-			undefined,
-			searchParams,
-		);
-
+		const { response, raw } = await this.fetcher("/split", "GET", input);
 		if (!response.ok) {
 			const { data, error } = await genericResponse.safeParseAsync(raw);
 			return { data, error };

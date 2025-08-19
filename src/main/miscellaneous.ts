@@ -16,16 +16,7 @@ export class Miscellaneous extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async listBanks(input: z.infer<typeof miscellaneousListBanksInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
-		const { response, raw } = await this.fetcher(
-			"/bank",
-			"GET",
-			undefined,
-			searchParams,
-		);
+		const { response, raw } = await this.fetcher("/bank", "GET", input);
 
 		if (!response.ok) {
 			const { data, error } = await genericResponse.safeParseAsync(raw);
@@ -57,15 +48,10 @@ export class Miscellaneous extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async listStates(input: z.infer<typeof miscellaneousListStatesInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
 		const { response, raw } = await this.fetcher(
 			"/address_verification/states",
 			"GET",
-			undefined,
-			searchParams,
+			input,
 		);
 		if (!response.ok) {
 			const { data, error } = await genericResponse.safeParseAsync(raw);

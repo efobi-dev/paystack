@@ -63,15 +63,10 @@ export class VirtualAccount extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async list(input: z.infer<typeof virtualAccountListInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account",
 			"GET",
-			undefined,
-			searchParams,
+			input,
 		);
 
 		if (!response.ok) {
@@ -106,15 +101,10 @@ export class VirtualAccount extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 */
 	async requery(input: z.infer<typeof virtualAccountRequeryInput>) {
-		const stringInput = Object.fromEntries(
-			Object.entries(input).map(([key, value]) => [key, String(value)]),
-		);
-		const searchParams = new URLSearchParams(stringInput);
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/requery",
 			"GET",
-			undefined,
-			searchParams,
+			input,
 		);
 
 		if (!response.ok) {
