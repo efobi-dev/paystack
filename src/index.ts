@@ -8,6 +8,10 @@ import { Verification } from "./main/verification";
 import { VirtualAccount } from "./main/virtual";
 import { Webhook } from "./main/webhook";
 
+/**
+ * The Paystack class provides access to various Paystack APIs.
+ * It is the main entry point for the SDK.
+ */
 export class Paystack {
 	private baseUrl = "https://api.paystack.co";
 	private secretKey: string;
@@ -21,6 +25,11 @@ export class Paystack {
 	public transfer: Transfer;
 	public recipient: Recipient;
 
+	/**
+	 * Creates an instance of the Paystack SDK.
+	 * @param secretKey - Your Paystack secret key. It should start with 'sk_live_' or 'sk_test_'.
+	 * @throws {Error} If the secret key is invalid.
+	 */
 	constructor(secretKey: string) {
 		const secretKeySchema = z
 			.string()

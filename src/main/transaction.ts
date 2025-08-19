@@ -18,11 +18,19 @@ import {
 } from "../zod/transaction";
 import { Fetcher } from "./fetcher";
 
+/**
+ * The Transaction class provides methods for interacting with Paystack's Transaction API.
+ */
 export class Transaction extends Fetcher {
 	/**
 	 * Initialize a transaction from your backend
 	 * @param {z.infer<typeof txnInitializeInput>} transaction - The transaction details
 	 * @returns {Promise<object>} The response from the API
+	 */
+	/**
+	 * Initializes a transaction from your backend.
+	 * @param transaction - The transaction details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
 	async initialize(transaction: z.infer<typeof txnInitializeInput>) {
 		const { response, raw } = await this.fetcher(
@@ -45,6 +53,11 @@ export class Transaction extends Fetcher {
 	 * @returns {Promise<object>} The response from the API
 	 *
 	 */
+	/**
+	 * Confirms the status of a transaction.
+	 * @param reference - The transaction reference.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async verify(reference: string) {
 		const { response, raw } = await this.fetcher(
 			`/transaction/verify/${reference}`,
@@ -63,6 +76,11 @@ export class Transaction extends Fetcher {
 	 * @param {z.infer<typeof txnListInput>} input - The query parameters
 	 * @returns {Promise<object>} The response from the API
 	 */
+	/**
+	 * Lists transactions carried out on your integration.
+	 * @param input - Query parameters for listing transactions.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async list(input: z.infer<typeof txnListInput>) {
 		const { response, raw } = await this.fetcher("/transaction", "GET", input);
 
@@ -79,6 +97,11 @@ export class Transaction extends Fetcher {
 	 * @param {number} id - The ID of the transaction
 	 * @returns {Promise<object>} The response from the API
 	 */
+	/**
+	 * Retrieves details of a transaction carried out on your integration.
+	 * @param id - The ID of the transaction.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async getTransactionById(id: number) {
 		const { response, raw } = await this.fetcher(`/transaction/${id}`);
 
@@ -94,6 +117,11 @@ export class Transaction extends Fetcher {
 	 * All authorizations marked as reusable can be charged with this endpoint
 	 * @param {z.infer<typeof txnChargeInput>} input - The charge details
 	 * @returns {Promise<object>} The response from the API
+	 */
+	/**
+	 * Charges an authorization.
+	 * @param input - The charge details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
 	async chargeAuthorization(input: z.infer<typeof txnChargeInput>) {
 		const { response, raw } = await this.fetcher(
@@ -115,6 +143,11 @@ export class Transaction extends Fetcher {
 	 * @param {string} id_or_reference - The ID or reference of the transaction
 	 * @returns {Promise<object>} The response from the API
 	 */
+	/**
+	 * Views the timeline of a transaction.
+	 * @param id_or_reference - The ID or reference of the transaction.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async viewTxnTimeline(id_or_reference: string) {
 		const { response, raw } = await this.fetcher(
 			`/transaction/timeline/${id_or_reference}`,
@@ -133,6 +166,11 @@ export class Transaction extends Fetcher {
 	 * Total volume of transactions received on your integration
 	 * @param {z.infer<typeof genericInput>} input - The query parameters
 	 * @returns {Promise<object>} The response from the API
+	 */
+	/**
+	 * Retrieves the total volume of transactions received on your integration.
+	 * @param input - Query parameters for transaction totals.
+	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
 	async getTxnTotals(input: z.infer<typeof genericInput>) {
 		const { response, raw } = await this.fetcher(
@@ -155,6 +193,11 @@ export class Transaction extends Fetcher {
 	 * @param {z.infer<typeof txnExportInput>} input - The query parameters
 	 * @returns {Promise<object>} The response from the API
 	 */
+	/**
+	 * Exports a list of transactions carried out on your integration.
+	 * @param input - Query parameters for exporting transactions.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async exportTxns(input: z.infer<typeof txnExportInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transaction/export",
@@ -175,6 +218,11 @@ export class Transaction extends Fetcher {
 	 * Retrieve part of a payment from a customer
 	 * @param {z.infer<typeof txnPartialDebitInput>} input - The partial debit details
 	 * @returns {Promise<object>} The response from the API
+	 */
+	/**
+	 * Retrieves part of a payment from a customer.
+	 * @param input - The partial debit details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
 	async partialDebit(input: z.infer<typeof txnPartialDebitInput>) {
 		const { response, raw } = await this.fetcher(

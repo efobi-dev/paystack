@@ -10,11 +10,19 @@ import {
 } from "../zod/verification";
 import { Fetcher } from "./fetcher";
 
+/**
+ * The Verification class provides methods for verifying various Paystack entities.
+ */
 export class Verification extends Fetcher {
 	/**
 	 * Resolve an account number to a name
 	 * @param {z.infer<typeof verificationResolveAccountInput>} input - The account details
 	 * @returns {Promise<object>} The response from the API
+	 */
+	/**
+	 * Resolves an account number to a name.
+	 * @param input - The account details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
 	async resolveAccount(input: z.infer<typeof verificationResolveAccountInput>) {
 		const { response, raw } = await this.fetcher("/bank/resolve", "GET", input);
@@ -33,6 +41,11 @@ export class Verification extends Fetcher {
 	 * @param {z.infer<typeof verificationValidateAccountInput>} input - The account details
 	 * @returns {Promise<object>} The response from the API
 	 */
+	/**
+	 * Validates a customer's account number.
+	 * @param input - The account details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async validateAccount(
 		input: z.infer<typeof verificationValidateAccountInput>,
 	) {
@@ -46,6 +59,11 @@ export class Verification extends Fetcher {
 	 * Resolve a card BIN to a bank
 	 * @param {z.infer<typeof verificationResolveCardBinInput>} input - The card BIN
 	 * @returns {Promise<object>} The response from the API
+	 */
+	/**
+	 * Resolves a card BIN to a bank.
+	 * @param input - The card BIN.
+	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
 	async resolveCardBin(input: z.infer<typeof verificationResolveCardBinInput>) {
 		const { response, raw } = await this.fetcher(`/card/bin/${input.card_bin}`);

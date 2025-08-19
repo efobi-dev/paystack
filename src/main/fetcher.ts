@@ -1,12 +1,28 @@
+/**
+ * The Fetcher class provides a base for making API requests to Paystack.
+ * It handles authentication and basic request/response parsing.
+ */
 export class Fetcher {
 	protected secretKey: string;
 	private baseUrl: string;
 
+	/**
+	 * Creates an instance of the Fetcher.
+	 * @param secretKey - Your Paystack secret key.
+	 * @param baseUrl - The base URL for the Paystack API.
+	 */
 	constructor(secretKey: string, baseUrl: string) {
 		this.secretKey = secretKey;
 		this.baseUrl = baseUrl;
 	}
 
+	/**
+	 * Makes an API request to Paystack.
+	 * @param path - The API endpoint path.
+	 * @param method - The HTTP method (GET, POST, PUT, DELETE). Defaults to GET.
+	 * @param body - The request body for POST and PUT requests.
+	 * @returns A Promise that resolves to an object containing the raw response and the parsed JSON data.
+	 */
 	async fetcher(
 		path: string,
 		method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
