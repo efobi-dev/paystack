@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.1
+
+### Patch Changes
+
+- 2a687f4: Fixed test regression
+
 ## 0.10.0
 
 ### Minor Changes
