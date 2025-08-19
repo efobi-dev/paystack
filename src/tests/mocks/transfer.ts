@@ -1,11 +1,22 @@
 import type { z } from "zod";
 import type {
 	transferBulkInitiateSuccess,
+	transferError,
 	transferFinalizeSuccess,
 	transferInitiateSuccess,
 	transferListSuccess,
 	transferSingleSuccess,
 } from "../../zod/transfer";
+
+export const mockTransferErrorResponse: z.infer<typeof transferError> = {
+	status: false,
+	message: "Invalid key",
+	meta: {
+		nextStep: "done",
+	},
+	type: "ValidationError",
+	code: "invalid_data",
+};
 
 export const mockInitiateTransferResponse: z.infer<
 	typeof transferInitiateSuccess
@@ -88,7 +99,45 @@ export const mockInitiateBulkTransferResponse: z.infer<
 export const mockListTransfersResponse: z.infer<typeof transferListSuccess> = {
 	status: true,
 	message: "Transfers retrieved",
-	data: [],
+	data: [
+		{
+			integration: 100073,
+			domain: "test",
+			amount: 30000,
+			currency: "NGN",
+			source: "balance",
+			reason: "Calm down",
+			recipient: {
+				domain: "test",
+				type: "nuban",
+				currency: "NGN",
+				name: "John Doe",
+				details: {
+					account_number: "0000000000",
+					account_name: "John Doe",
+					bank_code: "058",
+					bank_name: "Guaranty Trust Bank",
+				},
+				description: "Test recipient",
+				metadata: null,
+				recipient_code: "RCP_123456",
+				active: true,
+				id: 1,
+				integration: 100073,
+				created_at: new Date().toISOString(),
+				updated_at: new Date().toISOString(),
+			},
+			status: "success",
+			transfer_code: "TRF_1ptvuv321ahaa7q",
+			id: 1,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
+			reference: "ref_123",
+			titan_code: "titan_123",
+			failures: null,
+			source_details: null,
+		},
+	],
 	meta: {
 		total: 1,
 		skipped: 0,
@@ -98,12 +147,11 @@ export const mockListTransfersResponse: z.infer<typeof transferListSuccess> = {
 	},
 };
 
-export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> =
-	{
-		status: true,
-		message: "Transfer retrieved",
-		data: {
-			integration: 100073,
+export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> = {
+	status: true,
+	message: "Transfer retrieved",
+	data: {
+		integration: 100073,
 			domain: "test",
 			amount: 30000,
 			currency: "NGN",
@@ -150,3 +198,7 @@ export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> =
 			updated_at: new Date().toISOString(),
 		},
 	};
+
+export const mockVerifyTransferResponse: z.infer<typeof transferSingleSuccess> = {
+	...mockFetchTransferResponse,
+};

@@ -1,10 +1,13 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test";
-import { Paystack } from "../../";
+import { Paystack } from "../index";
 import {
+	mockFetchTransferResponse,
 	mockFinalizeTransferResponse,
 	mockInitiateBulkTransferResponse,
 	mockInitiateTransferResponse,
 	mockListTransfersResponse,
+	mockTransferErrorResponse,
+	mockVerifyTransferResponse,
 } from "../tests/mocks/transfer";
 import { mockErrorResponse, mockFetch } from "./mocks";
 
@@ -35,7 +38,12 @@ describe("Transfer Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data?.transfer_code).toBeDefined();
+			expect(data?.message).toBe("Transfer has been queued");
+			expect(data?.data).toEqual(
+				expect.objectContaining({
+					...mockInitiateTransferResponse.data,
+				}),
+			);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -53,7 +61,7 @@ describe("Transfer Module", () => {
 
 		test("should handle API error response", async () => {
 			// Arrange
-			mockFetch(mockErrorResponse, false);
+			mockFetch(mockTransferErrorResponse, false);
 			const input = {
 				source: "balance" as const,
 				amount: 30000,
@@ -65,6 +73,24 @@ describe("Transfer Module", () => {
 
 			// Act
 			const { data, error } = await paystack.transfer.initialize(input);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(false);
+			expect(data?.message).toBe("Invalid key");
+		});
+
+		test("should handle API error response", async () => {
+			// Arrange
+			mockFetch(mockErrorResponse, false);
+			const input = {
+				transfer_code: "TRF_1ptvuv321ahaa7q",
+				otp: "123456",
+			};
+
+			// Act
+			const { data, error } = await paystack.transfer.finalize(input);
 
 			// Assert
 			expect(error).toBeUndefined();
@@ -90,7 +116,12 @@ describe("Transfer Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data?.status).toBe("success");
+			expect(data?.message).toBe("Transfer has been completed");
+			expect(data?.data).toEqual(
+				expect.objectContaining({
+					...mockFinalizeTransferResponse.data,
+				}),
+			);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -130,8 +161,8 @@ describe("Transfer Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data).toBeInstanceOf(Array);
-			expect(data?.data?.length).toBe(2);
+			expect(data?.message).toBe("2 transfers have been queued");
+			expect(data?.data).toEqual(mockInitiateBulkTransferResponse.data);
 
 			// Verify fetch was called correctly
 			expect(fetchSpy).toHaveBeenCalledWith(
@@ -141,6 +172,30 @@ describe("Transfer Module", () => {
 					body: JSON.stringify(input),
 				}),
 			);
+		});
+
+		test("should handle API error response", async () => {
+			// Arrange
+			mockFetch(mockTransferErrorResponse, false);
+			const input = {
+				source: "balance" as const,
+				transfers: [
+					{
+						amount: 20000,
+						recipient: "RCP_123456",
+						reference: "ref_123",
+					},
+				],
+			};
+
+			// Act
+			const { data, error } = await paystack.transfer.initiateBulk(input);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(false);
+			expect(data?.message).toBe("Invalid key");
 		});
 	});
 
@@ -157,8 +212,9 @@ describe("Transfer Module", () => {
 			expect(error).toBeUndefined();
 			expect(data).toBeDefined();
 			expect(data?.status).toBe(true);
-			expect(data?.data).toBeInstanceOf(Array);
-			expect(data?.meta?.perPage).toBe(50);
+			expect(data?.message).toBe("Transfers retrieved");
+			expect(data?.data).toEqual(mockListTransfersResponse.data);
+			expect(data?.meta).toEqual(mockListTransfersResponse.meta);
 
 			// Verify fetch was called correctly
 			const expectedParams = new URLSearchParams({
@@ -169,6 +225,107 @@ describe("Transfer Module", () => {
 				`https://api.paystack.co/transfer?${expectedParams}`,
 				expect.any(Object),
 			);
+		});
+
+		test("should handle API error response", async () => {
+			// Arrange
+			mockFetch(mockErrorResponse, false);
+			const params = { perPage: 50, page: 1 };
+
+			// Act
+			const { data, error } = await paystack.transfer.list(params);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(false);
+			expect(data?.message).toBe("Invalid key");
+		});
+	});
+
+	describe("getTransferById", () => {
+		test("should get a transfer by ID", async () => {
+			// Arrange
+			const transferId = "TRF_123456";
+			const fetchSpy = mockFetch(mockFetchTransferResponse, true);
+
+			// Act
+			const { data, error } = await paystack.transfer.getTransferById(transferId);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(true);
+			expect(data?.message).toBe("Transfer retrieved");
+			expect(data?.data).toEqual(
+				expect.objectContaining({
+					...mockFetchTransferResponse.data,
+				}),
+			);
+
+			// Verify fetch was called correctly
+			expect(fetchSpy).toHaveBeenCalledWith(
+				`https://api.paystack.co/transfer/${transferId}`,
+				expect.any(Object),
+			);
+		});
+
+		test("should handle API error response", async () => {
+			// Arrange
+			const transferId = "TRF_123456";
+			mockFetch(mockErrorResponse, false);
+
+			// Act
+			const { data, error } = await paystack.transfer.getTransferById(transferId);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(false);
+			expect(data?.message).toBe("Invalid key");
+		});
+	});
+
+	describe("verify", () => {
+		test("should verify a transfer", async () => {
+			// Arrange
+			const reference = "ref_123456";
+			const fetchSpy = mockFetch(mockVerifyTransferResponse, true);
+
+			// Act
+			const { data, error } = await paystack.transfer.verify(reference);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(true);
+			expect(data?.message).toBe("Transfer retrieved");
+			expect(data?.data).toEqual(
+				expect.objectContaining({
+					...mockVerifyTransferResponse.data,
+				}),
+			);
+
+			// Verify fetch was called correctly
+			expect(fetchSpy).toHaveBeenCalledWith(
+				`https://api.paystack.co/transfer/verify/${reference}`,
+				expect.any(Object),
+			);
+		});
+
+		test("should handle API error response", async () => {
+			// Arrange
+			const reference = "ref_123456";
+			mockFetch(mockErrorResponse, false);
+
+			// Act
+			const { data, error } = await paystack.transfer.verify(reference);
+
+			// Assert
+			expect(error).toBeUndefined();
+			expect(data).toBeDefined();
+			expect(data?.status).toBe(false);
+			expect(data?.message).toBe("Invalid key");
 		});
 	});
 });
