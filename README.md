@@ -51,7 +51,7 @@ This SDK is actively under development. Below is the current implementation stat
 - ⏳ **Payment Pages** - Planned
 - ⏳ **Payment Requests** - Planned
 - ⏳ **Settlements** - Planned
-- ⏳ **Transfers** - Planned
+- ✅ **Transfers** - Complete
 - ⏳ **Transfer Control** - Planned
 - ⏳ **Bulk Charges** - Planned
 - ⏳ **Integration** - Planned

@@ -2,18 +2,18 @@ import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import type { z } from "zod";
 import { Paystack } from "../index";
 import type { txnInitializeSuccess } from "../zod/transaction";
+import { mockFetch } from "./mocks";
 import {
 	mockChargeAuthorizationResponse,
-	mockErrorResponse,
 	mockExportTransactionsResponse,
-	mockFetch,
+	mockInvalidReferenceError,
 	mockListTransactionsResponse,
 	mockPartialDebitResponse,
 	mockSingleTransactionResponse,
 	mockTransactionTotalsResponse,
 	mockVerifySuccessResponse,
 	mockViewTimelineResponse,
-} from "./mocks";
+} from "./mocks/transaction";
 
 // Restore all mocks after each test
 afterEach(() => {
@@ -117,7 +117,7 @@ describe("Transaction Module", () => {
 		test("should handle API error for invalid reference", async () => {
 			// Arrange
 			const reference = "invalid-reference";
-			mockFetch(mockErrorResponse, false);
+			mockFetch(mockInvalidReferenceError, false);
 
 			// Act
 			const { data, error } = await paystack.transaction.verify(reference);
