@@ -6,8 +6,11 @@ describe("SDK Initialization", () => {
 		const secret = "sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 		const instance = new Paystack(secret);
 		expect(instance).toBeInstanceOf(Paystack);
+		expect(instance.miscellaneous).toBeDefined();
+		expect(instance.split).toBeDefined();
 		expect(instance.transaction).toBeDefined();
-		expect(instance.webhook).toBeDefined();
+		expect(instance.transfer).toBeDefined();
 		expect(instance.verification).toBeDefined();
+		expect(instance.webhook).toBeDefined();
 	});
 });

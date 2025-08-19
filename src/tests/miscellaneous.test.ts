@@ -1,19 +1,11 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import {
+	mockFetch,
 	mockListBanksResponse,
 	mockListCountriesResponse,
 	mockListStatesResponse,
 } from "./mocks";
-
-const mockFetch = (response: unknown, ok: boolean) => {
-	return spyOn(global, "fetch").mockResolvedValue(
-		new Response(JSON.stringify(response), {
-			status: ok ? 200 : 400,
-			headers: { "Content-Type": "application/json" },
-		}),
-	);
-};
 
 afterEach(() => {
 	spyOn(global, "fetch").mockRestore();
