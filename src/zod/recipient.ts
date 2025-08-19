@@ -80,7 +80,7 @@ export const recipientListSuccess = genericResponse.extend({
 				bank_code: z.string(),
 				bank_name: z.string(),
 			}),
-			metadata,
+			metadata: z.union([metadata, z.null()]),
 			recipient_code: z.string().startsWith("RCP_"),
 			active: z.boolean(),
 			id: z.number(),
@@ -92,6 +92,7 @@ export const recipientListSuccess = genericResponse.extend({
 
 export const recipientSingleSuccess = genericResponse.extend({
 	data: z.object({
+		integration: z.number(),
 		domain: z.string(),
 		type: z.enum(["nuban", "ghipss", "mobile_money"]),
 		currency,
@@ -102,10 +103,13 @@ export const recipientSingleSuccess = genericResponse.extend({
 			bank_code: z.string(),
 			bank_name: z.string(),
 		}),
-		metadata,
+		description: z.string().nullable(),
+		metadata: z.union([metadata, z.null()]),
 		recipient_code: z.string().startsWith("RCP_"),
 		active: z.boolean(),
+		email: z.string().email().nullable(),
 		id: z.number(),
+		isDeleted: z.boolean().optional(),
 		createdAt: z.iso.datetime(),
 		updatedAt: z.iso.datetime(),
 	}),

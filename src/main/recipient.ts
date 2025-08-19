@@ -79,7 +79,7 @@ export class Recipient extends Fetcher {
 			const { data, error } = await genericResponse.safeParseAsync(raw);
 			return { data, error };
 		}
-		const { data, error } = await recipientSingleSuccess.safeParseAsync(raw);
+		const { data, error } = await genericResponse.safeParseAsync(raw);
 		return { data, error };
 	}
 
