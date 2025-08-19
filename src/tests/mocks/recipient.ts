@@ -31,9 +31,9 @@ export const mockBulkCreateRecipientResponse = {
 			{
 				domain: "test",
 				name: "John Doe",
-				type: "nuban",
+				type: "nuban" as const,
 				description: "Test recipient",
-				currency: "NGN",
+				currency: "NGN" as const,
 				metadata: null,
 				details: {
 					account_number: "0000000000",
@@ -59,8 +59,8 @@ export const mockListRecipientsResponse = {
 	data: [
 		{
 			domain: "test",
-			type: "nuban",
-			currency: "NGN",
+			type: "nuban" as const,
+			currency: "NGN" as const,
 			name: "John Doe",
 			details: {
 				account_number: "0000000000",

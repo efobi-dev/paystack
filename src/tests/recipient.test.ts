@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
+import { mockFetch } from "./mocks";
 import {
 	mockBulkCreateRecipientResponse,
 	mockCreateRecipientResponse,
@@ -9,7 +10,6 @@ import {
 	mockRecipientErrorResponse,
 	mockUpdateRecipientResponse,
 } from "./mocks/recipient";
-import { mockFetch } from "./mocks";
 
 describe("Recipient Module", () => {
 	const paystack = new Paystack("sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");

@@ -74,6 +74,7 @@ export const transferBulkInitiateSuccess = genericResponse.extend({
 			reference: z.string(),
 			recipient: z.string().startsWith("RCP_"),
 			amount: z.number(),
+			transfer_code: z.string().startsWith("TRF_"),
 			currency,
 			status: z.string(),
 		}),
