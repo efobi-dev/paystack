@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
+import { mockFetch } from "./mocks";
 import {
 	mockCreateSplitResponse,
-	mockFetch,
 	mockListSplitsResponse,
 	mockSingleSplitResponse,
 	mockUpdateSplitSubaccountResponse,
-} from "./mocks";
+} from "./mocks/split";
 
 // Restore all mocks after each test
 afterEach(() => {

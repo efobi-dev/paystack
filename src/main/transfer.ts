@@ -3,8 +3,6 @@ import { genericResponse } from "../zod";
 import {
 	type transferBulkInitiateInput,
 	transferBulkInitiateSuccess,
-	type transferCreateRecipientInput,
-	transferCreateRecipientSuccess,
 	transferError,
 	type transferFinalizeInput,
 	transferFinalizeSuccess,
@@ -17,21 +15,6 @@ import {
 import { Fetcher } from "./fetcher";
 
 export class Transfer extends Fetcher {
-	async createRecipient(input: z.infer<typeof transferCreateRecipientInput>) {
-		const { response, raw } = await this.fetcher(
-			"/transferrecipient",
-			"POST",
-			input,
-		);
-		if (!response.ok) {
-			const { data, error } = await transferError.safeParseAsync(raw);
-			return { data, error };
-		}
-		const { data, error } =
-			await transferCreateRecipientSuccess.safeParseAsync(raw);
-		return { data, error };
-	}
-
 	async initialize(input: z.infer<typeof transferInitiateInput>) {
 		const { response, raw } = await this.fetcher("/transfer", "POST", input);
 		if (!response.ok) {

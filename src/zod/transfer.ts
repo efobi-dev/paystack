@@ -162,15 +162,3 @@ const transferDetails = transfer.extend({
 export const transferSingleSuccess = genericResponse.extend({
 	data: transferDetails,
 });
-
-export const transferCreateRecipientInput = z.object({
-	type: z.enum(["nuban", "basic"]),
-	name: z.string(),
-	account_number: z.string(),
-	bank_code: z.string(),
-	currency: currency.optional().default("NGN"),
-});
-
-export const transferCreateRecipientSuccess = genericResponse.extend({
-	data: recipient,
-});

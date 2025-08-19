@@ -2,18 +2,17 @@ import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import type { z } from "zod";
 import { Paystack } from "../index";
 import type { txnInitializeSuccess } from "../zod/transaction";
+import { mockErrorResponse, mockFetch } from "./mocks";
 import {
 	mockChargeAuthorizationResponse,
-	mockErrorResponse,
 	mockExportTransactionsResponse,
-	mockFetch,
 	mockListTransactionsResponse,
 	mockPartialDebitResponse,
 	mockSingleTransactionResponse,
 	mockTransactionTotalsResponse,
 	mockVerifySuccessResponse,
 	mockViewTimelineResponse,
-} from "./mocks";
+} from "./mocks/transaction";
 
 // Restore all mocks after each test
 afterEach(() => {
