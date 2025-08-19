@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import type { genericResponse } from "../../zod";
 import type {
 	txnChargeSuccess,
 	txnExportSuccess,
@@ -9,6 +10,11 @@ import type {
 	txnTotalsSuccess,
 	txnVerifySuccess,
 } from "../../zod/transaction";
+
+export const mockInvalidReferenceError: z.infer<typeof genericResponse> = {
+	status: false,
+	message: "Invalid transaction reference",
+};
 
 export const mockVerifySuccessResponse: z.infer<typeof txnVerifySuccess> = {
 	status: true,

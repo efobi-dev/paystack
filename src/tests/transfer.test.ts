@@ -214,7 +214,8 @@ describe("Transfer Module", () => {
 			expect(data?.status).toBe(true);
 			expect(data?.message).toBe("Transfers retrieved");
 			expect(data?.data).toEqual(mockListTransfersResponse.data);
-			expect(data?.meta).toEqual(mockListTransfersResponse.meta);
+			// biome-ignore lint/style/noNonNullAssertion: <just ignore>
+			expect(data?.meta).toEqual(mockListTransfersResponse.meta!);
 
 			// Verify fetch was called correctly
 			const expectedParams = new URLSearchParams({
@@ -250,7 +251,8 @@ describe("Transfer Module", () => {
 			const fetchSpy = mockFetch(mockFetchTransferResponse, true);
 
 			// Act
-			const { data, error } = await paystack.transfer.getTransferById(transferId);
+			const { data, error } =
+				await paystack.transfer.getTransferById(transferId);
 
 			// Assert
 			expect(error).toBeUndefined();
@@ -276,7 +278,8 @@ describe("Transfer Module", () => {
 			mockFetch(mockErrorResponse, false);
 
 			// Act
-			const { data, error } = await paystack.transfer.getTransferById(transferId);
+			const { data, error } =
+				await paystack.transfer.getTransferById(transferId);
 
 			// Assert
 			expect(error).toBeUndefined();

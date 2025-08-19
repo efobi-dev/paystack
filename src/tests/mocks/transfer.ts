@@ -129,6 +129,7 @@ export const mockListTransfersResponse: z.infer<typeof transferListSuccess> = {
 			},
 			status: "success",
 			transfer_code: "TRF_1ptvuv321ahaa7q",
+			transferred_at: null,
 			id: 1,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString(),
@@ -147,11 +148,12 @@ export const mockListTransfersResponse: z.infer<typeof transferListSuccess> = {
 	},
 };
 
-export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> = {
-	status: true,
-	message: "Transfer retrieved",
-	data: {
-		integration: 100073,
+export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> =
+	{
+		status: true,
+		message: "Transfer retrieved",
+		data: {
+			integration: 100073,
 			domain: "test",
 			amount: 30000,
 			currency: "NGN",
@@ -179,6 +181,7 @@ export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> = 
 			},
 			status: "success",
 			transfer_code: "TRF_1ptvuv321ahaa7q",
+			transferred_at: null,
 			id: 1,
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
@@ -199,6 +202,7 @@ export const mockFetchTransferResponse: z.infer<typeof transferSingleSuccess> = 
 		},
 	};
 
-export const mockVerifyTransferResponse: z.infer<typeof transferSingleSuccess> = {
-	...mockFetchTransferResponse,
-};
+export const mockVerifyTransferResponse: z.infer<typeof transferSingleSuccess> =
+	{
+		...mockFetchTransferResponse,
+	};

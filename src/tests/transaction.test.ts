@@ -2,10 +2,11 @@ import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import type { z } from "zod";
 import { Paystack } from "../index";
 import type { txnInitializeSuccess } from "../zod/transaction";
-import { mockErrorResponse, mockFetch } from "./mocks";
+import { mockFetch } from "./mocks";
 import {
 	mockChargeAuthorizationResponse,
 	mockExportTransactionsResponse,
+	mockInvalidReferenceError,
 	mockListTransactionsResponse,
 	mockPartialDebitResponse,
 	mockSingleTransactionResponse,
@@ -116,7 +117,7 @@ describe("Transaction Module", () => {
 		test("should handle API error for invalid reference", async () => {
 			// Arrange
 			const reference = "invalid-reference";
-			mockFetch(mockErrorResponse, false);
+			mockFetch(mockInvalidReferenceError, false);
 
 			// Act
 			const { data, error } = await paystack.transaction.verify(reference);
