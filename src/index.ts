@@ -1,5 +1,6 @@
 import z from "zod";
 import { Miscellaneous } from "./main/miscellaneous";
+import { Recipient } from "./main/recipient";
 import { Split } from "./main/split";
 import { Transaction } from "./main/transaction";
 import { Transfer } from "./main/transfer";
@@ -18,6 +19,7 @@ export class Paystack {
 	public verification: Verification;
 	public miscellaneous: Miscellaneous;
 	public transfer: Transfer;
+	public recipient: Recipient;
 
 	constructor(secretKey: string) {
 		const secretKeySchema = z
@@ -37,5 +39,6 @@ export class Paystack {
 		this.verification = new Verification(this.secretKey, this.baseUrl);
 		this.miscellaneous = new Miscellaneous(this.secretKey, this.baseUrl);
 		this.transfer = new Transfer(this.secretKey, this.baseUrl);
+		this.recipient = new Recipient(this.secretKey, this.baseUrl);
 	}
 }
