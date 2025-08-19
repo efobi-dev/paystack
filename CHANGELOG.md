@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.9.0
+
+### Minor Changes
+
+- d7be394: Added Transfers API with comprehensive tests passing
+
 ## 0.8.6
 
 ### Patch Changes
