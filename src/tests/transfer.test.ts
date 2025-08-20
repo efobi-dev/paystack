@@ -32,7 +32,7 @@ describe("Transfer Module", () => {
 			};
 
 			// Act
-			const { data, error } = await paystack.transfer.initialize(input);
+			const { data, error } = await paystack.transfer.initiate(input);
 
 			// Assert
 			expect(error).toBeUndefined();
@@ -72,7 +72,7 @@ describe("Transfer Module", () => {
 			};
 
 			// Act
-			const { data, error } = await paystack.transfer.initialize(input);
+			const { data, error } = await paystack.transfer.initiate(input);
 
 			// Assert
 			expect(error).toBeUndefined();
