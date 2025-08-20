@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.2
+
+### Patch Changes
+
+- 6504f31: Added missing recipient in Recipient API
+
 ## 0.10.1
 
 ### Patch Changes
