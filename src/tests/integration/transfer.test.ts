@@ -15,7 +15,7 @@ describeIf(shouldRun)("Transfer Module (Integration)", () => {
 		paystack = new Paystack(secretKey as string);
 	});
 
-	test.skip("should initialize a transfer", async () => {
+	test.skip("should initiate a transfer", async () => {
 		const input = {
 			source: "balance" as const,
 			amount: 5000,
@@ -24,7 +24,7 @@ describeIf(shouldRun)("Transfer Module (Integration)", () => {
 			currency: "NGN" as const,
 			reference: "23fn34n",
 		};
-		const { data, error } = await paystack.transfer.initialize(input);
+		const { data, error } = await paystack.transfer.initiate(input);
 
 		expect(error).toBeUndefined();
 		expect(data).toBeDefined();
@@ -33,7 +33,7 @@ describeIf(shouldRun)("Transfer Module (Integration)", () => {
 		transferCode = data?.data?.transfer_code || "";
 	});
 
-	test("should handle API error for initializing a transfer with invalid recipient", async () => {
+	test("should handle API error for initiating a transfer with invalid recipient", async () => {
 		const input = {
 			source: "balance" as const,
 			amount: 5000,
@@ -42,7 +42,7 @@ describeIf(shouldRun)("Transfer Module (Integration)", () => {
 			currency: "NGN" as const,
 			reference: "23fn34n",
 		};
-		const { data, error } = await paystack.transfer.initialize(input);
+		const { data, error } = await paystack.transfer.initiate(input);
 
 		expect(error).toBeUndefined();
 		expect(data).toBeDefined();

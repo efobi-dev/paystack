@@ -23,7 +23,7 @@ export class Transfer extends Fetcher {
 	 * @param input - The transfer details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async initialize(input: z.infer<typeof transferInitiateInput>) {
+	async initiate(input: z.infer<typeof transferInitiateInput>) {
 		const { response, raw } = await this.fetcher("/transfer", "POST", input);
 		if (!response.ok) {
 			const { data, error } = await transferError.safeParseAsync(raw);
