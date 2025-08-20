@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.3
+
+### Patch Changes
+
+- f9b2b1c: Work in Progress fix
+
 ## 0.10.2
 
 ### Patch Changes
