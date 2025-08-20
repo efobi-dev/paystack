@@ -4,6 +4,7 @@ import { currency, genericInput, genericResponse, metadata } from ".";
 export const transferInitiateInput = z.object({
 	source: z.enum(["balance"]).default("balance"),
 	amount: z.number().min(1000),
+	recipient: z.string().startsWith("RCP_"),
 	reason: z.string().optional(),
 	currency: currency.optional().default("NGN"),
 	account_reference: z.string().optional(),

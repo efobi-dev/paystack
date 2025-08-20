@@ -14,6 +14,9 @@ type HandlersMap = {
 	>;
 };
 
+/**
+ * The Webhook class provides methods for verifying and processing Paystack webhooks.
+ */
 export class Webhook extends Fetcher {
 	private handlers: HandlersMap = {};
 
@@ -22,6 +25,12 @@ export class Webhook extends Fetcher {
 	 * @param rawBody - The raw, unparsed request body.
 	 * @param signature - The value of the 'x-paystack-signature' header.
 	 * @returns {Promise<boolean>} - True if the signature is valid, false otherwise.
+	 */
+	/**
+	 * Verifies the signature of an incoming webhook request using the Web Crypto API.
+	 * @param rawBody - The raw, unparsed request body.
+	 * @param signature - The value of the 'x-paystack-signature' header.
+	 * @returns True if the signature is valid, false otherwise.
 	 */
 	private async verifySignature(
 		rawBody: string,
@@ -52,6 +61,12 @@ export class Webhook extends Fetcher {
 	 * @param event - The event to listen for (e.g., 'charge.success').
 	 * @param handler - The function to execute when the event is received.
 	 */
+	/**
+	 * Registers a handler function for a specific webhook event.
+	 * @param event - The event to listen for (e.g., 'charge.success').
+	 * @param handler - The function to execute when the event is received.
+	 * @returns The Webhook instance for chaining.
+	 */
 	public on<T extends PaystackWebhookPayload["event"]>(
 		event: T,
 		handler: WebhookHandler<Extract<PaystackWebhookPayload, { event: T }>>,
@@ -61,6 +76,14 @@ export class Webhook extends Fetcher {
 		return this; // Allow chaining
 	}
 
+	/**
+	 * Processes an incoming webhook request. Verifies, parses, and dispatches it.
+	 * This is the platform-agnostic core.
+	 * @param rawBody - The raw, unparsed request body.
+	 * @param signature - The value of the 'x-paystack-signature' header.
+	 * @returns The parsed and validated payload if successful.
+	 * @throws An error if verification or parsing fails.
+	 */
 	/**
 	 * Processes an incoming webhook request. Verifies, parses, and dispatches it.
 	 * This is the platform-agnostic core.

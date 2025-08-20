@@ -14,8 +14,16 @@ import {
 } from "../zod/transfer";
 import { Fetcher } from "./fetcher";
 
+/**
+ * The Transfer class provides methods for interacting with Paystack's Transfer API.
+ */
 export class Transfer extends Fetcher {
-	async initialize(input: z.infer<typeof transferInitiateInput>) {
+	/**
+	 * Initiates a transfer.
+	 * @param input - The transfer details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
+	async initiate(input: z.infer<typeof transferInitiateInput>) {
 		const { response, raw } = await this.fetcher("/transfer", "POST", input);
 		if (!response.ok) {
 			const { data, error } = await transferError.safeParseAsync(raw);
@@ -25,6 +33,11 @@ export class Transfer extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Finalizes a transfer with an OTP.
+	 * @param input - The transfer finalization details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async finalize(input: z.infer<typeof transferFinalizeInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transfer/finalize_transfer",
@@ -39,6 +52,11 @@ export class Transfer extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Initiates a bulk transfer.
+	 * @param input - The bulk transfer details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async initiateBulk(input: z.infer<typeof transferBulkInitiateInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transfer/bulk",
@@ -54,6 +72,11 @@ export class Transfer extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Lists transfers.
+	 * @param input - Query parameters for listing transfers.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async list(input: z.infer<typeof transferListInput>) {
 		const { response, raw } = await this.fetcher("/transfer", "GET", input);
 		if (!response.ok) {
@@ -64,6 +87,11 @@ export class Transfer extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Retrieves a single transfer by ID or code.
+	 * @param id_or_code - The ID or code of the transfer.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async getTransferById(id_or_code: string) {
 		const { response, raw } = await this.fetcher(
 			`/transfer/${id_or_code}`,
@@ -77,6 +105,11 @@ export class Transfer extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Verifies the status of a transfer.
+	 * @param reference - The reference of the transfer.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async verify(reference: string) {
 		const { response, raw } = await this.fetcher(
 			`/transfer/verify/${reference}`,

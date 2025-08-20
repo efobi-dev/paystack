@@ -11,7 +11,15 @@ import {
 } from "../zod/recipient";
 import { Fetcher } from "./fetcher";
 
+/**
+ * The Recipient class provides methods for interacting with Paystack's Transfer Recipient API.
+ */
 export class Recipient extends Fetcher {
+	/**
+	 * Creates a new transfer recipient.
+	 * @param input - The recipient details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async create(input: z.infer<typeof recipientCreateInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transferrecipient",
@@ -26,6 +34,11 @@ export class Recipient extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Creates multiple transfer recipients in bulk.
+	 * @param input - The bulk recipient details.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async createBulk(input: z.infer<typeof recipientBulkCreateInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transferrecipient/bulk",
@@ -41,6 +54,11 @@ export class Recipient extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Lists transfer recipients.
+	 * @param input - Query parameters for listing recipients.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async list(input: z.infer<typeof genericInput>) {
 		const { response, raw } = await this.fetcher(
 			"/transferrecipient",
@@ -55,6 +73,11 @@ export class Recipient extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Retrieves a single transfer recipient by ID or code.
+	 * @param id_or_code - The ID or code of the recipient.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async getRecipientById(id_or_code: string) {
 		const { response, raw } = await this.fetcher(
 			`/transferrecipient/${id_or_code}`,
@@ -68,6 +91,11 @@ export class Recipient extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Updates a transfer recipient.
+	 * @param input - The recipient details to update.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async update(input: z.infer<typeof recipientUpdateInput>) {
 		const { id_or_code, ...rest } = input;
 		const { response, raw } = await this.fetcher(
@@ -83,6 +111,11 @@ export class Recipient extends Fetcher {
 		return { data, error };
 	}
 
+	/**
+	 * Deletes a transfer recipient.
+	 * @param id_or_code - The ID or code of the recipient to delete.
+	 * @returns A Promise that resolves to an object containing the data and any error.
+	 */
 	async delete(id_or_code: string) {
 		const { raw } = await this.fetcher(
 			`/transferrecipient/${id_or_code}`,
