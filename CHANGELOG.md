@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.4
+
+### Patch Changes
+
+- fd7b512: Fixed the metadata so that it can allow any structure
+
 ## 0.10.3
 
 ### Patch Changes
