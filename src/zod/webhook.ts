@@ -1,13 +1,5 @@
 import { z } from "zod";
-import {
-	authorization,
-	currency,
-	customer,
-	log,
-	metadata,
-	plan,
-	subaccount,
-} from ".";
+import { authorization, currency, customer, log, plan, subaccount } from ".";
 import { transactionShared } from "./transaction";
 import {
 	virtualAccountAssignmentSchema,
@@ -27,7 +19,7 @@ const disputeTransactionSchema = z.object({
 	channel: z.string(),
 	currency,
 	ip_address: z.ipv4().nullable(),
-	metadata: z.string(),
+	metadata: z.any(),
 	log: z.nullable(log),
 	fees: z.number(),
 	fees_split: z.unknown().nullable(),
@@ -130,7 +122,7 @@ const paymentRequestDataSchema = z.object({
 	status: z.string(),
 	paid: z.boolean(),
 	paid_at: z.iso.datetime().nullable(),
-	metadata: z.nullable(metadata),
+	metadata: z.nullable(z.any()),
 	notifications: z.array(
 		z.object({
 			sent_at: z.iso.datetime(),
@@ -220,7 +212,7 @@ const baseRecipientSchema = z.object({
 	email: z.email().nullable(),
 	id: z.number(),
 	integration: z.number(),
-	metadata: z.nullable(metadata),
+	metadata: z.nullable(z.any()),
 	name: z.string(),
 	recipient_code: z.string().startsWith("RCP_"),
 	type: z.string(),
@@ -461,7 +453,7 @@ export const transactionSuccessful = z.object({
 				.extend({
 					authentication: z.string(),
 				}),
-			metadata: metadata,
+			metadata: z.any(),
 			paid_at: z.iso.datetime(),
 			created_at: z.iso.datetime(),
 			fees: z.number().nullable(),

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { currency, genericInput, genericResponse, metadata } from ".";
+import { currency, genericInput, genericResponse } from ".";
 
 export const transferInitiateInput = z.object({
 	source: z.enum(["balance"]).default("balance"),
@@ -98,7 +98,7 @@ const recipient = z.object({
 		bank_name: z.string(),
 	}),
 	description: z.string().nullable(),
-	metadata: metadata.nullable(),
+	metadata: z.any().nullable(),
 	recipient_code: z.string().startsWith("RCP_"),
 	active: z.boolean(),
 	id: z.number(),
@@ -122,18 +122,7 @@ const transferRecipient = recipient.extend({
 	createdAt: z.iso.datetime().optional(),
 	description: z.string().nullable().optional(),
 	email: z.email().nullable().optional(),
-	metadata: metadata
-		.extend({
-			custom_fields: z.array(
-				z.object({
-					display_name: z.string(),
-					variable_name: z.string(),
-					value: z.string(),
-				}),
-			),
-		})
-		.nullable()
-		.optional(),
+	metadata: z.any().nullable().optional(),
 	updatedAt: z.iso.datetime().optional(),
 	is_deleted: z.boolean().optional(),
 	isDeleted: z.boolean().optional(),

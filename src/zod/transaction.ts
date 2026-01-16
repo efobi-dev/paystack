@@ -7,7 +7,6 @@ import {
 	genericResponse,
 	history,
 	log,
-	metadata,
 	plan,
 	subaccount,
 } from ".";
@@ -21,7 +20,7 @@ export const txnInitializeInput = z.object({
 	callback_url: z.url().optional(),
 	plan: z.string().optional(),
 	invoice_limit: z.number().optional(),
-	metadata: z.string().optional(),
+	metadata: z.any().optional(),
 	channels: z
 		.array(
 			z.enum([
@@ -75,7 +74,7 @@ export const transactionShared = z.object({
 });
 
 const transaction = transactionShared.extend({
-	metadata: z.nullable(metadata),
+	metadata: z.any().nullable(),
 	customer,
 	plan: z.nullable(plan),
 	split: z.nullable(baseSplitSchema),
@@ -91,9 +90,9 @@ const transaction = transactionShared.extend({
 });
 
 const transactionVerify = transactionShared.extend({
-	metadata: z.string(),
+	metadata: z.any(),
 	customer: customer.extend({
-		metadata: z.nullable(z.string()),
+		metadata: z.any().nullable(),
 		international_format_phone: z.nullable(z.string()),
 	}),
 	plan: z.nullable(plan),
@@ -149,7 +148,7 @@ export const txnChargeInput = z.object({
 	authorization_code: z.string(),
 	reference: z.string().optional(),
 	currency: z.optional(currency),
-	metadata: z.string().optional(),
+	metadata: z.any().optional(),
 	channels: z.array(z.enum(["card", "bank"])).optional(),
 	subaccount: z.string().optional(),
 	transaction_charge: z.number().optional(),
@@ -165,7 +164,7 @@ export const txnChargeSuccess = genericResponse.extend({
 		status: z.string(),
 		reference: z.string(),
 		domain: z.string(),
-		metadata: z.nullable(z.string()),
+		metadata: z.nullable(z.any()),
 		gateway_response: z.string(),
 		message: z.nullable(z.string()),
 		channel: z.string(),

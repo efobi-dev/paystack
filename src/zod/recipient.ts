@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { currency, genericResponse, metadata } from ".";
+import { currency, genericResponse } from ".";
 
 export const recipientCreateInput = z.object({
 	type: z.enum(["nuban", "ghipss", "mobile_money"]),
@@ -9,7 +9,7 @@ export const recipientCreateInput = z.object({
 	description: z.string().optional(),
 	currency: currency.optional(),
 	authorization_code: z.string().optional(),
-	metadata: z.object(z.unknown()).optional(),
+	metadata: z.any().optional(),
 });
 
 export const recipientCreateSuccess = genericResponse.extend({
@@ -48,7 +48,7 @@ export const recipientBulkCreateSuccess = genericResponse.extend({
 				type: z.enum(["nuban", "ghipss", "mobile_money"]),
 				description: z.string().optional(),
 				currency,
-				metadata: metadata.nullable(),
+				metadata: z.any().nullable(),
 				details: z.object({
 					account_number: z.string(),
 					account_name: z.string(),
@@ -80,7 +80,7 @@ export const recipientListSuccess = genericResponse.extend({
 				bank_code: z.string(),
 				bank_name: z.string(),
 			}),
-			metadata: z.union([metadata, z.null()]),
+			metadata: z.any(),
 			recipient_code: z.string().startsWith("RCP_"),
 			active: z.boolean(),
 			id: z.number(),
@@ -104,7 +104,7 @@ export const recipientSingleSuccess = genericResponse.extend({
 			bank_name: z.string(),
 		}),
 		description: z.string().nullable(),
-		metadata: z.union([metadata, z.null()]),
+		metadata: z.any(),
 		recipient_code: z.string().startsWith("RCP_"),
 		active: z.boolean(),
 		email: z.string().email().nullable(),

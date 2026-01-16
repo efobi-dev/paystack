@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { currency, customer, genericResponse, meta, metadata } from ".";
+import { currency, customer, genericResponse, meta } from ".";
 
 export const virtualAccountCreateInput = z.object({
 	customer: z.string(),
@@ -30,7 +30,7 @@ export const virtualAccountBaseSchema = z.object({
 	account_number: z.string(),
 	assigned: z.boolean(),
 	currency,
-	metadata: z.nullable(metadata),
+	metadata: z.nullable(z.any()),
 	active: z.boolean(),
 	id: z.number(),
 	created_at: z.iso.datetime(),

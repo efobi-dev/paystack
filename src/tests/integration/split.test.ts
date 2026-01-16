@@ -5,7 +5,8 @@ const secretKey = process.env.PAYSTACK_SECRET_KEY as string;
 const _shouldRun = secretKey?.startsWith("sk_test_");
 
 // Conditionally skip the tests if the secret key is not available
-const describeIf = (condition: boolean) => (condition ? describe : describe);
+const describeIf = (condition: boolean) =>
+	condition ? describe : describe.skip;
 
 // Skipping these tests because the test account does not have a subaccount.
 // The SDK does not have a method to create a subaccount, so this test cannot be run.
