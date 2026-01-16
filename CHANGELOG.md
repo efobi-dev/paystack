@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.5
+
+### Patch Changes
+
+- 7d75970: made logs nullable
+
 ## 0.10.4
 
 ### Patch Changes
