@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.10.6
+
+### Patch Changes
+
+- cc17812: Fixed zod validation
+
 ## 0.10.5
 
 ### Patch Changes
