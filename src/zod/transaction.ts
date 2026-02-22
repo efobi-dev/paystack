@@ -236,3 +236,20 @@ export const txnPartialDebitSuccess = genericResponse.extend({
 		requested_amount: z.number(),
 	}),
 });
+
+// Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
+export type TxnInitializeInput = z.infer<typeof txnInitializeInput>;
+export type TxnInitializeSuccess = z.infer<typeof txnInitializeSuccess>;
+export type TransactionShared = z.infer<typeof transactionShared>;
+export type TxnVerifySuccess = z.infer<typeof txnVerifySuccess>;
+export type TxnListInput = z.infer<typeof txnListInput>;
+export type TxnSingleSuccess = z.infer<typeof txnSingleSuccess>;
+export type TxnListSuccess = z.infer<typeof txnListSuccess>;
+export type TxnChargeInput = z.infer<typeof txnChargeInput>;
+export type TxnChargeSuccess = z.infer<typeof txnChargeSuccess>;
+export type TxnTimelineSuccess = z.infer<typeof txnTimelineSuccess>;
+export type TxnTotalsSuccess = z.infer<typeof txnTotalsSuccess>;
+export type TxnExportInput = z.infer<typeof txnExportInput>;
+export type TxnExportSuccess = z.infer<typeof txnExportSuccess>;
+export type TxnPartialDebitInput = z.infer<typeof txnPartialDebitInput>;
+export type TxnPartialDebitSuccess = z.infer<typeof txnPartialDebitSuccess>;

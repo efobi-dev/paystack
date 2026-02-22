@@ -27,8 +27,8 @@ const transfer = z.object({
 	integration: z.number(),
 	request: z.number(),
 	recipient: z.number(),
-	created_at: z.iso.datetime(),
-	updated_at: z.iso.datetime(),
+	created_at: z.iso.datetime().optional(),
+	updated_at: z.iso.datetime().optional(),
 });
 
 export const transferInitiateSuccess = genericResponse.extend({
@@ -153,3 +153,15 @@ const transferDetails = transfer.extend({
 export const transferSingleSuccess = genericResponse.extend({
 	data: transferDetails,
 });
+
+// Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
+export type TransferInitiateInput = z.infer<typeof transferInitiateInput>;
+export type TransferInitiateSuccess = z.infer<typeof transferInitiateSuccess>;
+export type TransferError = z.infer<typeof transferError>;
+export type TransferFinalizeInput = z.infer<typeof transferFinalizeInput>;
+export type TransferFinalizeSuccess = z.infer<typeof transferFinalizeSuccess>;
+export type TransferBulkInitiateInput = z.infer<typeof transferBulkInitiateInput>;
+export type TransferBulkInitiateSuccess = z.infer<typeof transferBulkInitiateSuccess>;
+export type TransferListInput = z.infer<typeof transferListInput>;
+export type TransferListSuccess = z.infer<typeof transferListSuccess>;
+export type TransferSingleSuccess = z.infer<typeof transferSingleSuccess>;

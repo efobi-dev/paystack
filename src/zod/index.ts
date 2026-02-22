@@ -98,3 +98,15 @@ export const plan = z.object({
 	send_sms: z.boolean(),
 	currency,
 });
+
+// Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
+export type Meta = z.infer<typeof meta>;
+export type GenericResponse = z.infer<typeof genericResponse>;
+export type Currency = z.infer<typeof currency>;
+export type History = z.infer<typeof history>;
+export type Log = z.infer<typeof log>;
+export type Authorization = z.infer<typeof authorization>;
+export type Customer = z.infer<typeof customer>;
+export type GenericInput = z.infer<typeof genericInput>;
+export type Subaccount = z.infer<typeof subaccount>;
+export type Plan = z.infer<typeof plan>;

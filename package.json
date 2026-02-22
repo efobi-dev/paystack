@@ -22,16 +22,49 @@
 		"type": "git",
 		"url": "git+https://github.com/efobi-dev/paystack.git"
 	},
+	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.js",
-			"require": "./dist/index.js"
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./transaction": {
+			"types": "./dist/transaction.d.ts",
+			"import": "./dist/transaction.js"
+		},
+		"./split": {
+			"types": "./dist/split.d.ts",
+			"import": "./dist/split.js"
+		},
+		"./transfer": {
+			"types": "./dist/transfer.d.ts",
+			"import": "./dist/transfer.js"
+		},
+		"./recipient": {
+			"types": "./dist/recipient.d.ts",
+			"import": "./dist/recipient.js"
+		},
+		"./verification": {
+			"types": "./dist/verification.d.ts",
+			"import": "./dist/verification.js"
+		},
+		"./miscellaneous": {
+			"types": "./dist/miscellaneous.d.ts",
+			"import": "./dist/miscellaneous.js"
+		},
+		"./virtual": {
+			"types": "./dist/virtual.d.ts",
+			"import": "./dist/virtual.js"
+		},
+		"./webhook": {
+			"types": "./dist/webhook.d.ts",
+			"import": "./dist/webhook.js"
 		}
 	},
 	"scripts": {
-		"build": "bun clean && tsc",
+		"build": "tsup",
 		"clean": "rimraf dist",
 		"test": "bun test",
 		"format": "biome check --write",
@@ -47,6 +80,7 @@
 		"@changesets/cli": "^2.29.5",
 		"@types/bun": "latest",
 		"rimraf": "^6.0.1",
+		"tsup": "^8.5.1",
 		"typescript": "^5.8.3",
 		"zod": "^4.0.10"
 	},

@@ -102,3 +102,18 @@ export const splitSubaccountRemoveError = genericResponse.extend({
 	type: z.string().optional(),
 	code: z.string().optional(),
 });
+
+// Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
+export type SplitType = z.infer<typeof type>;
+export type BearerType = z.infer<typeof bearer_type>;
+export type BaseSplitSchema = z.infer<typeof baseSplitSchema>;
+export type SplitCreateInput = z.infer<typeof splitCreateInput>;
+export type SplitCreateSuccess = z.infer<typeof splitCreateSuccess>;
+export type SplitListInput = z.infer<typeof splitListInput>;
+export type SplitListSuccess = z.infer<typeof splitListSuccess>;
+export type SplitSingleSuccess = z.infer<typeof splitSingleSuccess>;
+export type SplitUpdateInput = z.infer<typeof splitUpdateInput>;
+export type SplitSubaccountInput = z.infer<typeof splitSubaccountInput>;
+export type SplitSubaccountUpdateSuccess = z.infer<typeof splitSubaccountUpdateSuccess>;
+export type SplitSubaccountRemoveInput = z.infer<typeof splitSubaccountRemoveInput>;
+export type SplitSubaccountRemoveError = z.infer<typeof splitSubaccountRemoveError>;

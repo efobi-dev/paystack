@@ -520,3 +520,29 @@ export const paystackWebhookSchema = z.discriminatedUnion("event", [
 export type PaystackWebhookPayload = z.infer<typeof paystackWebhookSchema>;
 
 export type PaystackWebhookEvents = PaystackWebhookPayload["event"];
+
+// Per-event data aliases — consumers can use these for type-safe handler arguments
+export type CustomerIdFailData = z.infer<typeof customerIdFail>["data"];
+export type CustomerIdSuccessData = z.infer<typeof customerIdSuccess>["data"];
+export type DisputeCreatedData = z.infer<typeof disputeCreated>["data"];
+export type DisputeReminderData = z.infer<typeof disputeReminder>["data"];
+export type DisputeResolvedData = z.infer<typeof disputeResolved>["data"];
+export type DedicatedAccountAssignFailData = z.infer<typeof dedicatedAccountAssignFail>["data"];
+export type DedicatedAccountAssignSuccessData = z.infer<typeof dedicatedAccountAssignSuccess>["data"];
+export type InvoiceCreateData = z.infer<typeof invoiceCreate>["data"];
+export type InvoiceFailData = z.infer<typeof invoiceFail>["data"];
+export type InvoiceUpdateData = z.infer<typeof invoiceUpdate>["data"];
+export type PaymentRequestPendingData = z.infer<typeof paymentRequestPending>["data"];
+export type PaymentRequestSuccessData = z.infer<typeof paymentRequestSuccess>["data"];
+export type RefundFailedData = z.infer<typeof refundFailed>["data"];
+export type RefundPendingData = z.infer<typeof refundPending>["data"];
+export type RefundProcessedData = z.infer<typeof refundProcessed>["data"];
+export type RefundProcessingData = z.infer<typeof refundProcessing>["data"];
+export type SubscriptionCreateData = z.infer<typeof subscriptionCreate>["data"];
+export type SubscriptionDisabledData = z.infer<typeof subscriptionDisabled>["data"];
+export type SubscriptionNotRenewedData = z.infer<typeof subscriptionNotRenewed>["data"];
+export type SubscriptionWithExpiredCardData = z.infer<typeof subscriptionWithExpiredCard>["data"];
+export type TransactionSuccessfulData = z.infer<typeof transactionSuccessful>["data"];
+export type TransferSuccessData = z.infer<typeof transferSuccess>["data"];
+export type TransferFailedData = z.infer<typeof transferFailed>["data"];
+export type TransferReversedData = z.infer<typeof transferReversed>["data"];

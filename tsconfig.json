@@ -27,5 +27,5 @@
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
 	},
-	"exclude": ["dist"]
+	"exclude": ["dist", "src/tests", "**/*.test.ts", "tsup.config.ts"]
 }
