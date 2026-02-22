@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.11.0
+
+### Minor Changes
+
+- 87b1335: Reduce bundle size and fix transfer api validation bug
+
 ## 0.10.6
 
 ### Patch Changes
