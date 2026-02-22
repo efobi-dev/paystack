@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.11.1
+
+### Patch Changes
+
+- 3d8ec2e: Migrate to tsdown
+
 ## 0.11.0
 
 ### Minor Changes
