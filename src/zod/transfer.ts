@@ -160,8 +160,12 @@ export type TransferInitiateSuccess = z.infer<typeof transferInitiateSuccess>;
 export type TransferError = z.infer<typeof transferError>;
 export type TransferFinalizeInput = z.infer<typeof transferFinalizeInput>;
 export type TransferFinalizeSuccess = z.infer<typeof transferFinalizeSuccess>;
-export type TransferBulkInitiateInput = z.infer<typeof transferBulkInitiateInput>;
-export type TransferBulkInitiateSuccess = z.infer<typeof transferBulkInitiateSuccess>;
+export type TransferBulkInitiateInput = z.infer<
+	typeof transferBulkInitiateInput
+>;
+export type TransferBulkInitiateSuccess = z.infer<
+	typeof transferBulkInitiateSuccess
+>;
 export type TransferListInput = z.infer<typeof transferListInput>;
 export type TransferListSuccess = z.infer<typeof transferListSuccess>;
 export type TransferSingleSuccess = z.infer<typeof transferSingleSuccess>;

@@ -155,18 +155,42 @@ export const fetchBanksSuccess = genericResponse.extend({
 });
 
 // Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
-export type VirtualAccountCreateInput = z.infer<typeof virtualAccountCreateInput>;
-export type VirtualAccountAssignment = z.infer<typeof virtualAccountAssignmentSchema>;
+export type VirtualAccountCreateInput = z.infer<
+	typeof virtualAccountCreateInput
+>;
+export type VirtualAccountAssignment = z.infer<
+	typeof virtualAccountAssignmentSchema
+>;
 export type VirtualAccountBase = z.infer<typeof virtualAccountBaseSchema>;
-export type VirtualAccountCreateSuccess = z.infer<typeof virtualAccountCreateSuccess>;
-export type VirtualAccountAssignInput = z.infer<typeof virtualAccountAssignInput>;
+export type VirtualAccountCreateSuccess = z.infer<
+	typeof virtualAccountCreateSuccess
+>;
+export type VirtualAccountAssignInput = z.infer<
+	typeof virtualAccountAssignInput
+>;
 export type VirtualAccountListInput = z.infer<typeof virtualAccountListInput>;
-export type VirtualAccountListSuccess = z.infer<typeof virtualAccountListSuccess>;
-export type VirtualAccountFetchSuccess = z.infer<typeof virtualAccountFetchSuccess>;
-export type VirtualAccountRequeryInput = z.infer<typeof virtualAccountRequeryInput>;
-export type VirtualAccountDeleteSuccess = z.infer<typeof virtualAccountDeleteSuccess>;
-export type VirtualAccountAddSplitInput = z.infer<typeof virtualAccountAddSplitInput>;
-export type VirtualAccountAddSplitSuccess = z.infer<typeof virtualAccountAddSplitSuccess>;
-export type VirtualAccountRemoveSplitInput = z.infer<typeof virtualAccountRemoveSplitInput>;
-export type VirtualAccountRemoveSplitSuccess = z.infer<typeof virtualAccountRemoveSplitSuccess>;
+export type VirtualAccountListSuccess = z.infer<
+	typeof virtualAccountListSuccess
+>;
+export type VirtualAccountFetchSuccess = z.infer<
+	typeof virtualAccountFetchSuccess
+>;
+export type VirtualAccountRequeryInput = z.infer<
+	typeof virtualAccountRequeryInput
+>;
+export type VirtualAccountDeleteSuccess = z.infer<
+	typeof virtualAccountDeleteSuccess
+>;
+export type VirtualAccountAddSplitInput = z.infer<
+	typeof virtualAccountAddSplitInput
+>;
+export type VirtualAccountAddSplitSuccess = z.infer<
+	typeof virtualAccountAddSplitSuccess
+>;
+export type VirtualAccountRemoveSplitInput = z.infer<
+	typeof virtualAccountRemoveSplitInput
+>;
+export type VirtualAccountRemoveSplitSuccess = z.infer<
+	typeof virtualAccountRemoveSplitSuccess
+>;
 export type FetchBanksSuccess = z.infer<typeof fetchBanksSuccess>;

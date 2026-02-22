@@ -52,9 +52,21 @@ export const verificationResolveCardBinSuccess = genericResponse.extend({
 });
 
 // Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
-export type VerificationResolveAccountInput = z.infer<typeof verificationResolveAccountInput>;
-export type VerificationResolveAccountSuccess = z.infer<typeof verificationResolveAccountSuccess>;
-export type VerificationValidateAccountInput = z.infer<typeof verificationValidateAccountInput>;
-export type VerificationValidateAccountResponse = z.infer<typeof verificationValidateAccountResponse>;
-export type VerificationResolveCardBinInput = z.infer<typeof verificationResolveCardBinInput>;
-export type VerificationResolveCardBinSuccess = z.infer<typeof verificationResolveCardBinSuccess>;
+export type VerificationResolveAccountInput = z.infer<
+	typeof verificationResolveAccountInput
+>;
+export type VerificationResolveAccountSuccess = z.infer<
+	typeof verificationResolveAccountSuccess
+>;
+export type VerificationValidateAccountInput = z.infer<
+	typeof verificationValidateAccountInput
+>;
+export type VerificationValidateAccountResponse = z.infer<
+	typeof verificationValidateAccountResponse
+>;
+export type VerificationResolveCardBinInput = z.infer<
+	typeof verificationResolveCardBinInput
+>;
+export type VerificationResolveCardBinSuccess = z.infer<
+	typeof verificationResolveCardBinSuccess
+>;

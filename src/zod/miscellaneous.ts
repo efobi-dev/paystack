@@ -78,8 +78,18 @@ export const miscellaneousListStatesSuccess = genericResponse.extend({
 });
 
 // Explicit type aliases — prevents TypeScript from inline-expanding z.infer<> in .d.ts files
-export type MiscellaneousListBanksInput = z.infer<typeof miscellaneousListBanksInput>;
-export type MiscellaneousListBanksSuccess = z.infer<typeof miscellaneousListBanksSuccess>;
-export type MiscellaneousListCountriesSuccess = z.infer<typeof miscellaneousListCountriesSuccess>;
-export type MiscellaneousListStatesInput = z.infer<typeof miscellaneousListStatesInput>;
-export type MiscellaneousListStatesSuccess = z.infer<typeof miscellaneousListStatesSuccess>;
+export type MiscellaneousListBanksInput = z.infer<
+	typeof miscellaneousListBanksInput
+>;
+export type MiscellaneousListBanksSuccess = z.infer<
+	typeof miscellaneousListBanksSuccess
+>;
+export type MiscellaneousListCountriesSuccess = z.infer<
+	typeof miscellaneousListCountriesSuccess
+>;
+export type MiscellaneousListStatesInput = z.infer<
+	typeof miscellaneousListStatesInput
+>;
+export type MiscellaneousListStatesSuccess = z.infer<
+	typeof miscellaneousListStatesSuccess
+>;

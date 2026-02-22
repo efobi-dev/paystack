@@ -125,7 +125,9 @@ export const recipientUpdateInput = z.object({
 export type RecipientCreateInput = z.infer<typeof recipientCreateInput>;
 export type RecipientCreateSuccess = z.infer<typeof recipientCreateSuccess>;
 export type RecipientBulkCreateInput = z.infer<typeof recipientBulkCreateInput>;
-export type RecipientBulkCreateSuccess = z.infer<typeof recipientBulkCreateSuccess>;
+export type RecipientBulkCreateSuccess = z.infer<
+	typeof recipientBulkCreateSuccess
+>;
 export type RecipientListSuccess = z.infer<typeof recipientListSuccess>;
 export type RecipientSingleSuccess = z.infer<typeof recipientSingleSuccess>;
 export type RecipientUpdateInput = z.infer<typeof recipientUpdateInput>;

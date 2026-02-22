@@ -114,6 +114,12 @@ export type SplitListSuccess = z.infer<typeof splitListSuccess>;
 export type SplitSingleSuccess = z.infer<typeof splitSingleSuccess>;
 export type SplitUpdateInput = z.infer<typeof splitUpdateInput>;
 export type SplitSubaccountInput = z.infer<typeof splitSubaccountInput>;
-export type SplitSubaccountUpdateSuccess = z.infer<typeof splitSubaccountUpdateSuccess>;
-export type SplitSubaccountRemoveInput = z.infer<typeof splitSubaccountRemoveInput>;
-export type SplitSubaccountRemoveError = z.infer<typeof splitSubaccountRemoveError>;
+export type SplitSubaccountUpdateSuccess = z.infer<
+	typeof splitSubaccountUpdateSuccess
+>;
+export type SplitSubaccountRemoveInput = z.infer<
+	typeof splitSubaccountRemoveInput
+>;
+export type SplitSubaccountRemoveError = z.infer<
+	typeof splitSubaccountRemoveError
+>;
