@@ -1,6 +1,12 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
-import { mockChargeSuccessPayload } from "./mocks";
+import {
+	mockChargeSuccessNullBankPayload,
+	mockChargeSuccessPayload,
+	mockTransferFailedWebhookPayload,
+	mockTransferReversedWebhookPayload,
+	mockTransferSuccessWebhookPayload,
+} from "./mocks";
 
 const generateSignature = async (secret: string, body: string) => {
 	const secretKeyData = new TextEncoder().encode(secret);
@@ -80,5 +86,59 @@ describe("Webhook Module", () => {
 		// The test passes if the promise resolves.
 		// We can also assert that it returns the correct payload.
 		expect(result.event).toBe("charge.success");
+	});
+
+	test("should parse charge.success with null authorization.bank", async () => {
+		const body = JSON.stringify(mockChargeSuccessNullBankPayload);
+		const signature = await generateSignature(secret, body);
+
+		const result = await paystack.webhook.process(body, signature);
+
+		expect(result.event).toBe("charge.success");
+		if (result.event === "charge.success") {
+			expect(result.data.authorization?.bank).toBeNull();
+		}
+	});
+
+	test("should parse transfer.success webhook payload", async () => {
+		const body = JSON.stringify(mockTransferSuccessWebhookPayload);
+		const signature = await generateSignature(secret, body);
+
+		const result = await paystack.webhook.process(body, signature);
+
+		expect(result.event).toBe("transfer.success");
+		if (result.event === "transfer.success") {
+			expect(result.data.recipient.description).toBe("Test recipient");
+			expect(result.data.created_at).toBe("2024-01-01T12:00:00.000Z");
+		}
+	});
+
+	test("should parse transfer.failed with null description and absent timestamps", async () => {
+		const body = JSON.stringify(mockTransferFailedWebhookPayload);
+		const signature = await generateSignature(secret, body);
+
+		const result = await paystack.webhook.process(body, signature);
+
+		expect(result.event).toBe("transfer.failed");
+		if (result.event === "transfer.failed") {
+			expect(result.data.recipient.description).toBeNull();
+			expect(result.data.created_at).toBeUndefined();
+			expect(result.data.updated_at).toBeUndefined();
+			expect(result.data.recipient.created_at).toBeUndefined();
+			expect(result.data.recipient.updated_at).toBeUndefined();
+		}
+	});
+
+	test("should parse transfer.reversed with null description and absent timestamps", async () => {
+		const body = JSON.stringify(mockTransferReversedWebhookPayload);
+		const signature = await generateSignature(secret, body);
+
+		const result = await paystack.webhook.process(body, signature);
+
+		expect(result.event).toBe("transfer.reversed");
+		if (result.event === "transfer.reversed") {
+			expect(result.data.recipient.description).toBeNull();
+			expect(result.data.recipient.created_at).toBeUndefined();
+		}
 	});
 });

@@ -200,14 +200,14 @@ const transferDataBaseSchema = z.object({
 		provider: z.string().nullable(),
 		id: z.string().nullable(),
 	}),
-	created_at: z.iso.datetime(),
-	updated_at: z.iso.datetime(),
+	created_at: z.iso.datetime().optional(),
+	updated_at: z.iso.datetime().optional(),
 });
 
 const baseRecipientSchema = z.object({
 	active: z.boolean(),
 	currency,
-	description: z.string(),
+	description: z.string().nullable(),
 	domain: z.string(),
 	email: z.email().nullable(),
 	id: z.number(),
@@ -217,8 +217,8 @@ const baseRecipientSchema = z.object({
 	recipient_code: z.string().startsWith("RCP_"),
 	type: z.string(),
 	is_deleted: z.boolean(),
-	created_at: z.iso.datetime(),
-	updated_at: z.iso.datetime(),
+	created_at: z.iso.datetime().optional(),
+	updated_at: z.iso.datetime().optional(),
 });
 
 const transferSuccessRecipientSchema = baseRecipientSchema.extend({

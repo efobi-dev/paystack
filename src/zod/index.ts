@@ -46,7 +46,7 @@ export const authorization = z.object({
 	exp_year: z.string().optional(),
 	channel: z.string().optional(),
 	card_type: z.string().optional(),
-	bank: z.string().optional(),
+	bank: z.string().nullable().optional(),
 	country_code: z.string().optional(),
 	brand: z.string().optional(),
 	reusable: z.boolean().optional(),
