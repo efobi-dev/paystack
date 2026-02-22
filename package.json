@@ -23,44 +23,44 @@
 		"url": "git+https://github.com/efobi-dev/paystack.git"
 	},
 	"type": "module",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "dist/index.mjs",
+	"types": "dist/index.d.mts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs"
 		},
 		"./transaction": {
-			"types": "./dist/transaction.d.ts",
-			"import": "./dist/transaction.js"
+			"types": "./dist/transaction.d.mts",
+			"import": "./dist/transaction.mjs"
 		},
 		"./split": {
-			"types": "./dist/split.d.ts",
-			"import": "./dist/split.js"
+			"types": "./dist/split.d.mts",
+			"import": "./dist/split.mjs"
 		},
 		"./transfer": {
-			"types": "./dist/transfer.d.ts",
-			"import": "./dist/transfer.js"
+			"types": "./dist/transfer.d.mts",
+			"import": "./dist/transfer.mjs"
 		},
 		"./recipient": {
-			"types": "./dist/recipient.d.ts",
-			"import": "./dist/recipient.js"
+			"types": "./dist/recipient.d.mts",
+			"import": "./dist/recipient.mjs"
 		},
 		"./verification": {
-			"types": "./dist/verification.d.ts",
-			"import": "./dist/verification.js"
+			"types": "./dist/verification.d.mts",
+			"import": "./dist/verification.mjs"
 		},
 		"./miscellaneous": {
-			"types": "./dist/miscellaneous.d.ts",
-			"import": "./dist/miscellaneous.js"
+			"types": "./dist/miscellaneous.d.mts",
+			"import": "./dist/miscellaneous.mjs"
 		},
 		"./virtual": {
-			"types": "./dist/virtual.d.ts",
-			"import": "./dist/virtual.js"
+			"types": "./dist/virtual.d.mts",
+			"import": "./dist/virtual.mjs"
 		},
 		"./webhook": {
-			"types": "./dist/webhook.d.ts",
-			"import": "./dist/webhook.js"
+			"types": "./dist/webhook.d.mts",
+			"import": "./dist/webhook.mjs"
 		}
 	},
 	"scripts": {
