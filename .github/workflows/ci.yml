@@ -27,3 +27,5 @@ jobs:
 
       - name: Run CI
         run: bun run ci
+        env:
+          PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
