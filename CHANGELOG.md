@@ -1,5 +1,11 @@
 # @efobi/paystack
 
+## 0.11.2
+
+### Patch Changes
+
+- 84ba768: Enable isolated declarations
+
 ## 0.11.1
 
 ### Patch Changes
