@@ -1,4 +1,4 @@
-import { defineConfig } from "tsup";
+import { defineConfig, type UserConfig } from "tsdown";
 
 export default defineConfig({
 	entry: {
@@ -14,10 +14,9 @@ export default defineConfig({
 	},
 	format: ["esm"],
 	dts: true,
-	splitting: false,
 	sourcemap: false,
 	clean: true,
 	treeshake: true,
 	target: "esnext",
 	outDir: "dist",
-});
+}) satisfies UserConfig as UserConfig;

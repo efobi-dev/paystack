@@ -1,7 +1,32 @@
 import { z } from "zod";
 import { currency, genericInput, genericResponse } from ".";
 
-export const transferInitiateInput = z.object({
+export const transferInitiateInput: z.ZodObject<{
+	source: z.ZodDefault<
+		z.ZodEnum<{
+			balance: "balance";
+		}>
+	>;
+	amount: z.ZodNumber;
+	recipient: z.ZodString;
+	reason: z.ZodOptional<z.ZodString>;
+	currency: z.ZodDefault<
+		z.ZodOptional<
+			z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>
+		>
+	>;
+	account_reference: z.ZodOptional<z.ZodString>;
+	reference: z.ZodString;
+}> = z.object({
 	source: z.enum(["balance"]).default("balance"),
 	amount: z.number().min(1000),
 	recipient: z.string().startsWith("RCP_"),
@@ -31,14 +56,74 @@ const transfer = z.object({
 	updated_at: z.iso.datetime().optional(),
 });
 
-export const transferInitiateSuccess = genericResponse.extend({
+export const transferInitiateSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			reference: z.ZodString;
+			source: z.ZodString;
+			reason: z.ZodString;
+			status: z.ZodString;
+			failures: z.ZodNullable<z.ZodUnknown>;
+			transfer_code: z.ZodString;
+			titan_code: z.ZodNullable<z.ZodString>;
+			transferred_at: z.ZodNullable<z.ZodUnknown>;
+			id: z.ZodNumber;
+			integration: z.ZodNumber;
+			request: z.ZodNumber;
+			recipient: z.ZodNumber;
+			created_at: z.ZodOptional<z.ZodISODateTime>;
+			updated_at: z.ZodOptional<z.ZodISODateTime>;
+			transfersessionid: z.ZodArray<z.ZodUnknown>;
+			transfertrials: z.ZodArray<z.ZodUnknown>;
+		},
+		z.core.$strip
+	>;
+}> = genericResponse.extend({
 	data: transfer.extend({
 		transfersessionid: z.array(z.unknown()),
 		transfertrials: z.array(z.unknown()),
 	}),
 });
 
-export const transferError = genericResponse.extend({
+export const transferError: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	data: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+	meta: z.ZodObject<
+		{
+			nextStep: z.ZodString;
+		},
+		z.core.$strip
+	>;
+	type: z.ZodString;
+	code: z.ZodString;
+}> = genericResponse.extend({
 	meta: z.object({
 		nextStep: z.string(),
 	}),
@@ -46,18 +131,85 @@ export const transferError = genericResponse.extend({
 	code: z.string(),
 });
 
-export const transferFinalizeInput = z.object({
+export const transferFinalizeInput: z.ZodObject<{
+	transfer_code: z.ZodString;
+	otp: z.ZodString;
+}> = z.object({
 	transfer_code: z.string().startsWith("TRF_"),
 	otp: z.string(),
 });
 
-export const transferFinalizeSuccess = genericResponse.extend({
+export const transferFinalizeSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			reference: z.ZodString;
+			source: z.ZodString;
+			reason: z.ZodString;
+			status: z.ZodString;
+			failures: z.ZodNullable<z.ZodUnknown>;
+			transfer_code: z.ZodString;
+			titan_code: z.ZodNullable<z.ZodString>;
+			transferred_at: z.ZodNullable<z.ZodUnknown>;
+			id: z.ZodNumber;
+			integration: z.ZodNumber;
+			request: z.ZodNumber;
+			recipient: z.ZodNumber;
+			created_at: z.ZodOptional<z.ZodISODateTime>;
+			updated_at: z.ZodOptional<z.ZodISODateTime>;
+			source_details: z.ZodNullable<z.ZodUnknown>;
+		},
+		z.core.$strip
+	>;
+}> = genericResponse.extend({
 	data: transfer.extend({
 		source_details: z.unknown().nullable(),
 	}),
 });
 
-export const transferBulkInitiateInput = z.object({
+export const transferBulkInitiateInput: z.ZodObject<{
+	source: z.ZodDefault<
+		z.ZodEnum<{
+			balance: "balance";
+		}>
+	>;
+	transfers: z.ZodArray<
+		z.ZodObject<
+			{
+				amount: z.ZodNumber;
+				recipient: z.ZodString;
+				reference: z.ZodString;
+				reason: z.ZodOptional<z.ZodString>;
+			},
+			z.core.$strip
+		>
+	>;
+}> = z.object({
 	source: z.enum(["balance"]).default("balance"),
 	transfers: z.array(
 		z.object({
@@ -69,7 +221,44 @@ export const transferBulkInitiateInput = z.object({
 	),
 });
 
-export const transferBulkInitiateSuccess = genericResponse.extend({
+export const transferBulkInitiateSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodArray<
+		z.ZodObject<
+			{
+				reference: z.ZodString;
+				recipient: z.ZodString;
+				amount: z.ZodNumber;
+				transfer_code: z.ZodString;
+				currency: z.ZodDefault<
+					z.ZodEnum<{
+						NGN: "NGN";
+						USD: "USD";
+						GHS: "GHS";
+						ZAR: "ZAR";
+						KES: "KES";
+						XOF: "XOF";
+					}>
+				>;
+				status: z.ZodString;
+			},
+			z.core.$strip
+		>
+	>;
+}> = genericResponse.extend({
 	data: z.array(
 		z.object({
 			reference: z.string(),
@@ -82,7 +271,13 @@ export const transferBulkInitiateSuccess = genericResponse.extend({
 	),
 });
 
-export const transferListInput = genericInput.extend({
+export const transferListInput: z.ZodObject<{
+	perPage: z.ZodDefault<z.ZodCoercedNumber<unknown>>;
+	page: z.ZodDefault<z.ZodCoercedNumber<unknown>>;
+	from: z.ZodOptional<z.ZodISODateTime>;
+	to: z.ZodOptional<z.ZodISODateTime>;
+	recipient: z.ZodOptional<z.ZodString>;
+}> = genericInput.extend({
 	recipient: z.string().startsWith("RCP_").optional(),
 });
 
@@ -107,7 +302,93 @@ const recipient = z.object({
 	updated_at: z.iso.datetime().optional(),
 });
 
-export const transferListSuccess = genericResponse.extend({
+export const transferListSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodArray<
+		z.ZodObject<
+			{
+				amount: z.ZodNumber;
+				currency: z.ZodDefault<
+					z.ZodEnum<{
+						NGN: "NGN";
+						USD: "USD";
+						GHS: "GHS";
+						ZAR: "ZAR";
+						KES: "KES";
+						XOF: "XOF";
+					}>
+				>;
+				reference: z.ZodString;
+				id: z.ZodNumber;
+				status: z.ZodString;
+				domain: z.ZodString;
+				reason: z.ZodString;
+				failures: z.ZodNullable<z.ZodUnknown>;
+				transfer_code: z.ZodString;
+				titan_code: z.ZodNullable<z.ZodString>;
+				transferred_at: z.ZodNullable<z.ZodUnknown>;
+				created_at: z.ZodOptional<z.ZodISODateTime>;
+				updated_at: z.ZodOptional<z.ZodISODateTime>;
+				integration: z.ZodNumber;
+				recipient: z.ZodObject<
+					{
+						domain: z.ZodString;
+						type: z.ZodString;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						name: z.ZodString;
+						details: z.ZodObject<
+							{
+								account_number: z.ZodString;
+								account_name: z.ZodString;
+								bank_code: z.ZodString;
+								bank_name: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						description: z.ZodNullable<z.ZodString>;
+						metadata: z.ZodNullable<z.ZodAny>;
+						recipient_code: z.ZodString;
+						active: z.ZodBoolean;
+						id: z.ZodNumber;
+						integration: z.ZodNumber;
+						created_at: z.ZodOptional<z.ZodISODateTime>;
+						updated_at: z.ZodOptional<z.ZodISODateTime>;
+					},
+					z.core.$strip
+				>;
+				source: z.ZodDefault<
+					z.ZodEnum<{
+						balance: "balance";
+					}>
+				>;
+				source_details: z.ZodNullable<z.ZodUnknown>;
+			},
+			z.core.$strip
+		>
+	>;
+}> = genericResponse.extend({
 	data: z.array(
 		transfer.omit({ request: true }).extend({
 			integration: z.number(),
@@ -150,7 +431,110 @@ const transferDetails = transfer.extend({
 	source_details: z.unknown().nullable(),
 });
 
-export const transferSingleSuccess = genericResponse.extend({
+export const transferSingleSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			reference: z.ZodString;
+			reason: z.ZodString;
+			status: z.ZodString;
+			failures: z.ZodNullable<z.ZodUnknown>;
+			transfer_code: z.ZodString;
+			titan_code: z.ZodNullable<z.ZodString>;
+			transferred_at: z.ZodNullable<z.ZodUnknown>;
+			id: z.ZodNumber;
+			integration: z.ZodNumber;
+			request: z.ZodNumber;
+			created_at: z.ZodOptional<z.ZodISODateTime>;
+			updated_at: z.ZodOptional<z.ZodISODateTime>;
+			createdAt: z.ZodISODateTime;
+			updatedAt: z.ZodISODateTime;
+			recipient: z.ZodObject<
+				{
+					domain: z.ZodString;
+					type: z.ZodString;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					name: z.ZodString;
+					recipient_code: z.ZodString;
+					active: z.ZodBoolean;
+					id: z.ZodNumber;
+					integration: z.ZodNumber;
+					created_at: z.ZodOptional<z.ZodISODateTime>;
+					updated_at: z.ZodOptional<z.ZodISODateTime>;
+					createdAt: z.ZodOptional<z.ZodISODateTime>;
+					description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					email: z.ZodOptional<z.ZodNullable<z.ZodEmail>>;
+					metadata: z.ZodOptional<z.ZodNullable<z.ZodAny>>;
+					updatedAt: z.ZodOptional<z.ZodISODateTime>;
+					is_deleted: z.ZodOptional<z.ZodBoolean>;
+					isDeleted: z.ZodOptional<z.ZodBoolean>;
+					details: z.ZodObject<
+						{
+							authorization_code: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							account_name: z.ZodNullable<z.ZodString>;
+							account_number: z.ZodString;
+							bank_code: z.ZodString;
+							bank_name: z.ZodString;
+						},
+						z.core.$strip
+					>;
+				},
+				z.core.$strip
+			>;
+			session: z.ZodObject<
+				{
+					provider: z.ZodNullable<z.ZodUnknown>;
+					id: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			fees_charged: z.ZodNumber;
+			fees_breakdown: z.ZodNullable<z.ZodUnknown>;
+			gateway_response: z.ZodNullable<z.ZodUnknown>;
+			source: z.ZodDefault<
+				z.ZodEnum<{
+					balance: "balance";
+				}>
+			>;
+			source_details: z.ZodNullable<z.ZodUnknown>;
+		},
+		z.core.$strip
+	>;
+}> = genericResponse.extend({
 	data: transferDetails,
 });
 

@@ -251,7 +251,31 @@ const customerDataBaseSchema = z.object({
 	email: z.email(),
 });
 
-export const customerIdFail = z.object({
+export const customerIdFail: z.ZodObject<{
+	event: z.ZodLiteral<"customeridentification.failed">;
+	data: z.ZodObject<
+		{
+			customer_id: z.ZodString;
+			customer_code: z.ZodString;
+			email: z.ZodEmail;
+			identification: z.ZodObject<
+				{
+					country: z.ZodEnum<{
+						NG: "NG";
+						GH: "GH";
+					}>;
+					type: z.ZodString;
+					bvn: z.ZodString;
+					account_number: z.ZodString;
+					bank_code: z.ZodString;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+	reason: z.ZodString;
+}> = z.object({
 	event: z.literal("customeridentification.failed"),
 	data: customerDataBaseSchema.extend({
 		identification: identificationBaseSchema.extend({
@@ -263,7 +287,28 @@ export const customerIdFail = z.object({
 	reason: z.string(),
 });
 
-export const customerIdSuccess = z.object({
+export const customerIdSuccess: z.ZodObject<{
+	event: z.ZodLiteral<"customeridentification.success">;
+	data: z.ZodObject<
+		{
+			customer_id: z.ZodString;
+			customer_code: z.ZodString;
+			email: z.ZodEmail;
+			identification: z.ZodObject<
+				{
+					country: z.ZodEnum<{
+						NG: "NG";
+						GH: "GH";
+					}>;
+					type: z.ZodString;
+					value: z.ZodString;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("customeridentification.success"),
 	data: customerDataBaseSchema.extend({
 		identification: identificationBaseSchema.extend({
@@ -272,22 +317,653 @@ export const customerIdSuccess = z.object({
 	}),
 });
 
-export const disputeCreated = z.object({
+export const disputeCreated: z.ZodObject<{
+	event: z.ZodLiteral<"charge.dispute.create">;
+	data: z.ZodObject<
+		{
+			id: z.ZodNumber;
+			refund_amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			status: z.ZodString;
+			resolution: z.ZodNullable<z.ZodUnknown>;
+			domain: z.ZodString;
+			transaction: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					domain: z.ZodString;
+					status: z.ZodString;
+					reference: z.ZodString;
+					amount: z.ZodNumber;
+					message: z.ZodNullable<z.ZodString>;
+					gateway_response: z.ZodString;
+					paid_at: z.ZodISODateTime;
+					created_at: z.ZodISODateTime;
+					channel: z.ZodString;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					ip_address: z.ZodNullable<z.ZodIPv4>;
+					metadata: z.ZodAny;
+					log: z.ZodNullable<
+						z.ZodObject<
+							{
+								start_time: z.ZodNumber;
+								time_spent: z.ZodNumber;
+								attempts: z.ZodNumber;
+								errors: z.ZodNumber;
+								success: z.ZodBoolean;
+								mobile: z.ZodBoolean;
+								input: z.ZodArray<z.ZodUnknown>;
+								history: z.ZodArray<
+									z.ZodObject<
+										{
+											type: z.ZodString;
+											message: z.ZodString;
+											time: z.ZodNumber;
+										},
+										z.core.$strip
+									>
+								>;
+							},
+							z.core.$strip
+						>
+					>;
+					fees: z.ZodNumber;
+					fees_split: z.ZodNullable<z.ZodUnknown>;
+					authorization: z.ZodOptional<
+						z.ZodObject<
+							{
+								authorization_code: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+								reusable: z.ZodOptional<z.ZodBoolean>;
+								signature: z.ZodOptional<z.ZodString>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							},
+							z.core.$strip
+						>
+					>;
+					customer: z.ZodObject<
+						{
+							international_format_phone: z.ZodNullable<z.ZodString>;
+						},
+						z.core.$strip
+					>;
+					plan: z.ZodObject<
+						{
+							id: z.ZodNumber;
+							name: z.ZodString;
+							plan_code: z.ZodString;
+							description: z.ZodNullable<z.ZodString>;
+							amount: z.ZodNumber;
+							interval: z.ZodString;
+							send_invoices: z.ZodBoolean;
+							send_sms: z.ZodBoolean;
+							currency: z.ZodDefault<
+								z.ZodEnum<{
+									NGN: "NGN";
+									USD: "USD";
+									GHS: "GHS";
+									ZAR: "ZAR";
+									KES: "KES";
+									XOF: "XOF";
+								}>
+							>;
+						},
+						z.core.$strip
+					>;
+					subaccount: z.ZodOptional<
+						z.ZodObject<
+							{
+								id: z.ZodNumber;
+								subaccount_code: z.ZodString;
+								business_name: z.ZodString;
+								description: z.ZodString;
+								primary_contact_name: z.ZodNullable<z.ZodString>;
+								primary_contact_email: z.ZodNullable<z.ZodEmail>;
+								primary_contact_phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								settlement_bank: z.ZodString;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								account_number: z.ZodString;
+							},
+							z.core.$strip
+						>
+					>;
+					split: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+					order_id: z.ZodNullable<z.ZodString>;
+					paidAt: z.ZodISODateTime;
+					requested_amount: z.ZodNumber;
+					pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			transaction_reference: z.ZodNullable<z.ZodString>;
+			category: z.ZodString;
+			customer: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					email: z.ZodEmail;
+					phone: z.ZodNullable<z.ZodString>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+					international_format_phone: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			bin: z.ZodString;
+			last4: z.ZodString;
+			dueAt: z.ZodISODateTime;
+			resolvedAt: z.ZodNullable<z.ZodISODateTime>;
+			evidence: z.ZodNullable<z.ZodUnknown>;
+			attachments: z.ZodNullable<z.ZodUnknown>;
+			note: z.ZodNullable<z.ZodUnknown>;
+			history: z.ZodArray<
+				z.ZodObject<
+					{
+						status: z.ZodString;
+						by: z.ZodEmail;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>
+			>;
+			messages: z.ZodArray<
+				z.ZodObject<
+					{
+						sender: z.ZodEmail;
+						body: z.ZodString;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>
+			>;
+			created_at: z.ZodISODateTime;
+			updated_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("charge.dispute.create"),
 	data: disputeDataSchema,
 });
 
-export const disputeReminder = z.object({
+export const disputeReminder: z.ZodObject<{
+	event: z.ZodLiteral<"charge.dispute.remind">;
+	data: z.ZodObject<
+		{
+			id: z.ZodNumber;
+			refund_amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			status: z.ZodString;
+			resolution: z.ZodNullable<z.ZodUnknown>;
+			domain: z.ZodString;
+			transaction: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					domain: z.ZodString;
+					status: z.ZodString;
+					reference: z.ZodString;
+					amount: z.ZodNumber;
+					message: z.ZodNullable<z.ZodString>;
+					gateway_response: z.ZodString;
+					paid_at: z.ZodISODateTime;
+					created_at: z.ZodISODateTime;
+					channel: z.ZodString;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					ip_address: z.ZodNullable<z.ZodIPv4>;
+					metadata: z.ZodAny;
+					log: z.ZodNullable<
+						z.ZodObject<
+							{
+								start_time: z.ZodNumber;
+								time_spent: z.ZodNumber;
+								attempts: z.ZodNumber;
+								errors: z.ZodNumber;
+								success: z.ZodBoolean;
+								mobile: z.ZodBoolean;
+								input: z.ZodArray<z.ZodUnknown>;
+								history: z.ZodArray<
+									z.ZodObject<
+										{
+											type: z.ZodString;
+											message: z.ZodString;
+											time: z.ZodNumber;
+										},
+										z.core.$strip
+									>
+								>;
+							},
+							z.core.$strip
+						>
+					>;
+					fees: z.ZodNumber;
+					fees_split: z.ZodNullable<z.ZodUnknown>;
+					authorization: z.ZodOptional<
+						z.ZodObject<
+							{
+								authorization_code: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+								reusable: z.ZodOptional<z.ZodBoolean>;
+								signature: z.ZodOptional<z.ZodString>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							},
+							z.core.$strip
+						>
+					>;
+					customer: z.ZodObject<
+						{
+							international_format_phone: z.ZodNullable<z.ZodString>;
+						},
+						z.core.$strip
+					>;
+					plan: z.ZodObject<
+						{
+							id: z.ZodNumber;
+							name: z.ZodString;
+							plan_code: z.ZodString;
+							description: z.ZodNullable<z.ZodString>;
+							amount: z.ZodNumber;
+							interval: z.ZodString;
+							send_invoices: z.ZodBoolean;
+							send_sms: z.ZodBoolean;
+							currency: z.ZodDefault<
+								z.ZodEnum<{
+									NGN: "NGN";
+									USD: "USD";
+									GHS: "GHS";
+									ZAR: "ZAR";
+									KES: "KES";
+									XOF: "XOF";
+								}>
+							>;
+						},
+						z.core.$strip
+					>;
+					subaccount: z.ZodOptional<
+						z.ZodObject<
+							{
+								id: z.ZodNumber;
+								subaccount_code: z.ZodString;
+								business_name: z.ZodString;
+								description: z.ZodString;
+								primary_contact_name: z.ZodNullable<z.ZodString>;
+								primary_contact_email: z.ZodNullable<z.ZodEmail>;
+								primary_contact_phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								settlement_bank: z.ZodString;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								account_number: z.ZodString;
+							},
+							z.core.$strip
+						>
+					>;
+					split: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+					order_id: z.ZodNullable<z.ZodString>;
+					paidAt: z.ZodISODateTime;
+					requested_amount: z.ZodNumber;
+					pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			transaction_reference: z.ZodNullable<z.ZodString>;
+			category: z.ZodString;
+			customer: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					email: z.ZodEmail;
+					phone: z.ZodNullable<z.ZodString>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+					international_format_phone: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			bin: z.ZodString;
+			last4: z.ZodString;
+			dueAt: z.ZodISODateTime;
+			resolvedAt: z.ZodNullable<z.ZodISODateTime>;
+			evidence: z.ZodNullable<z.ZodUnknown>;
+			attachments: z.ZodNullable<z.ZodUnknown>;
+			note: z.ZodNullable<z.ZodUnknown>;
+			history: z.ZodArray<
+				z.ZodObject<
+					{
+						status: z.ZodString;
+						by: z.ZodEmail;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>
+			>;
+			messages: z.ZodArray<
+				z.ZodObject<
+					{
+						sender: z.ZodEmail;
+						body: z.ZodString;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>
+			>;
+			created_at: z.ZodISODateTime;
+			updated_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("charge.dispute.remind"),
 	data: disputeDataSchema,
 });
 
-export const disputeResolved = z.object({
+export const disputeResolved: z.ZodObject<{
+	event: z.ZodLiteral<"charge.dispute.resolve">;
+	data: z.ZodObject<
+		{
+			id: z.ZodNumber;
+			refund_amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			status: z.ZodString;
+			resolution: z.ZodNullable<z.ZodUnknown>;
+			domain: z.ZodString;
+			transaction: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					domain: z.ZodString;
+					status: z.ZodString;
+					reference: z.ZodString;
+					amount: z.ZodNumber;
+					message: z.ZodNullable<z.ZodString>;
+					gateway_response: z.ZodString;
+					paid_at: z.ZodISODateTime;
+					created_at: z.ZodISODateTime;
+					channel: z.ZodString;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					ip_address: z.ZodNullable<z.ZodIPv4>;
+					metadata: z.ZodAny;
+					log: z.ZodNullable<
+						z.ZodObject<
+							{
+								start_time: z.ZodNumber;
+								time_spent: z.ZodNumber;
+								attempts: z.ZodNumber;
+								errors: z.ZodNumber;
+								success: z.ZodBoolean;
+								mobile: z.ZodBoolean;
+								input: z.ZodArray<z.ZodUnknown>;
+								history: z.ZodArray<
+									z.ZodObject<
+										{
+											type: z.ZodString;
+											message: z.ZodString;
+											time: z.ZodNumber;
+										},
+										z.core.$strip
+									>
+								>;
+							},
+							z.core.$strip
+						>
+					>;
+					fees: z.ZodNumber;
+					fees_split: z.ZodNullable<z.ZodUnknown>;
+					authorization: z.ZodOptional<
+						z.ZodObject<
+							{
+								authorization_code: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+								reusable: z.ZodOptional<z.ZodBoolean>;
+								signature: z.ZodOptional<z.ZodString>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							},
+							z.core.$strip
+						>
+					>;
+					customer: z.ZodObject<
+						{
+							international_format_phone: z.ZodNullable<z.ZodString>;
+						},
+						z.core.$strip
+					>;
+					plan: z.ZodObject<
+						{
+							id: z.ZodNumber;
+							name: z.ZodString;
+							plan_code: z.ZodString;
+							description: z.ZodNullable<z.ZodString>;
+							amount: z.ZodNumber;
+							interval: z.ZodString;
+							send_invoices: z.ZodBoolean;
+							send_sms: z.ZodBoolean;
+							currency: z.ZodDefault<
+								z.ZodEnum<{
+									NGN: "NGN";
+									USD: "USD";
+									GHS: "GHS";
+									ZAR: "ZAR";
+									KES: "KES";
+									XOF: "XOF";
+								}>
+							>;
+						},
+						z.core.$strip
+					>;
+					subaccount: z.ZodOptional<
+						z.ZodObject<
+							{
+								id: z.ZodNumber;
+								subaccount_code: z.ZodString;
+								business_name: z.ZodString;
+								description: z.ZodString;
+								primary_contact_name: z.ZodNullable<z.ZodString>;
+								primary_contact_email: z.ZodNullable<z.ZodEmail>;
+								primary_contact_phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								settlement_bank: z.ZodString;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								account_number: z.ZodString;
+							},
+							z.core.$strip
+						>
+					>;
+					split: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+					order_id: z.ZodNullable<z.ZodString>;
+					paidAt: z.ZodISODateTime;
+					requested_amount: z.ZodNumber;
+					pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			transaction_reference: z.ZodNullable<z.ZodString>;
+			category: z.ZodString;
+			customer: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					email: z.ZodEmail;
+					phone: z.ZodNullable<z.ZodString>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+					international_format_phone: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			bin: z.ZodString;
+			last4: z.ZodString;
+			dueAt: z.ZodISODateTime;
+			resolvedAt: z.ZodNullable<z.ZodISODateTime>;
+			evidence: z.ZodNullable<z.ZodUnknown>;
+			attachments: z.ZodNullable<z.ZodUnknown>;
+			note: z.ZodNullable<z.ZodUnknown>;
+			history: z.ZodArray<
+				z.ZodObject<
+					{
+						status: z.ZodString;
+						by: z.ZodEmail;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>
+			>;
+			messages: z.ZodArray<
+				z.ZodObject<
+					{
+						sender: z.ZodEmail;
+						body: z.ZodString;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>
+			>;
+			created_at: z.ZodISODateTime;
+			updated_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("charge.dispute.resolve"),
 	data: disputeDataSchema,
 });
 
-export const dedicatedAccountAssignFail = z.object({
+export const dedicatedAccountAssignFail: z.ZodObject<{
+	event: z.ZodLiteral<"dedicatedaccount.assign.failed">;
+	data: z.ZodObject<
+		{
+			customer: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					email: z.ZodEmail;
+					phone: z.ZodNullable<z.ZodString>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+					international_format_phone: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			dedicated_account: z.ZodNullable<z.ZodUnknown>;
+			identification: z.ZodObject<
+				{
+					status: z.ZodString;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("dedicatedaccount.assign.failed"),
 	data: z.object({
 		customer,
@@ -298,7 +974,77 @@ export const dedicatedAccountAssignFail = z.object({
 	}),
 });
 
-export const dedicatedAccountAssignSuccess = z.object({
+export const dedicatedAccountAssignSuccess: z.ZodObject<{
+	event: z.ZodLiteral<"dedicatedaccount.assign.success">;
+	data: z.ZodObject<
+		{
+			customer: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					email: z.ZodEmail;
+					phone: z.ZodNullable<z.ZodString>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+					international_format_phone: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			dedicated_account: z.ZodObject<
+				{
+					bank: z.ZodObject<
+						{
+							name: z.ZodString;
+							id: z.ZodNumber;
+							slug: z.ZodString;
+						},
+						z.core.$strip
+					>;
+					account_name: z.ZodString;
+					account_number: z.ZodString;
+					assigned: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					active: z.ZodBoolean;
+					id: z.ZodNumber;
+					created_at: z.ZodISODateTime;
+					updated_at: z.ZodISODateTime;
+				},
+				z.core.$strip
+			>;
+			assignment: z.ZodObject<
+				{
+					integration: z.ZodNumber;
+					assignee_id: z.ZodNumber;
+					assignee_type: z.ZodString;
+					expired: z.ZodBoolean;
+					account_type: z.ZodString;
+					assigned_at: z.ZodISODateTime;
+					expired_at: z.ZodNullable<z.ZodISODateTime>;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+	identification: z.ZodObject<
+		{
+			status: z.ZodString;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("dedicatedaccount.assign.success"),
 	data: z.object({
 		customer,
@@ -312,7 +1058,85 @@ export const dedicatedAccountAssignSuccess = z.object({
 	}),
 });
 
-export const invoiceCreate = z.object({
+export const invoiceCreate: z.ZodObject<{
+	event: z.ZodLiteral<"invoice.create">;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			invoice_code: z.ZodString;
+			amount: z.ZodNumber;
+			period_start: z.ZodISODateTime;
+			period_end: z.ZodISODateTime;
+			status: z.ZodString;
+			paid: z.ZodBoolean;
+			paid_at: z.ZodNullable<z.ZodISODateTime>;
+			description: z.ZodNullable<z.ZodString>;
+			authorization: z.ZodObject<
+				{
+					authorization_code: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+					reusable: z.ZodOptional<z.ZodBoolean>;
+					signature: z.ZodOptional<z.ZodString>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+				},
+				z.core.$strip
+			>;
+			subscription: z.ZodObject<
+				{
+					status: z.ZodString;
+					subscription_code: z.ZodString;
+					email_token: z.ZodString;
+					amount: z.ZodNumber;
+					cron_expression: z.ZodString;
+					next_payment_date: z.ZodISODateTime;
+					open_invoice: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					metadata: z.ZodNullable<z.ZodAny>;
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					phone: z.ZodNullable<z.ZodString>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			transaction: z.ZodObject<
+				{
+					reference: z.ZodUUID;
+					status: z.ZodString;
+					amount: z.ZodNumber;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("invoice.create"),
 	data: invoiceDataBaseSchema.extend({
 		transaction: invoiceSuccessTransactionSchema,
@@ -320,7 +1144,87 @@ export const invoiceCreate = z.object({
 	}),
 });
 
-export const invoiceFail = z.object({
+export const invoiceFail: z.ZodObject<{
+	event: z.ZodLiteral<"invoice.payment_failed">;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			invoice_code: z.ZodString;
+			amount: z.ZodNumber;
+			period_start: z.ZodISODateTime;
+			period_end: z.ZodISODateTime;
+			status: z.ZodString;
+			paid: z.ZodBoolean;
+			paid_at: z.ZodNullable<z.ZodISODateTime>;
+			description: z.ZodNullable<z.ZodString>;
+			authorization: z.ZodObject<
+				{
+					authorization_code: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+					reusable: z.ZodOptional<z.ZodBoolean>;
+					signature: z.ZodOptional<z.ZodString>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+				},
+				z.core.$strip
+			>;
+			subscription: z.ZodObject<
+				{
+					status: z.ZodString;
+					subscription_code: z.ZodString;
+					email_token: z.ZodString;
+					amount: z.ZodNumber;
+					cron_expression: z.ZodString;
+					next_payment_date: z.ZodISODateTime;
+					open_invoice: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					metadata: z.ZodNullable<z.ZodAny>;
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					phone: z.ZodNullable<z.ZodString>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			transaction: z.ZodObject<
+				{
+					reference: z.ZodOptional<z.ZodUUID>;
+					status: z.ZodOptional<z.ZodString>;
+					amount: z.ZodOptional<z.ZodNumber>;
+					currency: z.ZodOptional<
+						z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>
+					>;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("invoice.payment_failed"),
 	data: invoiceDataBaseSchema.extend({
 		transaction: invoiceSuccessTransactionSchema.partial(),
@@ -328,58 +1232,561 @@ export const invoiceFail = z.object({
 	}),
 });
 
-export const invoiceUpdate = z.object({
+export const invoiceUpdate: z.ZodObject<{
+	event: z.ZodLiteral<"invoice.update">;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			invoice_code: z.ZodString;
+			amount: z.ZodNumber;
+			period_start: z.ZodISODateTime;
+			period_end: z.ZodISODateTime;
+			status: z.ZodString;
+			paid: z.ZodBoolean;
+			paid_at: z.ZodNullable<z.ZodISODateTime>;
+			description: z.ZodNullable<z.ZodString>;
+			authorization: z.ZodObject<
+				{
+					authorization_code: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+					reusable: z.ZodOptional<z.ZodBoolean>;
+					signature: z.ZodOptional<z.ZodString>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+				},
+				z.core.$strip
+			>;
+			subscription: z.ZodObject<
+				{
+					status: z.ZodString;
+					subscription_code: z.ZodString;
+					email_token: z.ZodString;
+					amount: z.ZodNumber;
+					cron_expression: z.ZodString;
+					next_payment_date: z.ZodISODateTime;
+					open_invoice: z.ZodNullable<z.ZodUnknown>;
+				},
+				z.core.$strip
+			>;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					metadata: z.ZodNullable<z.ZodAny>;
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					phone: z.ZodNullable<z.ZodString>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			transaction: z.ZodObject<
+				{
+					reference: z.ZodUUID;
+					status: z.ZodString;
+					amount: z.ZodNumber;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("invoice.update"),
 	data: invoiceDataBaseSchema.extend({
 		transaction: invoiceSuccessTransactionSchema,
 	}),
 });
 
-export const paymentRequestPending = z.object({
+export const paymentRequestPending: z.ZodObject<{
+	event: z.ZodLiteral<"paymentrequest.pending">;
+	data: z.ZodObject<
+		{
+			id: z.ZodNumber;
+			domain: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			due_date: z.ZodNullable<z.ZodISODateTime>;
+			has_invoice: z.ZodBoolean;
+			invoice_number: z.ZodNullable<z.ZodString>;
+			description: z.ZodNullable<z.ZodString>;
+			pdf_url: z.ZodNullable<z.ZodURL>;
+			line_items: z.ZodArray<z.ZodUnknown>;
+			tax: z.ZodArray<z.ZodUnknown>;
+			request_code: z.ZodString;
+			status: z.ZodString;
+			paid: z.ZodBoolean;
+			paid_at: z.ZodNullable<z.ZodISODateTime>;
+			metadata: z.ZodNullable<z.ZodAny>;
+			notifications: z.ZodArray<
+				z.ZodObject<
+					{
+						sent_at: z.ZodISODateTime;
+						channel: z.ZodString;
+					},
+					z.core.$strip
+				>
+			>;
+			offline_reference: z.ZodNullable<z.ZodString>;
+			customer: z.ZodNumber;
+			created_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("paymentrequest.pending"),
 	data: paymentRequestDataSchema,
 });
 
-export const paymentRequestSuccess = z.object({
+export const paymentRequestSuccess: z.ZodObject<{
+	event: z.ZodLiteral<"paymentrequest.success">;
+	data: z.ZodObject<
+		{
+			id: z.ZodNumber;
+			domain: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			due_date: z.ZodNullable<z.ZodISODateTime>;
+			has_invoice: z.ZodBoolean;
+			invoice_number: z.ZodNullable<z.ZodString>;
+			description: z.ZodNullable<z.ZodString>;
+			pdf_url: z.ZodNullable<z.ZodURL>;
+			line_items: z.ZodArray<z.ZodUnknown>;
+			tax: z.ZodArray<z.ZodUnknown>;
+			request_code: z.ZodString;
+			status: z.ZodString;
+			paid: z.ZodBoolean;
+			paid_at: z.ZodNullable<z.ZodISODateTime>;
+			metadata: z.ZodNullable<z.ZodAny>;
+			notifications: z.ZodArray<
+				z.ZodObject<
+					{
+						sent_at: z.ZodISODateTime;
+						channel: z.ZodString;
+					},
+					z.core.$strip
+				>
+			>;
+			offline_reference: z.ZodNullable<z.ZodString>;
+			customer: z.ZodNumber;
+			created_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("paymentrequest.success"),
 	data: paymentRequestDataSchema,
 });
 
-export const refundFailed = z.object({
+export const refundFailed: z.ZodObject<{
+	event: z.ZodLiteral<"refund.failed">;
+	data: z.ZodObject<
+		{
+			status: z.ZodString;
+			transaction_reference: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			processor: z.ZodString;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			integration: z.ZodNumber;
+			domain: z.ZodString;
+			refund_reference: z.ZodString;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("refund.failed"),
 	data: refundFailedOrProcessedDataSchema,
 });
 
-export const refundPending = z.object({
+export const refundPending: z.ZodObject<{
+	event: z.ZodLiteral<"refund.pending">;
+	data: z.ZodObject<
+		{
+			status: z.ZodString;
+			transaction_reference: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			processor: z.ZodString;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			integration: z.ZodNumber;
+			domain: z.ZodString;
+			refund_reference: z.ZodNullable<z.ZodString>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("refund.pending"),
 	data: refundPendingOrProcessingDataSchema,
 });
 
-export const refundProcessed = z.object({
+export const refundProcessed: z.ZodObject<{
+	event: z.ZodLiteral<"refund.processed">;
+	data: z.ZodObject<
+		{
+			status: z.ZodString;
+			transaction_reference: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			processor: z.ZodString;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			integration: z.ZodNumber;
+			domain: z.ZodString;
+			refund_reference: z.ZodString;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("refund.processed"),
 	data: refundFailedOrProcessedDataSchema,
 });
 
-export const refundProcessing = z.object({
+export const refundProcessing: z.ZodObject<{
+	event: z.ZodLiteral<"refund.processing">;
+	data: z.ZodObject<
+		{
+			status: z.ZodString;
+			transaction_reference: z.ZodString;
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			processor: z.ZodString;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			integration: z.ZodNumber;
+			domain: z.ZodString;
+			refund_reference: z.ZodNullable<z.ZodString>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("refund.processing"),
 	data: refundPendingOrProcessingDataSchema,
 });
 
-export const subscriptionCreate = z.object({
+export const subscriptionCreate: z.ZodObject<{
+	event: z.ZodLiteral<"subscription.create">;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			status: z.ZodString;
+			subscription_code: z.ZodString;
+			amount: z.ZodNumber;
+			cron_expression: z.ZodString;
+			next_payment_date: z.ZodISODateTime;
+			open_invoice: z.ZodNullable<z.ZodUnknown>;
+			plan: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					name: z.ZodString;
+					plan_code: z.ZodString;
+					description: z.ZodNullable<z.ZodString>;
+					amount: z.ZodNumber;
+					interval: z.ZodString;
+					send_invoices: z.ZodBoolean;
+					send_sms: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+				},
+				z.core.$strip
+			>;
+			authorization: z.ZodObject<
+				{
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					authorization_code: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					metadata: z.ZodNullable<z.ZodAny>;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					phone: z.ZodNullable<z.ZodString>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodISODateTime;
+			createdAt: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("subscription.create"),
 	data: subscriptionCoreDataSchema.extend({
 		createdAt: z.iso.datetime(),
 	}),
 });
 
-export const subscriptionDisabled = z.object({
+export const subscriptionDisabled: z.ZodObject<{
+	event: z.ZodLiteral<"subscription.disable">;
+	data: z.ZodObject<
+		{
+			domain: z.ZodString;
+			status: z.ZodString;
+			subscription_code: z.ZodString;
+			amount: z.ZodNumber;
+			cron_expression: z.ZodString;
+			next_payment_date: z.ZodISODateTime;
+			open_invoice: z.ZodNullable<z.ZodUnknown>;
+			plan: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					name: z.ZodString;
+					plan_code: z.ZodString;
+					description: z.ZodNullable<z.ZodString>;
+					amount: z.ZodNumber;
+					interval: z.ZodString;
+					send_invoices: z.ZodBoolean;
+					send_sms: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+				},
+				z.core.$strip
+			>;
+			authorization: z.ZodObject<
+				{
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					authorization_code: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					metadata: z.ZodNullable<z.ZodAny>;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					phone: z.ZodNullable<z.ZodString>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodISODateTime;
+			email_token: z.ZodString;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("subscription.disable"),
 	data: subscriptionCoreDataSchema.extend({
 		email_token: z.string(),
 	}),
 });
 
-export const subscriptionNotRenewed = z.object({
+export const subscriptionNotRenewed: z.ZodObject<{
+	event: z.ZodLiteral<"subscription.not_renew">;
+	data: z.ZodObject<
+		{
+			id: z.ZodNumber;
+			domain: z.ZodString;
+			status: z.ZodString;
+			subscription_code: z.ZodString;
+			email_token: z.ZodString;
+			amount: z.ZodNumber;
+			cron_expression: z.ZodString;
+			next_payment_date: z.ZodISODateTime;
+			open_invoice: z.ZodNullable<z.ZodUnknown>;
+			integration: z.ZodNumber;
+			plan: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					name: z.ZodString;
+					plan_code: z.ZodString;
+					description: z.ZodNullable<z.ZodString>;
+					amount: z.ZodNumber;
+					interval: z.ZodString;
+					send_invoices: z.ZodBoolean;
+					send_sms: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+				},
+				z.core.$strip
+			>;
+			authorization: z.ZodObject<
+				{
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					authorization_code: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			customer: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					email: z.ZodEmail;
+					phone: z.ZodNullable<z.ZodString>;
+					metadata: z.ZodNullable<z.ZodAny>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+					international_format_phone: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			invoices: z.ZodArray<z.ZodUnknown>;
+			invoices_history: z.ZodArray<z.ZodUnknown>;
+			invoice_limit: z.ZodNumber;
+			split_code: z.ZodNullable<z.ZodString>;
+			most_recent_invoice: z.ZodNullable<z.ZodUnknown>;
+			created_at: z.ZodISODateTime;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("subscription.not_renew"),
 	data: z.object({
 		id: z.number(),
@@ -407,7 +1814,51 @@ export const subscriptionNotRenewed = z.object({
 	}),
 });
 
-export const subscriptionWithExpiredCard = z.object({
+export const subscriptionWithExpiredCard: z.ZodObject<{
+	event: z.ZodLiteral<"subscription.expiring_cards">;
+	data: z.ZodArray<
+		z.ZodObject<
+			{
+				expiry_date: z.ZodISODateTime;
+				description: z.ZodString;
+				brand: z.ZodEnum<{
+					visa: "visa";
+					mastercard: "mastercard";
+					verve: "verve";
+				}>;
+				subscription: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						subscription_code: z.ZodString;
+						amount: z.ZodNumber;
+						next_payment_date: z.ZodISODateTime;
+						plan: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								name: z.ZodString;
+								plan_code: z.ZodString;
+								interval: z.ZodString;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+				customer: z.ZodObject<
+					{
+						email: z.ZodEmail;
+						id: z.ZodNumber;
+						first_name: z.ZodNullable<z.ZodString>;
+						last_name: z.ZodNullable<z.ZodString>;
+						customer_code: z.ZodString;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>
+	>;
+}> = z.object({
 	event: z.literal("subscription.expiring_cards"),
 	data: z.array(
 		z.object({
@@ -437,7 +1888,94 @@ export const subscriptionWithExpiredCard = z.object({
 	),
 });
 
-export const transactionSuccessful = z.object({
+export const transactionSuccessful: z.ZodObject<{
+	event: z.ZodLiteral<"charge.success">;
+	data: z.ZodObject<
+		{
+			status: z.ZodString;
+			message: z.ZodNullable<z.ZodString>;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			id: z.ZodNumber;
+			domain: z.ZodString;
+			amount: z.ZodNumber;
+			reference: z.ZodString;
+			gateway_response: z.ZodString;
+			channel: z.ZodString;
+			ip_address: z.ZodNullable<z.ZodString>;
+			fees_split: z.ZodNullable<z.ZodUnknown>;
+			order_id: z.ZodNullable<z.ZodString>;
+			requested_amount: z.ZodNumber;
+			pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+			connect: z.ZodNullable<z.ZodUnknown>;
+			log: z.ZodNullable<
+				z.ZodObject<
+					{
+						success: z.ZodBoolean;
+						input: z.ZodArray<z.ZodUnknown>;
+						errors: z.ZodNumber;
+						time_spent: z.ZodNumber;
+						attempts: z.ZodNumber;
+						mobile: z.ZodBoolean;
+						history: z.ZodArray<
+							z.ZodObject<
+								{
+									type: z.ZodString;
+									message: z.ZodString;
+									time: z.ZodNumber;
+								},
+								z.core.$strip
+							>
+						>;
+						authentication: z.ZodString;
+					},
+					z.core.$strip
+				>
+			>;
+			metadata: z.ZodAny;
+			paid_at: z.ZodISODateTime;
+			created_at: z.ZodISODateTime;
+			fees: z.ZodNullable<z.ZodNumber>;
+			customer: z.ZodObject<
+				{
+					email: z.ZodEmail;
+					metadata: z.ZodNullable<z.ZodAny>;
+					first_name: z.ZodNullable<z.ZodString>;
+					last_name: z.ZodNullable<z.ZodString>;
+					phone: z.ZodNullable<z.ZodString>;
+					customer_code: z.ZodString;
+					risk_action: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			authorization: z.ZodObject<
+				{
+					bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+					authorization_code: z.ZodOptional<z.ZodString>;
+					channel: z.ZodOptional<z.ZodString>;
+					bin: z.ZodOptional<z.ZodString>;
+					last4: z.ZodOptional<z.ZodString>;
+					exp_month: z.ZodOptional<z.ZodString>;
+					exp_year: z.ZodOptional<z.ZodString>;
+					card_type: z.ZodOptional<z.ZodString>;
+					country_code: z.ZodOptional<z.ZodString>;
+					brand: z.ZodOptional<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("charge.success"),
 	data: transactionShared
 		.omit({
@@ -469,28 +2007,2167 @@ export const transactionSuccessful = z.object({
 		}),
 });
 
-export const transferSuccess = z.object({
+export const transferSuccess: z.ZodObject<{
+	event: z.ZodLiteral<"transfer.success">;
+	data: z.ZodObject<
+		{
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			domain: z.ZodString;
+			failures: z.ZodNullable<z.ZodUnknown>;
+			id: z.ZodNumber;
+			integration: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					is_live: z.ZodBoolean;
+					business_name: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			reason: z.ZodString;
+			reference: z.ZodString;
+			source: z.ZodString;
+			source_details: z.ZodNullable<z.ZodUnknown>;
+			status: z.ZodString;
+			titan_code: z.ZodNullable<z.ZodString>;
+			transfer_code: z.ZodString;
+			transferred_at: z.ZodNullable<z.ZodISODateTime>;
+			session: z.ZodObject<
+				{
+					provider: z.ZodNullable<z.ZodString>;
+					id: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodOptional<z.ZodISODateTime>;
+			updated_at: z.ZodOptional<z.ZodISODateTime>;
+			recipient: z.ZodObject<
+				{
+					active: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					description: z.ZodNullable<z.ZodString>;
+					domain: z.ZodString;
+					email: z.ZodNullable<z.ZodEmail>;
+					id: z.ZodNumber;
+					integration: z.ZodNumber;
+					metadata: z.ZodNullable<z.ZodAny>;
+					name: z.ZodString;
+					recipient_code: z.ZodString;
+					type: z.ZodString;
+					is_deleted: z.ZodBoolean;
+					created_at: z.ZodOptional<z.ZodISODateTime>;
+					updated_at: z.ZodOptional<z.ZodISODateTime>;
+					details: z.ZodObject<
+						{
+							account_number: z.ZodString;
+							account_name: z.ZodNullable<z.ZodString>;
+							bank_code: z.ZodString;
+							bank_name: z.ZodString;
+						},
+						z.core.$strip
+					>;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("transfer.success"),
 	data: transferDataBaseSchema.extend({
 		recipient: transferSuccessRecipientSchema,
 	}),
 });
 
-export const transferFailed = z.object({
+export const transferFailed: z.ZodObject<{
+	event: z.ZodLiteral<"transfer.failed">;
+	data: z.ZodObject<
+		{
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			domain: z.ZodString;
+			failures: z.ZodNullable<z.ZodUnknown>;
+			id: z.ZodNumber;
+			integration: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					is_live: z.ZodBoolean;
+					business_name: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			reason: z.ZodString;
+			reference: z.ZodString;
+			source: z.ZodString;
+			source_details: z.ZodNullable<z.ZodUnknown>;
+			status: z.ZodString;
+			titan_code: z.ZodNullable<z.ZodString>;
+			transfer_code: z.ZodString;
+			transferred_at: z.ZodNullable<z.ZodISODateTime>;
+			session: z.ZodObject<
+				{
+					provider: z.ZodNullable<z.ZodString>;
+					id: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodOptional<z.ZodISODateTime>;
+			updated_at: z.ZodOptional<z.ZodISODateTime>;
+			recipient: z.ZodObject<
+				{
+					active: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					description: z.ZodNullable<z.ZodString>;
+					domain: z.ZodString;
+					email: z.ZodNullable<z.ZodEmail>;
+					id: z.ZodNumber;
+					integration: z.ZodNumber;
+					metadata: z.ZodNullable<z.ZodAny>;
+					name: z.ZodString;
+					recipient_code: z.ZodString;
+					type: z.ZodString;
+					is_deleted: z.ZodBoolean;
+					created_at: z.ZodOptional<z.ZodISODateTime>;
+					updated_at: z.ZodOptional<z.ZodISODateTime>;
+					details: z.ZodObject<
+						{
+							account_number: z.ZodString;
+							account_name: z.ZodNullable<z.ZodString>;
+							bank_code: z.ZodString;
+							bank_name: z.ZodString;
+							authorization_code: z.ZodNullable<z.ZodString>;
+						},
+						z.core.$strip
+					>;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("transfer.failed"),
 	data: transferDataBaseSchema.extend({
 		recipient: transferFailedOrReversedRecipientSchema,
 	}),
 });
 
-export const transferReversed = z.object({
+export const transferReversed: z.ZodObject<{
+	event: z.ZodLiteral<"transfer.reversed">;
+	data: z.ZodObject<
+		{
+			amount: z.ZodNumber;
+			currency: z.ZodDefault<
+				z.ZodEnum<{
+					NGN: "NGN";
+					USD: "USD";
+					GHS: "GHS";
+					ZAR: "ZAR";
+					KES: "KES";
+					XOF: "XOF";
+				}>
+			>;
+			domain: z.ZodString;
+			failures: z.ZodNullable<z.ZodUnknown>;
+			id: z.ZodNumber;
+			integration: z.ZodObject<
+				{
+					id: z.ZodNumber;
+					is_live: z.ZodBoolean;
+					business_name: z.ZodString;
+				},
+				z.core.$strip
+			>;
+			reason: z.ZodString;
+			reference: z.ZodString;
+			source: z.ZodString;
+			source_details: z.ZodNullable<z.ZodUnknown>;
+			status: z.ZodString;
+			titan_code: z.ZodNullable<z.ZodString>;
+			transfer_code: z.ZodString;
+			transferred_at: z.ZodNullable<z.ZodISODateTime>;
+			session: z.ZodObject<
+				{
+					provider: z.ZodNullable<z.ZodString>;
+					id: z.ZodNullable<z.ZodString>;
+				},
+				z.core.$strip
+			>;
+			created_at: z.ZodOptional<z.ZodISODateTime>;
+			updated_at: z.ZodOptional<z.ZodISODateTime>;
+			recipient: z.ZodObject<
+				{
+					active: z.ZodBoolean;
+					currency: z.ZodDefault<
+						z.ZodEnum<{
+							NGN: "NGN";
+							USD: "USD";
+							GHS: "GHS";
+							ZAR: "ZAR";
+							KES: "KES";
+							XOF: "XOF";
+						}>
+					>;
+					description: z.ZodNullable<z.ZodString>;
+					domain: z.ZodString;
+					email: z.ZodNullable<z.ZodEmail>;
+					id: z.ZodNumber;
+					integration: z.ZodNumber;
+					metadata: z.ZodNullable<z.ZodAny>;
+					name: z.ZodString;
+					recipient_code: z.ZodString;
+					type: z.ZodString;
+					is_deleted: z.ZodBoolean;
+					created_at: z.ZodOptional<z.ZodISODateTime>;
+					updated_at: z.ZodOptional<z.ZodISODateTime>;
+					details: z.ZodObject<
+						{
+							account_number: z.ZodString;
+							account_name: z.ZodNullable<z.ZodString>;
+							bank_code: z.ZodString;
+							bank_name: z.ZodString;
+							authorization_code: z.ZodNullable<z.ZodString>;
+						},
+						z.core.$strip
+					>;
+				},
+				z.core.$strip
+			>;
+		},
+		z.core.$strip
+	>;
+}> = z.object({
 	event: z.literal("transfer.reversed"),
 	data: transferDataBaseSchema.extend({
 		recipient: transferFailedOrReversedRecipientSchema,
 	}),
 });
 
-export const paystackWebhookSchema = z.discriminatedUnion("event", [
+export const paystackWebhookSchema: z.ZodDiscriminatedUnion<
+	[
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"customeridentification.failed">;
+				data: z.ZodObject<
+					{
+						customer_id: z.ZodString;
+						customer_code: z.ZodString;
+						email: z.ZodEmail;
+						identification: z.ZodObject<
+							{
+								country: z.ZodEnum<{
+									NG: "NG";
+									GH: "GH";
+								}>;
+								type: z.ZodString;
+								bvn: z.ZodString;
+								account_number: z.ZodString;
+								bank_code: z.ZodString;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+				reason: z.ZodString;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"customeridentification.success">;
+				data: z.ZodObject<
+					{
+						customer_id: z.ZodString;
+						customer_code: z.ZodString;
+						email: z.ZodEmail;
+						identification: z.ZodObject<
+							{
+								country: z.ZodEnum<{
+									NG: "NG";
+									GH: "GH";
+								}>;
+								type: z.ZodString;
+								value: z.ZodString;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"charge.dispute.create">;
+				data: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						refund_amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						status: z.ZodString;
+						resolution: z.ZodNullable<z.ZodUnknown>;
+						domain: z.ZodString;
+						transaction: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								domain: z.ZodString;
+								status: z.ZodString;
+								reference: z.ZodString;
+								amount: z.ZodNumber;
+								message: z.ZodNullable<z.ZodString>;
+								gateway_response: z.ZodString;
+								paid_at: z.ZodISODateTime;
+								created_at: z.ZodISODateTime;
+								channel: z.ZodString;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								ip_address: z.ZodNullable<z.ZodIPv4>;
+								metadata: z.ZodAny;
+								log: z.ZodNullable<
+									z.ZodObject<
+										{
+											start_time: z.ZodNumber;
+											time_spent: z.ZodNumber;
+											attempts: z.ZodNumber;
+											errors: z.ZodNumber;
+											success: z.ZodBoolean;
+											mobile: z.ZodBoolean;
+											input: z.ZodArray<z.ZodUnknown>;
+											history: z.ZodArray<
+												z.ZodObject<
+													{
+														type: z.ZodString;
+														message: z.ZodString;
+														time: z.ZodNumber;
+													},
+													z.core.$strip
+												>
+											>;
+										},
+										z.core.$strip
+									>
+								>;
+								fees: z.ZodNumber;
+								fees_split: z.ZodNullable<z.ZodUnknown>;
+								authorization: z.ZodOptional<
+									z.ZodObject<
+										{
+											authorization_code: z.ZodOptional<z.ZodString>;
+											bin: z.ZodOptional<z.ZodString>;
+											last4: z.ZodOptional<z.ZodString>;
+											exp_month: z.ZodOptional<z.ZodString>;
+											exp_year: z.ZodOptional<z.ZodString>;
+											channel: z.ZodOptional<z.ZodString>;
+											card_type: z.ZodOptional<z.ZodString>;
+											bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+											country_code: z.ZodOptional<z.ZodString>;
+											brand: z.ZodOptional<z.ZodString>;
+											reusable: z.ZodOptional<z.ZodBoolean>;
+											signature: z.ZodOptional<z.ZodString>;
+											account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+										},
+										z.core.$strip
+									>
+								>;
+								customer: z.ZodObject<
+									{
+										international_format_phone: z.ZodNullable<z.ZodString>;
+									},
+									z.core.$strip
+								>;
+								plan: z.ZodObject<
+									{
+										id: z.ZodNumber;
+										name: z.ZodString;
+										plan_code: z.ZodString;
+										description: z.ZodNullable<z.ZodString>;
+										amount: z.ZodNumber;
+										interval: z.ZodString;
+										send_invoices: z.ZodBoolean;
+										send_sms: z.ZodBoolean;
+										currency: z.ZodDefault<
+											z.ZodEnum<{
+												NGN: "NGN";
+												USD: "USD";
+												GHS: "GHS";
+												ZAR: "ZAR";
+												KES: "KES";
+												XOF: "XOF";
+											}>
+										>;
+									},
+									z.core.$strip
+								>;
+								subaccount: z.ZodOptional<
+									z.ZodObject<
+										{
+											id: z.ZodNumber;
+											subaccount_code: z.ZodString;
+											business_name: z.ZodString;
+											description: z.ZodString;
+											primary_contact_name: z.ZodNullable<z.ZodString>;
+											primary_contact_email: z.ZodNullable<z.ZodEmail>;
+											primary_contact_phone: z.ZodNullable<z.ZodString>;
+											metadata: z.ZodNullable<z.ZodAny>;
+											settlement_bank: z.ZodString;
+											currency: z.ZodDefault<
+												z.ZodEnum<{
+													NGN: "NGN";
+													USD: "USD";
+													GHS: "GHS";
+													ZAR: "ZAR";
+													KES: "KES";
+													XOF: "XOF";
+												}>
+											>;
+											account_number: z.ZodString;
+										},
+										z.core.$strip
+									>
+								>;
+								split: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+								order_id: z.ZodNullable<z.ZodString>;
+								paidAt: z.ZodISODateTime;
+								requested_amount: z.ZodNumber;
+								pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+							},
+							z.core.$strip
+						>;
+						transaction_reference: z.ZodNullable<z.ZodString>;
+						category: z.ZodString;
+						customer: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								email: z.ZodEmail;
+								phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+								international_format_phone: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						bin: z.ZodString;
+						last4: z.ZodString;
+						dueAt: z.ZodISODateTime;
+						resolvedAt: z.ZodNullable<z.ZodISODateTime>;
+						evidence: z.ZodNullable<z.ZodUnknown>;
+						attachments: z.ZodNullable<z.ZodUnknown>;
+						note: z.ZodNullable<z.ZodUnknown>;
+						history: z.ZodArray<
+							z.ZodObject<
+								{
+									status: z.ZodString;
+									by: z.ZodEmail;
+									created_at: z.ZodISODateTime;
+								},
+								z.core.$strip
+							>
+						>;
+						messages: z.ZodArray<
+							z.ZodObject<
+								{
+									sender: z.ZodEmail;
+									body: z.ZodString;
+									created_at: z.ZodISODateTime;
+								},
+								z.core.$strip
+							>
+						>;
+						created_at: z.ZodISODateTime;
+						updated_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"charge.dispute.remind">;
+				data: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						refund_amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						status: z.ZodString;
+						resolution: z.ZodNullable<z.ZodUnknown>;
+						domain: z.ZodString;
+						transaction: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								domain: z.ZodString;
+								status: z.ZodString;
+								reference: z.ZodString;
+								amount: z.ZodNumber;
+								message: z.ZodNullable<z.ZodString>;
+								gateway_response: z.ZodString;
+								paid_at: z.ZodISODateTime;
+								created_at: z.ZodISODateTime;
+								channel: z.ZodString;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								ip_address: z.ZodNullable<z.ZodIPv4>;
+								metadata: z.ZodAny;
+								log: z.ZodNullable<
+									z.ZodObject<
+										{
+											start_time: z.ZodNumber;
+											time_spent: z.ZodNumber;
+											attempts: z.ZodNumber;
+											errors: z.ZodNumber;
+											success: z.ZodBoolean;
+											mobile: z.ZodBoolean;
+											input: z.ZodArray<z.ZodUnknown>;
+											history: z.ZodArray<
+												z.ZodObject<
+													{
+														type: z.ZodString;
+														message: z.ZodString;
+														time: z.ZodNumber;
+													},
+													z.core.$strip
+												>
+											>;
+										},
+										z.core.$strip
+									>
+								>;
+								fees: z.ZodNumber;
+								fees_split: z.ZodNullable<z.ZodUnknown>;
+								authorization: z.ZodOptional<
+									z.ZodObject<
+										{
+											authorization_code: z.ZodOptional<z.ZodString>;
+											bin: z.ZodOptional<z.ZodString>;
+											last4: z.ZodOptional<z.ZodString>;
+											exp_month: z.ZodOptional<z.ZodString>;
+											exp_year: z.ZodOptional<z.ZodString>;
+											channel: z.ZodOptional<z.ZodString>;
+											card_type: z.ZodOptional<z.ZodString>;
+											bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+											country_code: z.ZodOptional<z.ZodString>;
+											brand: z.ZodOptional<z.ZodString>;
+											reusable: z.ZodOptional<z.ZodBoolean>;
+											signature: z.ZodOptional<z.ZodString>;
+											account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+										},
+										z.core.$strip
+									>
+								>;
+								customer: z.ZodObject<
+									{
+										international_format_phone: z.ZodNullable<z.ZodString>;
+									},
+									z.core.$strip
+								>;
+								plan: z.ZodObject<
+									{
+										id: z.ZodNumber;
+										name: z.ZodString;
+										plan_code: z.ZodString;
+										description: z.ZodNullable<z.ZodString>;
+										amount: z.ZodNumber;
+										interval: z.ZodString;
+										send_invoices: z.ZodBoolean;
+										send_sms: z.ZodBoolean;
+										currency: z.ZodDefault<
+											z.ZodEnum<{
+												NGN: "NGN";
+												USD: "USD";
+												GHS: "GHS";
+												ZAR: "ZAR";
+												KES: "KES";
+												XOF: "XOF";
+											}>
+										>;
+									},
+									z.core.$strip
+								>;
+								subaccount: z.ZodOptional<
+									z.ZodObject<
+										{
+											id: z.ZodNumber;
+											subaccount_code: z.ZodString;
+											business_name: z.ZodString;
+											description: z.ZodString;
+											primary_contact_name: z.ZodNullable<z.ZodString>;
+											primary_contact_email: z.ZodNullable<z.ZodEmail>;
+											primary_contact_phone: z.ZodNullable<z.ZodString>;
+											metadata: z.ZodNullable<z.ZodAny>;
+											settlement_bank: z.ZodString;
+											currency: z.ZodDefault<
+												z.ZodEnum<{
+													NGN: "NGN";
+													USD: "USD";
+													GHS: "GHS";
+													ZAR: "ZAR";
+													KES: "KES";
+													XOF: "XOF";
+												}>
+											>;
+											account_number: z.ZodString;
+										},
+										z.core.$strip
+									>
+								>;
+								split: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+								order_id: z.ZodNullable<z.ZodString>;
+								paidAt: z.ZodISODateTime;
+								requested_amount: z.ZodNumber;
+								pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+							},
+							z.core.$strip
+						>;
+						transaction_reference: z.ZodNullable<z.ZodString>;
+						category: z.ZodString;
+						customer: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								email: z.ZodEmail;
+								phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+								international_format_phone: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						bin: z.ZodString;
+						last4: z.ZodString;
+						dueAt: z.ZodISODateTime;
+						resolvedAt: z.ZodNullable<z.ZodISODateTime>;
+						evidence: z.ZodNullable<z.ZodUnknown>;
+						attachments: z.ZodNullable<z.ZodUnknown>;
+						note: z.ZodNullable<z.ZodUnknown>;
+						history: z.ZodArray<
+							z.ZodObject<
+								{
+									status: z.ZodString;
+									by: z.ZodEmail;
+									created_at: z.ZodISODateTime;
+								},
+								z.core.$strip
+							>
+						>;
+						messages: z.ZodArray<
+							z.ZodObject<
+								{
+									sender: z.ZodEmail;
+									body: z.ZodString;
+									created_at: z.ZodISODateTime;
+								},
+								z.core.$strip
+							>
+						>;
+						created_at: z.ZodISODateTime;
+						updated_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"charge.dispute.resolve">;
+				data: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						refund_amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						status: z.ZodString;
+						resolution: z.ZodNullable<z.ZodUnknown>;
+						domain: z.ZodString;
+						transaction: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								domain: z.ZodString;
+								status: z.ZodString;
+								reference: z.ZodString;
+								amount: z.ZodNumber;
+								message: z.ZodNullable<z.ZodString>;
+								gateway_response: z.ZodString;
+								paid_at: z.ZodISODateTime;
+								created_at: z.ZodISODateTime;
+								channel: z.ZodString;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								ip_address: z.ZodNullable<z.ZodIPv4>;
+								metadata: z.ZodAny;
+								log: z.ZodNullable<
+									z.ZodObject<
+										{
+											start_time: z.ZodNumber;
+											time_spent: z.ZodNumber;
+											attempts: z.ZodNumber;
+											errors: z.ZodNumber;
+											success: z.ZodBoolean;
+											mobile: z.ZodBoolean;
+											input: z.ZodArray<z.ZodUnknown>;
+											history: z.ZodArray<
+												z.ZodObject<
+													{
+														type: z.ZodString;
+														message: z.ZodString;
+														time: z.ZodNumber;
+													},
+													z.core.$strip
+												>
+											>;
+										},
+										z.core.$strip
+									>
+								>;
+								fees: z.ZodNumber;
+								fees_split: z.ZodNullable<z.ZodUnknown>;
+								authorization: z.ZodOptional<
+									z.ZodObject<
+										{
+											authorization_code: z.ZodOptional<z.ZodString>;
+											bin: z.ZodOptional<z.ZodString>;
+											last4: z.ZodOptional<z.ZodString>;
+											exp_month: z.ZodOptional<z.ZodString>;
+											exp_year: z.ZodOptional<z.ZodString>;
+											channel: z.ZodOptional<z.ZodString>;
+											card_type: z.ZodOptional<z.ZodString>;
+											bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+											country_code: z.ZodOptional<z.ZodString>;
+											brand: z.ZodOptional<z.ZodString>;
+											reusable: z.ZodOptional<z.ZodBoolean>;
+											signature: z.ZodOptional<z.ZodString>;
+											account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+										},
+										z.core.$strip
+									>
+								>;
+								customer: z.ZodObject<
+									{
+										international_format_phone: z.ZodNullable<z.ZodString>;
+									},
+									z.core.$strip
+								>;
+								plan: z.ZodObject<
+									{
+										id: z.ZodNumber;
+										name: z.ZodString;
+										plan_code: z.ZodString;
+										description: z.ZodNullable<z.ZodString>;
+										amount: z.ZodNumber;
+										interval: z.ZodString;
+										send_invoices: z.ZodBoolean;
+										send_sms: z.ZodBoolean;
+										currency: z.ZodDefault<
+											z.ZodEnum<{
+												NGN: "NGN";
+												USD: "USD";
+												GHS: "GHS";
+												ZAR: "ZAR";
+												KES: "KES";
+												XOF: "XOF";
+											}>
+										>;
+									},
+									z.core.$strip
+								>;
+								subaccount: z.ZodOptional<
+									z.ZodObject<
+										{
+											id: z.ZodNumber;
+											subaccount_code: z.ZodString;
+											business_name: z.ZodString;
+											description: z.ZodString;
+											primary_contact_name: z.ZodNullable<z.ZodString>;
+											primary_contact_email: z.ZodNullable<z.ZodEmail>;
+											primary_contact_phone: z.ZodNullable<z.ZodString>;
+											metadata: z.ZodNullable<z.ZodAny>;
+											settlement_bank: z.ZodString;
+											currency: z.ZodDefault<
+												z.ZodEnum<{
+													NGN: "NGN";
+													USD: "USD";
+													GHS: "GHS";
+													ZAR: "ZAR";
+													KES: "KES";
+													XOF: "XOF";
+												}>
+											>;
+											account_number: z.ZodString;
+										},
+										z.core.$strip
+									>
+								>;
+								split: z.ZodOptional<z.ZodObject<{}, z.core.$strip>>;
+								order_id: z.ZodNullable<z.ZodString>;
+								paidAt: z.ZodISODateTime;
+								requested_amount: z.ZodNumber;
+								pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+							},
+							z.core.$strip
+						>;
+						transaction_reference: z.ZodNullable<z.ZodString>;
+						category: z.ZodString;
+						customer: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								email: z.ZodEmail;
+								phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+								international_format_phone: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						bin: z.ZodString;
+						last4: z.ZodString;
+						dueAt: z.ZodISODateTime;
+						resolvedAt: z.ZodNullable<z.ZodISODateTime>;
+						evidence: z.ZodNullable<z.ZodUnknown>;
+						attachments: z.ZodNullable<z.ZodUnknown>;
+						note: z.ZodNullable<z.ZodUnknown>;
+						history: z.ZodArray<
+							z.ZodObject<
+								{
+									status: z.ZodString;
+									by: z.ZodEmail;
+									created_at: z.ZodISODateTime;
+								},
+								z.core.$strip
+							>
+						>;
+						messages: z.ZodArray<
+							z.ZodObject<
+								{
+									sender: z.ZodEmail;
+									body: z.ZodString;
+									created_at: z.ZodISODateTime;
+								},
+								z.core.$strip
+							>
+						>;
+						created_at: z.ZodISODateTime;
+						updated_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"dedicatedaccount.assign.failed">;
+				data: z.ZodObject<
+					{
+						customer: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								email: z.ZodEmail;
+								phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+								international_format_phone: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						dedicated_account: z.ZodNullable<z.ZodUnknown>;
+						identification: z.ZodObject<
+							{
+								status: z.ZodString;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"dedicatedaccount.assign.success">;
+				data: z.ZodObject<
+					{
+						customer: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								email: z.ZodEmail;
+								phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+								international_format_phone: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						dedicated_account: z.ZodObject<
+							{
+								bank: z.ZodObject<
+									{
+										name: z.ZodString;
+										id: z.ZodNumber;
+										slug: z.ZodString;
+									},
+									z.core.$strip
+								>;
+								account_name: z.ZodString;
+								account_number: z.ZodString;
+								assigned: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								active: z.ZodBoolean;
+								id: z.ZodNumber;
+								created_at: z.ZodISODateTime;
+								updated_at: z.ZodISODateTime;
+							},
+							z.core.$strip
+						>;
+						assignment: z.ZodObject<
+							{
+								integration: z.ZodNumber;
+								assignee_id: z.ZodNumber;
+								assignee_type: z.ZodString;
+								expired: z.ZodBoolean;
+								account_type: z.ZodString;
+								assigned_at: z.ZodISODateTime;
+								expired_at: z.ZodNullable<z.ZodISODateTime>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+				identification: z.ZodObject<
+					{
+						status: z.ZodString;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"invoice.create">;
+				data: z.ZodObject<
+					{
+						domain: z.ZodString;
+						invoice_code: z.ZodString;
+						amount: z.ZodNumber;
+						period_start: z.ZodISODateTime;
+						period_end: z.ZodISODateTime;
+						status: z.ZodString;
+						paid: z.ZodBoolean;
+						paid_at: z.ZodNullable<z.ZodISODateTime>;
+						description: z.ZodNullable<z.ZodString>;
+						authorization: z.ZodObject<
+							{
+								authorization_code: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+								reusable: z.ZodOptional<z.ZodBoolean>;
+								signature: z.ZodOptional<z.ZodString>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							},
+							z.core.$strip
+						>;
+						subscription: z.ZodObject<
+							{
+								status: z.ZodString;
+								subscription_code: z.ZodString;
+								email_token: z.ZodString;
+								amount: z.ZodNumber;
+								cron_expression: z.ZodString;
+								next_payment_date: z.ZodISODateTime;
+								open_invoice: z.ZodNullable<z.ZodUnknown>;
+							},
+							z.core.$strip
+						>;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								metadata: z.ZodNullable<z.ZodAny>;
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								phone: z.ZodNullable<z.ZodString>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						transaction: z.ZodObject<
+							{
+								reference: z.ZodUUID;
+								status: z.ZodString;
+								amount: z.ZodNumber;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"invoice.payment_failed">;
+				data: z.ZodObject<
+					{
+						domain: z.ZodString;
+						invoice_code: z.ZodString;
+						amount: z.ZodNumber;
+						period_start: z.ZodISODateTime;
+						period_end: z.ZodISODateTime;
+						status: z.ZodString;
+						paid: z.ZodBoolean;
+						paid_at: z.ZodNullable<z.ZodISODateTime>;
+						description: z.ZodNullable<z.ZodString>;
+						authorization: z.ZodObject<
+							{
+								authorization_code: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+								reusable: z.ZodOptional<z.ZodBoolean>;
+								signature: z.ZodOptional<z.ZodString>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							},
+							z.core.$strip
+						>;
+						subscription: z.ZodObject<
+							{
+								status: z.ZodString;
+								subscription_code: z.ZodString;
+								email_token: z.ZodString;
+								amount: z.ZodNumber;
+								cron_expression: z.ZodString;
+								next_payment_date: z.ZodISODateTime;
+								open_invoice: z.ZodNullable<z.ZodUnknown>;
+							},
+							z.core.$strip
+						>;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								metadata: z.ZodNullable<z.ZodAny>;
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								phone: z.ZodNullable<z.ZodString>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						transaction: z.ZodObject<
+							{
+								reference: z.ZodOptional<z.ZodUUID>;
+								status: z.ZodOptional<z.ZodString>;
+								amount: z.ZodOptional<z.ZodNumber>;
+								currency: z.ZodOptional<
+									z.ZodDefault<
+										z.ZodEnum<{
+											NGN: "NGN";
+											USD: "USD";
+											GHS: "GHS";
+											ZAR: "ZAR";
+											KES: "KES";
+											XOF: "XOF";
+										}>
+									>
+								>;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"invoice.update">;
+				data: z.ZodObject<
+					{
+						domain: z.ZodString;
+						invoice_code: z.ZodString;
+						amount: z.ZodNumber;
+						period_start: z.ZodISODateTime;
+						period_end: z.ZodISODateTime;
+						status: z.ZodString;
+						paid: z.ZodBoolean;
+						paid_at: z.ZodNullable<z.ZodISODateTime>;
+						description: z.ZodNullable<z.ZodString>;
+						authorization: z.ZodObject<
+							{
+								authorization_code: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+								reusable: z.ZodOptional<z.ZodBoolean>;
+								signature: z.ZodOptional<z.ZodString>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+							},
+							z.core.$strip
+						>;
+						subscription: z.ZodObject<
+							{
+								status: z.ZodString;
+								subscription_code: z.ZodString;
+								email_token: z.ZodString;
+								amount: z.ZodNumber;
+								cron_expression: z.ZodString;
+								next_payment_date: z.ZodISODateTime;
+								open_invoice: z.ZodNullable<z.ZodUnknown>;
+							},
+							z.core.$strip
+						>;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								metadata: z.ZodNullable<z.ZodAny>;
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								phone: z.ZodNullable<z.ZodString>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						transaction: z.ZodObject<
+							{
+								reference: z.ZodUUID;
+								status: z.ZodString;
+								amount: z.ZodNumber;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"paymentrequest.pending">;
+				data: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						domain: z.ZodString;
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						due_date: z.ZodNullable<z.ZodISODateTime>;
+						has_invoice: z.ZodBoolean;
+						invoice_number: z.ZodNullable<z.ZodString>;
+						description: z.ZodNullable<z.ZodString>;
+						pdf_url: z.ZodNullable<z.ZodURL>;
+						line_items: z.ZodArray<z.ZodUnknown>;
+						tax: z.ZodArray<z.ZodUnknown>;
+						request_code: z.ZodString;
+						status: z.ZodString;
+						paid: z.ZodBoolean;
+						paid_at: z.ZodNullable<z.ZodISODateTime>;
+						metadata: z.ZodNullable<z.ZodAny>;
+						notifications: z.ZodArray<
+							z.ZodObject<
+								{
+									sent_at: z.ZodISODateTime;
+									channel: z.ZodString;
+								},
+								z.core.$strip
+							>
+						>;
+						offline_reference: z.ZodNullable<z.ZodString>;
+						customer: z.ZodNumber;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"paymentrequest.success">;
+				data: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						domain: z.ZodString;
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						due_date: z.ZodNullable<z.ZodISODateTime>;
+						has_invoice: z.ZodBoolean;
+						invoice_number: z.ZodNullable<z.ZodString>;
+						description: z.ZodNullable<z.ZodString>;
+						pdf_url: z.ZodNullable<z.ZodURL>;
+						line_items: z.ZodArray<z.ZodUnknown>;
+						tax: z.ZodArray<z.ZodUnknown>;
+						request_code: z.ZodString;
+						status: z.ZodString;
+						paid: z.ZodBoolean;
+						paid_at: z.ZodNullable<z.ZodISODateTime>;
+						metadata: z.ZodNullable<z.ZodAny>;
+						notifications: z.ZodArray<
+							z.ZodObject<
+								{
+									sent_at: z.ZodISODateTime;
+									channel: z.ZodString;
+								},
+								z.core.$strip
+							>
+						>;
+						offline_reference: z.ZodNullable<z.ZodString>;
+						customer: z.ZodNumber;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"refund.failed">;
+				data: z.ZodObject<
+					{
+						status: z.ZodString;
+						transaction_reference: z.ZodString;
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						processor: z.ZodString;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						integration: z.ZodNumber;
+						domain: z.ZodString;
+						refund_reference: z.ZodString;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"refund.pending">;
+				data: z.ZodObject<
+					{
+						status: z.ZodString;
+						transaction_reference: z.ZodString;
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						processor: z.ZodString;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						integration: z.ZodNumber;
+						domain: z.ZodString;
+						refund_reference: z.ZodNullable<z.ZodString>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"refund.processed">;
+				data: z.ZodObject<
+					{
+						status: z.ZodString;
+						transaction_reference: z.ZodString;
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						processor: z.ZodString;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						integration: z.ZodNumber;
+						domain: z.ZodString;
+						refund_reference: z.ZodString;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"refund.processing">;
+				data: z.ZodObject<
+					{
+						status: z.ZodString;
+						transaction_reference: z.ZodString;
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						processor: z.ZodString;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						integration: z.ZodNumber;
+						domain: z.ZodString;
+						refund_reference: z.ZodNullable<z.ZodString>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"subscription.create">;
+				data: z.ZodObject<
+					{
+						domain: z.ZodString;
+						status: z.ZodString;
+						subscription_code: z.ZodString;
+						amount: z.ZodNumber;
+						cron_expression: z.ZodString;
+						next_payment_date: z.ZodISODateTime;
+						open_invoice: z.ZodNullable<z.ZodUnknown>;
+						plan: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								name: z.ZodString;
+								plan_code: z.ZodString;
+								description: z.ZodNullable<z.ZodString>;
+								amount: z.ZodNumber;
+								interval: z.ZodString;
+								send_invoices: z.ZodBoolean;
+								send_sms: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+							},
+							z.core.$strip
+						>;
+						authorization: z.ZodObject<
+							{
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								authorization_code: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								metadata: z.ZodNullable<z.ZodAny>;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								phone: z.ZodNullable<z.ZodString>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodISODateTime;
+						createdAt: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"subscription.disable">;
+				data: z.ZodObject<
+					{
+						domain: z.ZodString;
+						status: z.ZodString;
+						subscription_code: z.ZodString;
+						amount: z.ZodNumber;
+						cron_expression: z.ZodString;
+						next_payment_date: z.ZodISODateTime;
+						open_invoice: z.ZodNullable<z.ZodUnknown>;
+						plan: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								name: z.ZodString;
+								plan_code: z.ZodString;
+								description: z.ZodNullable<z.ZodString>;
+								amount: z.ZodNumber;
+								interval: z.ZodString;
+								send_invoices: z.ZodBoolean;
+								send_sms: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+							},
+							z.core.$strip
+						>;
+						authorization: z.ZodObject<
+							{
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								authorization_code: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								metadata: z.ZodNullable<z.ZodAny>;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								phone: z.ZodNullable<z.ZodString>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodISODateTime;
+						email_token: z.ZodString;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"subscription.not_renew">;
+				data: z.ZodObject<
+					{
+						id: z.ZodNumber;
+						domain: z.ZodString;
+						status: z.ZodString;
+						subscription_code: z.ZodString;
+						email_token: z.ZodString;
+						amount: z.ZodNumber;
+						cron_expression: z.ZodString;
+						next_payment_date: z.ZodISODateTime;
+						open_invoice: z.ZodNullable<z.ZodUnknown>;
+						integration: z.ZodNumber;
+						plan: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								name: z.ZodString;
+								plan_code: z.ZodString;
+								description: z.ZodNullable<z.ZodString>;
+								amount: z.ZodNumber;
+								interval: z.ZodString;
+								send_invoices: z.ZodBoolean;
+								send_sms: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+							},
+							z.core.$strip
+						>;
+						authorization: z.ZodObject<
+							{
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								authorization_code: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						customer: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								email: z.ZodEmail;
+								phone: z.ZodNullable<z.ZodString>;
+								metadata: z.ZodNullable<z.ZodAny>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+								international_format_phone: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						invoices: z.ZodArray<z.ZodUnknown>;
+						invoices_history: z.ZodArray<z.ZodUnknown>;
+						invoice_limit: z.ZodNumber;
+						split_code: z.ZodNullable<z.ZodString>;
+						most_recent_invoice: z.ZodNullable<z.ZodUnknown>;
+						created_at: z.ZodISODateTime;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"subscription.expiring_cards">;
+				data: z.ZodArray<
+					z.ZodObject<
+						{
+							expiry_date: z.ZodISODateTime;
+							description: z.ZodString;
+							brand: z.ZodEnum<{
+								visa: "visa";
+								mastercard: "mastercard";
+								verve: "verve";
+							}>;
+							subscription: z.ZodObject<
+								{
+									id: z.ZodNumber;
+									subscription_code: z.ZodString;
+									amount: z.ZodNumber;
+									next_payment_date: z.ZodISODateTime;
+									plan: z.ZodObject<
+										{
+											id: z.ZodNumber;
+											name: z.ZodString;
+											plan_code: z.ZodString;
+											interval: z.ZodString;
+										},
+										z.core.$strip
+									>;
+								},
+								z.core.$strip
+							>;
+							customer: z.ZodObject<
+								{
+									email: z.ZodEmail;
+									id: z.ZodNumber;
+									first_name: z.ZodNullable<z.ZodString>;
+									last_name: z.ZodNullable<z.ZodString>;
+									customer_code: z.ZodString;
+								},
+								z.core.$strip
+							>;
+						},
+						z.core.$strip
+					>
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"charge.success">;
+				data: z.ZodObject<
+					{
+						status: z.ZodString;
+						message: z.ZodNullable<z.ZodString>;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						id: z.ZodNumber;
+						domain: z.ZodString;
+						amount: z.ZodNumber;
+						reference: z.ZodString;
+						gateway_response: z.ZodString;
+						channel: z.ZodString;
+						ip_address: z.ZodNullable<z.ZodString>;
+						fees_split: z.ZodNullable<z.ZodUnknown>;
+						order_id: z.ZodNullable<z.ZodString>;
+						requested_amount: z.ZodNumber;
+						pos_transaction_data: z.ZodNullable<z.ZodUnknown>;
+						connect: z.ZodNullable<z.ZodUnknown>;
+						log: z.ZodNullable<
+							z.ZodObject<
+								{
+									success: z.ZodBoolean;
+									input: z.ZodArray<z.ZodUnknown>;
+									errors: z.ZodNumber;
+									time_spent: z.ZodNumber;
+									attempts: z.ZodNumber;
+									mobile: z.ZodBoolean;
+									history: z.ZodArray<
+										z.ZodObject<
+											{
+												type: z.ZodString;
+												message: z.ZodString;
+												time: z.ZodNumber;
+											},
+											z.core.$strip
+										>
+									>;
+									authentication: z.ZodString;
+								},
+								z.core.$strip
+							>
+						>;
+						metadata: z.ZodAny;
+						paid_at: z.ZodISODateTime;
+						created_at: z.ZodISODateTime;
+						fees: z.ZodNullable<z.ZodNumber>;
+						customer: z.ZodObject<
+							{
+								email: z.ZodEmail;
+								metadata: z.ZodNullable<z.ZodAny>;
+								first_name: z.ZodNullable<z.ZodString>;
+								last_name: z.ZodNullable<z.ZodString>;
+								phone: z.ZodNullable<z.ZodString>;
+								customer_code: z.ZodString;
+								risk_action: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						authorization: z.ZodObject<
+							{
+								bank: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								account_name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+								authorization_code: z.ZodOptional<z.ZodString>;
+								channel: z.ZodOptional<z.ZodString>;
+								bin: z.ZodOptional<z.ZodString>;
+								last4: z.ZodOptional<z.ZodString>;
+								exp_month: z.ZodOptional<z.ZodString>;
+								exp_year: z.ZodOptional<z.ZodString>;
+								card_type: z.ZodOptional<z.ZodString>;
+								country_code: z.ZodOptional<z.ZodString>;
+								brand: z.ZodOptional<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"transfer.success">;
+				data: z.ZodObject<
+					{
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						domain: z.ZodString;
+						failures: z.ZodNullable<z.ZodUnknown>;
+						id: z.ZodNumber;
+						integration: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								is_live: z.ZodBoolean;
+								business_name: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						reason: z.ZodString;
+						reference: z.ZodString;
+						source: z.ZodString;
+						source_details: z.ZodNullable<z.ZodUnknown>;
+						status: z.ZodString;
+						titan_code: z.ZodNullable<z.ZodString>;
+						transfer_code: z.ZodString;
+						transferred_at: z.ZodNullable<z.ZodISODateTime>;
+						session: z.ZodObject<
+							{
+								provider: z.ZodNullable<z.ZodString>;
+								id: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodOptional<z.ZodISODateTime>;
+						updated_at: z.ZodOptional<z.ZodISODateTime>;
+						recipient: z.ZodObject<
+							{
+								active: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								description: z.ZodNullable<z.ZodString>;
+								domain: z.ZodString;
+								email: z.ZodNullable<z.ZodEmail>;
+								id: z.ZodNumber;
+								integration: z.ZodNumber;
+								metadata: z.ZodNullable<z.ZodAny>;
+								name: z.ZodString;
+								recipient_code: z.ZodString;
+								type: z.ZodString;
+								is_deleted: z.ZodBoolean;
+								created_at: z.ZodOptional<z.ZodISODateTime>;
+								updated_at: z.ZodOptional<z.ZodISODateTime>;
+								details: z.ZodObject<
+									{
+										account_number: z.ZodString;
+										account_name: z.ZodNullable<z.ZodString>;
+										bank_code: z.ZodString;
+										bank_name: z.ZodString;
+									},
+									z.core.$strip
+								>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"transfer.failed">;
+				data: z.ZodObject<
+					{
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						domain: z.ZodString;
+						failures: z.ZodNullable<z.ZodUnknown>;
+						id: z.ZodNumber;
+						integration: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								is_live: z.ZodBoolean;
+								business_name: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						reason: z.ZodString;
+						reference: z.ZodString;
+						source: z.ZodString;
+						source_details: z.ZodNullable<z.ZodUnknown>;
+						status: z.ZodString;
+						titan_code: z.ZodNullable<z.ZodString>;
+						transfer_code: z.ZodString;
+						transferred_at: z.ZodNullable<z.ZodISODateTime>;
+						session: z.ZodObject<
+							{
+								provider: z.ZodNullable<z.ZodString>;
+								id: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodOptional<z.ZodISODateTime>;
+						updated_at: z.ZodOptional<z.ZodISODateTime>;
+						recipient: z.ZodObject<
+							{
+								active: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								description: z.ZodNullable<z.ZodString>;
+								domain: z.ZodString;
+								email: z.ZodNullable<z.ZodEmail>;
+								id: z.ZodNumber;
+								integration: z.ZodNumber;
+								metadata: z.ZodNullable<z.ZodAny>;
+								name: z.ZodString;
+								recipient_code: z.ZodString;
+								type: z.ZodString;
+								is_deleted: z.ZodBoolean;
+								created_at: z.ZodOptional<z.ZodISODateTime>;
+								updated_at: z.ZodOptional<z.ZodISODateTime>;
+								details: z.ZodObject<
+									{
+										account_number: z.ZodString;
+										account_name: z.ZodNullable<z.ZodString>;
+										bank_code: z.ZodString;
+										bank_name: z.ZodString;
+										authorization_code: z.ZodNullable<z.ZodString>;
+									},
+									z.core.$strip
+								>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+		z.ZodObject<
+			{
+				event: z.ZodLiteral<"transfer.reversed">;
+				data: z.ZodObject<
+					{
+						amount: z.ZodNumber;
+						currency: z.ZodDefault<
+							z.ZodEnum<{
+								NGN: "NGN";
+								USD: "USD";
+								GHS: "GHS";
+								ZAR: "ZAR";
+								KES: "KES";
+								XOF: "XOF";
+							}>
+						>;
+						domain: z.ZodString;
+						failures: z.ZodNullable<z.ZodUnknown>;
+						id: z.ZodNumber;
+						integration: z.ZodObject<
+							{
+								id: z.ZodNumber;
+								is_live: z.ZodBoolean;
+								business_name: z.ZodString;
+							},
+							z.core.$strip
+						>;
+						reason: z.ZodString;
+						reference: z.ZodString;
+						source: z.ZodString;
+						source_details: z.ZodNullable<z.ZodUnknown>;
+						status: z.ZodString;
+						titan_code: z.ZodNullable<z.ZodString>;
+						transfer_code: z.ZodString;
+						transferred_at: z.ZodNullable<z.ZodISODateTime>;
+						session: z.ZodObject<
+							{
+								provider: z.ZodNullable<z.ZodString>;
+								id: z.ZodNullable<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						created_at: z.ZodOptional<z.ZodISODateTime>;
+						updated_at: z.ZodOptional<z.ZodISODateTime>;
+						recipient: z.ZodObject<
+							{
+								active: z.ZodBoolean;
+								currency: z.ZodDefault<
+									z.ZodEnum<{
+										NGN: "NGN";
+										USD: "USD";
+										GHS: "GHS";
+										ZAR: "ZAR";
+										KES: "KES";
+										XOF: "XOF";
+									}>
+								>;
+								description: z.ZodNullable<z.ZodString>;
+								domain: z.ZodString;
+								email: z.ZodNullable<z.ZodEmail>;
+								id: z.ZodNumber;
+								integration: z.ZodNumber;
+								metadata: z.ZodNullable<z.ZodAny>;
+								name: z.ZodString;
+								recipient_code: z.ZodString;
+								type: z.ZodString;
+								is_deleted: z.ZodBoolean;
+								created_at: z.ZodOptional<z.ZodISODateTime>;
+								updated_at: z.ZodOptional<z.ZodISODateTime>;
+								details: z.ZodObject<
+									{
+										account_number: z.ZodString;
+										account_name: z.ZodNullable<z.ZodString>;
+										bank_code: z.ZodString;
+										bank_name: z.ZodString;
+										authorization_code: z.ZodNullable<z.ZodString>;
+									},
+									z.core.$strip
+								>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>,
+	]
+> = z.discriminatedUnion("event", [
 	customerIdFail,
 	customerIdSuccess,
 	disputeCreated,

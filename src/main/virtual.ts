@@ -31,7 +31,140 @@ export class VirtualAccount extends Fetcher {
 	 * @param input - The virtual account details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async create(input: z.infer<typeof virtualAccountCreateInput>) {
+	async create(input: z.infer<typeof virtualAccountCreateInput>): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									email: string;
+									first_name: string | null;
+									last_name: string | null;
+									phone: string | null;
+									customer_code: string;
+									risk_action: string;
+								};
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									email: string;
+									first_name: string | null;
+									last_name: string | null;
+									phone: string | null;
+									customer_code: string;
+									risk_action: string;
+								};
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account",
 			"POST",
@@ -56,7 +189,40 @@ export class VirtualAccount extends Fetcher {
 	 * @param input - The assignment details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async assign(input: z.infer<typeof virtualAccountAssignInput>) {
+	async assign(input: z.infer<typeof virtualAccountAssignInput>): Promise<{
+		data:
+			| {
+					status: boolean;
+					message: string;
+					data?: Record<string, never> | undefined;
+					meta?:
+						| {
+								total?: number | undefined;
+								skipped?: number | undefined;
+								perPage?: number | undefined;
+								page?: number | undefined;
+								pageCount?: number | undefined;
+						  }
+						| undefined;
+			  }
+			| undefined;
+		error:
+			| z.ZodError<{
+					status: boolean;
+					message: string;
+					data?: Record<string, never> | undefined;
+					meta?:
+						| {
+								total?: number | undefined;
+								skipped?: number | undefined;
+								perPage?: number | undefined;
+								page?: number | undefined;
+								pageCount?: number | undefined;
+						  }
+						| undefined;
+			  }>
+			| undefined;
+	}> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/assign",
 			"POST",
@@ -80,7 +246,136 @@ export class VirtualAccount extends Fetcher {
 	 * @param input - Query parameters for listing virtual accounts.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async list(input: z.infer<typeof virtualAccountListInput>) {
+	async list(input: z.infer<typeof virtualAccountListInput>): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									email: string;
+									first_name: string | null;
+									last_name: string | null;
+									phone: string | null;
+									customer_code: string;
+									risk_action: string;
+								};
+							}[];
+							meta: {
+								total?: number | undefined;
+								skipped?: number | undefined;
+								perPage?: number | undefined;
+								page?: number | undefined;
+								pageCount?: number | undefined;
+							};
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									email: string;
+									first_name: string | null;
+									last_name: string | null;
+									phone: string | null;
+									customer_code: string;
+									risk_action: string;
+								};
+							}[];
+							meta: {
+								total?: number | undefined;
+								skipped?: number | undefined;
+								perPage?: number | undefined;
+								page?: number | undefined;
+								pageCount?: number | undefined;
+							};
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account",
 			"GET",
@@ -105,7 +400,146 @@ export class VirtualAccount extends Fetcher {
 	 * @param dedicated_account_id - The ID of the dedicated virtual account.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async fetch(dedicated_account_id: string) {
+	async fetch(dedicated_account_id: string): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									first_name: string | null;
+									last_name: string | null;
+									email: string;
+									phone: string | null;
+									metadata: any;
+									customer_code: string;
+									risk_action: string;
+									international_format_phone: string | null;
+								};
+								split_config: string;
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									first_name: string | null;
+									last_name: string | null;
+									email: string;
+									phone: string | null;
+									metadata: any;
+									customer_code: string;
+									risk_action: string;
+									international_format_phone: string | null;
+								};
+								split_config: string;
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			`/dedicated_account/${dedicated_account_id}`,
 		);
@@ -128,7 +562,40 @@ export class VirtualAccount extends Fetcher {
 	 * @param input - The requery details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async requery(input: z.infer<typeof virtualAccountRequeryInput>) {
+	async requery(input: z.infer<typeof virtualAccountRequeryInput>): Promise<{
+		data:
+			| {
+					status: boolean;
+					message: string;
+					data?: Record<string, never> | undefined;
+					meta?:
+						| {
+								total?: number | undefined;
+								skipped?: number | undefined;
+								perPage?: number | undefined;
+								page?: number | undefined;
+								pageCount?: number | undefined;
+						  }
+						| undefined;
+			  }
+			| undefined;
+		error:
+			| z.ZodError<{
+					status: boolean;
+					message: string;
+					data?: Record<string, never> | undefined;
+					meta?:
+						| {
+								total?: number | undefined;
+								skipped?: number | undefined;
+								perPage?: number | undefined;
+								page?: number | undefined;
+								pageCount?: number | undefined;
+						  }
+						| undefined;
+			  }>
+			| undefined;
+	}> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/requery",
 			"GET",
@@ -153,7 +620,144 @@ export class VirtualAccount extends Fetcher {
 	 * @param dedicated_account_id - The ID of the dedicated virtual account to deactivate.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async deactivate(dedicated_account_id: string) {
+	async deactivate(dedicated_account_id: string): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									account_type: string;
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									first_name: string | null;
+									last_name: string | null;
+									email: string;
+									phone: string | null;
+									metadata: any;
+									customer_code: string;
+									risk_action: string;
+									international_format_phone: string | null;
+								};
+								split_config: string;
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									account_type: string;
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									assigned_at: string;
+								};
+								customer: {
+									id: number;
+									first_name: string | null;
+									last_name: string | null;
+									email: string;
+									phone: string | null;
+									metadata: any;
+									customer_code: string;
+									risk_action: string;
+									international_format_phone: string | null;
+								};
+								split_config: string;
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			`/dedicated_account/${dedicated_account_id}`,
 			"DELETE",
@@ -177,7 +781,150 @@ export class VirtualAccount extends Fetcher {
 	 * @param input - The split details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async addSplit(input: z.infer<typeof virtualAccountAddSplitInput>) {
+	async addSplit(input: z.infer<typeof virtualAccountAddSplitInput>): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+									expired_at: string | null;
+								};
+								customer: {
+									id: number;
+									metadata: any;
+									email: string;
+									first_name: string | null;
+									last_name: string | null;
+									phone: string | null;
+									customer_code: string;
+									risk_action: string;
+								};
+								split_config: {
+									split_code: string;
+								};
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								bank: {
+									name: string;
+									id: number;
+									slug: string;
+								};
+								account_name: string;
+								account_number: string;
+								assigned: boolean;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								metadata: any;
+								active: boolean;
+								id: number;
+								created_at: string;
+								updated_at: string;
+								assignment: {
+									integration: number;
+									assignee_id: number;
+									assignee_type: string;
+									expired: boolean;
+									account_type: string;
+									assigned_at: string;
+									expired_at: string | null;
+								};
+								customer: {
+									id: number;
+									metadata: any;
+									email: string;
+									first_name: string | null;
+									last_name: string | null;
+									phone: string | null;
+									customer_code: string;
+									risk_action: string;
+								};
+								split_config: {
+									split_code: string;
+								};
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/split",
 			"POST",
@@ -202,7 +949,98 @@ export class VirtualAccount extends Fetcher {
 	 * @param input - The split details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async removeSplit(input: z.infer<typeof virtualAccountRemoveSplitInput>) {
+	async removeSplit(
+		input: z.infer<typeof virtualAccountRemoveSplitInput>,
+	): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								id: number;
+								split_config: Record<string, never>;
+								account_name: string;
+								account_number: string;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								assigned: boolean;
+								active: boolean;
+								created_at: string;
+								updated_at: string;
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								id: number;
+								split_config: Record<string, never>;
+								account_name: string;
+								account_number: string;
+								currency: "NGN" | "USD" | "GHS" | "ZAR" | "KES" | "XOF";
+								assigned: boolean;
+								active: boolean;
+								created_at: string;
+								updated_at: string;
+							};
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/split",
 			"DELETE",
@@ -225,7 +1063,86 @@ export class VirtualAccount extends Fetcher {
 	 * Fetches available bank providers for dedicated virtual accounts.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async fetchBanks() {
+	async fetchBanks(): Promise<
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data?: Record<string, never> | undefined;
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+		| {
+				data:
+					| {
+							status: boolean;
+							message: string;
+							data: {
+								provider_slug: string;
+								bank_id: number;
+								bank_name: string;
+								id: number;
+							}[];
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }
+					| undefined;
+				error:
+					| z.ZodError<{
+							status: boolean;
+							message: string;
+							data: {
+								provider_slug: string;
+								bank_id: number;
+								bank_name: string;
+								id: number;
+							}[];
+							meta?:
+								| {
+										total?: number | undefined;
+										skipped?: number | undefined;
+										perPage?: number | undefined;
+										page?: number | undefined;
+										pageCount?: number | undefined;
+								  }
+								| undefined;
+					  }>
+					| undefined;
+		  }
+	> {
 		const { response, raw } = await this.fetcher(
 			"/dedicated_account/available_providers",
 		);

@@ -27,7 +27,10 @@ export class Fetcher {
 		path: string,
 		method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
 		body?: object,
-	) {
+	): Promise<{
+		response: Response;
+		raw: unknown;
+	}> {
 		let url = `${this.baseUrl}${path}`;
 		const init: RequestInit = {
 			method,

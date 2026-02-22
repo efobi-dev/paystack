@@ -1,7 +1,41 @@
 import { z } from "zod";
 import { currency, genericResponse } from ".";
 
-export const miscellaneousListBanksInput = z.object({
+export const miscellaneousListBanksInput: z.ZodObject<{
+	country: z.ZodEnum<{
+		ghana: "ghana";
+		kenya: "kenya";
+		nigeria: "nigeria";
+		"south africa": "south africa";
+	}>;
+	use_cursor: z.ZodDefault<z.ZodBoolean>;
+	perPage: z.ZodDefault<z.ZodNumber>;
+	pay_with_bank_transfer: z.ZodOptional<z.ZodBoolean>;
+	pay_with_bank: z.ZodOptional<z.ZodBoolean>;
+	enabled_for_verification: z.ZodOptional<z.ZodBoolean>;
+	next: z.ZodOptional<z.ZodString>;
+	previous: z.ZodOptional<z.ZodString>;
+	gateway: z.ZodOptional<
+		z.ZodEnum<{
+			emandate: "emandate";
+			digitalBankMandate: "digitalBankMandate";
+		}>
+	>;
+	type: z.ZodOptional<z.ZodString>;
+	currency: z.ZodOptional<
+		z.ZodDefault<
+			z.ZodEnum<{
+				NGN: "NGN";
+				USD: "USD";
+				GHS: "GHS";
+				ZAR: "ZAR";
+				KES: "KES";
+				XOF: "XOF";
+			}>
+		>
+	>;
+	include_nip_sort_code: z.ZodOptional<z.ZodBoolean>;
+}> = z.object({
 	country: z.enum(["ghana", "kenya", "nigeria", "south africa"]),
 	use_cursor: z.boolean().default(false),
 	perPage: z.number().max(100).default(50),
@@ -16,7 +50,52 @@ export const miscellaneousListBanksInput = z.object({
 	include_nip_sort_code: z.boolean().optional(),
 });
 
-export const miscellaneousListBanksSuccess = genericResponse.extend({
+export const miscellaneousListBanksSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodArray<
+		z.ZodObject<
+			{
+				name: z.ZodString;
+				slug: z.ZodString;
+				code: z.ZodString;
+				longcode: z.ZodString;
+				gateway: z.ZodNullable<z.ZodUnknown>;
+				pay_with_bank: z.ZodBoolean;
+				active: z.ZodBoolean;
+				is_deleted: z.ZodBoolean;
+				country: z.ZodString;
+				currency: z.ZodDefault<
+					z.ZodEnum<{
+						NGN: "NGN";
+						USD: "USD";
+						GHS: "GHS";
+						ZAR: "ZAR";
+						KES: "KES";
+						XOF: "XOF";
+					}>
+				>;
+				type: z.ZodString;
+				id: z.ZodNumber;
+				createdAt: z.ZodNullable<z.ZodISODateTime>;
+				updatedAt: z.ZodNullable<z.ZodISODateTime>;
+			},
+			z.core.$strip
+		>
+	>;
+}> = genericResponse.extend({
 	data: z.array(
 		z.object({
 			name: z.string(),
@@ -37,7 +116,67 @@ export const miscellaneousListBanksSuccess = genericResponse.extend({
 	),
 });
 
-export const miscellaneousListCountriesSuccess = genericResponse.extend({
+export const miscellaneousListCountriesSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodArray<
+		z.ZodObject<
+			{
+				id: z.ZodNumber;
+				name: z.ZodString;
+				iso_code: z.ZodString;
+				default_currency_code: z.ZodString;
+				integration_defaults: z.ZodObject<{}, z.core.$strip>;
+				relationships: z.ZodObject<
+					{
+						currency: z.ZodObject<
+							{
+								type: z.ZodString;
+								data: z.ZodArray<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						integration_feature: z.ZodObject<
+							{
+								type: z.ZodString;
+								data: z.ZodArray<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						integration_type: z.ZodObject<
+							{
+								type: z.ZodString;
+								data: z.ZodArray<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+						payment_method: z.ZodObject<
+							{
+								type: z.ZodString;
+								data: z.ZodArray<z.ZodString>;
+							},
+							z.core.$strip
+						>;
+					},
+					z.core.$strip
+				>;
+			},
+			z.core.$strip
+		>
+	>;
+}> = genericResponse.extend({
 	data: z.array(
 		z.object({
 			id: z.number(),
@@ -67,11 +206,38 @@ export const miscellaneousListCountriesSuccess = genericResponse.extend({
 	),
 });
 
-export const miscellaneousListStatesInput = z.object({
+export const miscellaneousListStatesInput: z.ZodObject<{
+	country: z.ZodString;
+}> = z.object({
 	country: z.string(),
 });
 
-export const miscellaneousListStatesSuccess = genericResponse.extend({
+export const miscellaneousListStatesSuccess: z.ZodObject<{
+	status: z.ZodBoolean;
+	message: z.ZodString;
+	meta: z.ZodOptional<
+		z.ZodObject<
+			{
+				total: z.ZodOptional<z.ZodNumber>;
+				skipped: z.ZodOptional<z.ZodNumber>;
+				perPage: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				page: z.ZodOptional<z.ZodCoercedNumber<unknown>>;
+				pageCount: z.ZodOptional<z.ZodNumber>;
+			},
+			z.core.$strip
+		>
+	>;
+	data: z.ZodArray<
+		z.ZodObject<
+			{
+				name: z.ZodString;
+				slug: z.ZodString;
+				abbreviation: z.ZodString;
+			},
+			z.core.$strip
+		>
+	>;
+}> = genericResponse.extend({
 	data: z.array(
 		z.object({ name: z.string(), slug: z.string(), abbreviation: z.string() }),
 	),
