@@ -88,6 +88,18 @@ export const mockChargeSuccessNullBankPayload: z.infer<
 	},
 };
 
+// Bank transfer charges may not include card authorization details.
+export const mockChargeSuccessBankTransferPayload: z.infer<
+	typeof transactionSuccessful
+> = {
+	event: "charge.success",
+	data: {
+		...mockChargeSuccessPayload.data,
+		channel: "bank_transfer",
+		authorization: null,
+	},
+};
+
 const baseTransferRecipient = {
 	active: true,
 	currency: "NGN" as const,

@@ -1,4 +1,4 @@
-import { defineConfig, type UserConfig } from "tsdown";
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
 	entry: {
@@ -13,10 +13,7 @@ export default defineConfig({
 		webhook: "src/main/webhook.ts",
 	},
 	format: ["esm"],
-	dts: true,
+	dts: { resolver: "tsc" },
+	deps: { skipNodeModulesBundle: true },
 	sourcemap: false,
-	clean: true,
-	treeshake: true,
-	target: "esnext",
-	outDir: "dist",
-}) satisfies UserConfig as UserConfig;
+});

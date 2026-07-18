@@ -1,31 +1,21 @@
 {
 	"compilerOptions": {
-		// Environment setup & latest features
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "DOM"],
 		"target": "ESNext",
-		"module": "Preserve",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
 		"moduleDetection": "force",
-		"jsx": "react-jsx",
-		"outDir": "./dist",
-
-		// Bundler mode
-		"moduleResolution": "bundler",
 		"verbatimModuleSyntax": true,
-		"noEmit": false,
-		"declaration": true,
-
-		// Best practices
+		"noEmit": true,
 		"strict": true,
 		"skipLibCheck": true,
+		"exactOptionalPropertyTypes": true,
+		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 		"noImplicitOverride": true,
-
-		// Some stricter flags (disabled by default)
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noPropertyAccessFromIndexSignature": false,
-		"isolatedDeclarations": true
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
 	},
 	"exclude": ["dist", "src/tests", "**/*.test.ts", "tsup.config.ts"]
 }

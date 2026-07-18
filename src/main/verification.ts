@@ -24,84 +24,7 @@ export class Verification extends Fetcher {
 	 * @param input - The account details.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async resolveAccount(
-		input: z.infer<typeof verificationResolveAccountInput>,
-	): Promise<
-		| {
-				data:
-					| {
-							status: boolean;
-							message: string;
-							data?: Record<string, never> | undefined;
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }
-					| undefined;
-				error:
-					| z.ZodError<{
-							status: boolean;
-							message: string;
-							data?: Record<string, never> | undefined;
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }>
-					| undefined;
-		  }
-		| {
-				data:
-					| {
-							status: boolean;
-							message: string;
-							data: {
-								account_number: string;
-								account_name: string;
-							};
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }
-					| undefined;
-				error:
-					| z.ZodError<{
-							status: boolean;
-							message: string;
-							data: {
-								account_number: string;
-								account_name: string;
-							};
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }>
-					| undefined;
-		  }
-	> {
+	async resolveAccount(input: z.infer<typeof verificationResolveAccountInput>) {
 		const { response, raw } = await this.fetcher("/bank/resolve", "GET", input);
 
 		if (!response.ok) {
@@ -125,46 +48,7 @@ export class Verification extends Fetcher {
 	 */
 	async validateAccount(
 		input: z.infer<typeof verificationValidateAccountInput>,
-	): Promise<{
-		data:
-			| {
-					status: boolean;
-					message: string;
-					data: {
-						verified: boolean;
-						verificationMessage: string;
-					};
-					meta?:
-						| {
-								total?: number | undefined;
-								skipped?: number | undefined;
-								perPage?: number | undefined;
-								page?: number | undefined;
-								pageCount?: number | undefined;
-						  }
-						| undefined;
-			  }
-			| undefined;
-		error:
-			| z.ZodError<{
-					status: boolean;
-					message: string;
-					data: {
-						verified: boolean;
-						verificationMessage: string;
-					};
-					meta?:
-						| {
-								total?: number | undefined;
-								skipped?: number | undefined;
-								perPage?: number | undefined;
-								page?: number | undefined;
-								pageCount?: number | undefined;
-						  }
-						| undefined;
-			  }>
-			| undefined;
-	}> {
+	) {
 		const { raw } = await this.fetcher("/bank/validate", "POST", input);
 		const { data, error } =
 			await verificationValidateAccountResponse.safeParseAsync(raw);
@@ -181,96 +65,7 @@ export class Verification extends Fetcher {
 	 * @param input - The card BIN.
 	 * @returns A Promise that resolves to an object containing the data and any error.
 	 */
-	async resolveCardBin(
-		input: z.infer<typeof verificationResolveCardBinInput>,
-	): Promise<
-		| {
-				data:
-					| {
-							status: boolean;
-							message: string;
-							data?: Record<string, never> | undefined;
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }
-					| undefined;
-				error:
-					| z.ZodError<{
-							status: boolean;
-							message: string;
-							data?: Record<string, never> | undefined;
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }>
-					| undefined;
-		  }
-		| {
-				data:
-					| {
-							status: boolean;
-							message: string;
-							data: {
-								bin: string;
-								brand: string;
-								sub_brand: string;
-								country_code: string;
-								country_name: string;
-								card_type: string;
-								bank: string;
-								linked_bank_id: number;
-							};
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }
-					| undefined;
-				error:
-					| z.ZodError<{
-							status: boolean;
-							message: string;
-							data: {
-								bin: string;
-								brand: string;
-								sub_brand: string;
-								country_code: string;
-								country_name: string;
-								card_type: string;
-								bank: string;
-								linked_bank_id: number;
-							};
-							meta?:
-								| {
-										total?: number | undefined;
-										skipped?: number | undefined;
-										perPage?: number | undefined;
-										page?: number | undefined;
-										pageCount?: number | undefined;
-								  }
-								| undefined;
-					  }>
-					| undefined;
-		  }
-	> {
+	async resolveCardBin(input: z.infer<typeof verificationResolveCardBinInput>) {
 		const { response, raw } = await this.fetcher(`/card/bin/${input.card_bin}`);
 		if (!response.ok) {
 			const { data, error } = await genericResponse.safeParseAsync(raw);

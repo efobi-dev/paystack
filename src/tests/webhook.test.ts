@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, spyOn, test } from "bun:test";
 import { Paystack } from "../index";
 import {
+	mockChargeSuccessBankTransferPayload,
 	mockChargeSuccessNullBankPayload,
 	mockChargeSuccessPayload,
 	mockTransferFailedWebhookPayload,
@@ -97,6 +98,19 @@ describe("Webhook Module", () => {
 		expect(result.event).toBe("charge.success");
 		if (result.event === "charge.success") {
 			expect(result.data.authorization?.bank).toBeNull();
+		}
+	});
+
+	test("should parse bank transfer charge.success with null authorization", async () => {
+		const body = JSON.stringify(mockChargeSuccessBankTransferPayload);
+		const signature = await generateSignature(secret, body);
+
+		const result = await paystack.webhook.process(body, signature);
+
+		expect(result.event).toBe("charge.success");
+		if (result.event === "charge.success") {
+			expect(result.data.channel).toBe("bank_transfer");
+			expect(result.data.authorization).toBeNull();
 		}
 	});
 

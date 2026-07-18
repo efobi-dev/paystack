@@ -78,11 +78,14 @@
 		"@biomejs/biome": "2.2.0",
 		"@changesets/cli": "^2.29.5",
 		"@types/bun": "latest",
-		"tsdown": "^0.20.3",
+		"tsdown": "^0.22.9",
 		"typescript": "^5.8.3",
 		"zod": "^4.0.10"
 	},
 	"peerDependencies": {
 		"zod": "^4.0.0"
+	},
+	"overrides": {
+		"yuku-parser": "0.6.3"
 	}
 }
