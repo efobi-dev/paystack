@@ -348,6 +348,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📖 [Paystack API Documentation](https://paystack.com/docs/api/)
 - 💬 [GitHub Discussions](https://github.com/efobi-dev/paystack/discussions)
 
+## Sponsors
+
+If this SDK saves you time on Paystack integrations, consider [sponsoring development](https://github.com/sponsors/owenstack). Sponsorship funds maintenance, new API coverage, and keeps the SDK free and MIT-licensed.
+
 ## Author
 
 **Owen Efobi**
@@ -362,7 +366,3 @@ See [CHANGELOG.md](CHANGELOG.md) for a history of changes to this project.
 ---
 
 Made with ❤️ by [Owen Efobi](https://github.com/efobi-dev)
-
-## Support
-
-If this SDK saves you time on Paystack integrations, consider [sponsoring development](https://github.com/sponsors/owenstack). Sponsorship funds maintenance, new API coverage, and keeps the SDK free and MIT-licensed.
