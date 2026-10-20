@@ -362,3 +362,7 @@ See [CHANGELOG.md](CHANGELOG.md) for a history of changes to this project.
 ---
 
 Made with ❤️ by [Owen Efobi](https://github.com/efobi-dev)
+
+## Support
+
+If this SDK saves you time on Paystack integrations, consider [sponsoring development](https://github.com/sponsors/owenstack). Sponsorship funds maintenance, new API coverage, and keeps the SDK free and MIT-licensed.
